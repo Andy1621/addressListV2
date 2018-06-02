@@ -1,0 +1,18 @@
+<!--pages/news/news.wxml-->
+<view class="weui-panel">
+  <block wx:for-items="{{list}}">
+    <view class="weui-panel-news" hover-class='other-button-hover' hover-start-time='10' hover-stay-time='100' bindlongpress='newsLongpress'>
+        <view class="weui-panel__bd">
+            <view class="weui-media-box weui-media-box_text">
+                <view class="weui-media-box__title weui-media-box__title_in-text">{{item.title}}</view>
+                <view class="weui-media-box__desc">{{item.content}}</view>
+                <view class="weui-media-box__info">
+                    <view class="weui-media-box__info__meta">{{item.date}}</view>
+                    <view class="weui-media-box__info__meta weui-media-box__info__meta_extra">{{item.othermsg}}</view>
+                </view>
+                <view class="widget__line {{index == 0 ? 'widget__line_first' : ''}}"></view>
+            </view>
+        </view>
+    </view>
+  </block>
+</view>
