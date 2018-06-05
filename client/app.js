@@ -8,6 +8,7 @@ App({
 
   globalData: {
       logged: false,
+      openID: '',
       intro: "",
       self_ctt: "",
       cont_ctt: ""
