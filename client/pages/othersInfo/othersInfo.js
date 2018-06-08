@@ -1,8 +1,4 @@
-// pages/myInfo/myInfo.js
-var qcloud = require('../../vendor/wafer2-client-sdk/index')
-var config = require('../../config')
-var util = require('../../utils/util.js')
-
+// pages/othersInfo/othersInfo.js
 Page({
 
   /**
@@ -11,9 +7,8 @@ Page({
   data: {
     rest_height: 0,
     userInfo: {},
-    name:"temp",
+    name: "temp",
     intro: "快要被晒干了……gg",
-    first_logged: true,
 
     self_detail_title: [
       "所在大学", "专业", "所在城市"
@@ -29,9 +24,7 @@ Page({
 
     cont_detail_ctt: [
       "方式1", "方式2", "方式3", "方式4"
-    ],
-
-    is_logged: false
+    ]
   },
 
   //数据处理完毕后跳到setting
@@ -43,7 +36,7 @@ Page({
   },
 
   //将当前个人信息的数据内容处理后传到全局变量
-  boxingData: function(){
+  boxingData: function () {
     var str1 = "", str2 = "";
     var len1 = this.data.self_detail_ctt.length;
     var len2 = this.data.cont_detail_ctt.length;
@@ -69,53 +62,6 @@ Page({
       })
     else
       this.boxingData()
-  },
-
-  bindGetUserInfo: function (e) {
-    var that = this
-    
-    util.showBusy('正在登录')
-
-    // 调用登录接口
-    qcloud.login({
-      success(result) {
-        if (result) {
-          util.showSuccess('登录成功');
-          getApp().globalData.logged = true;
-          getApp().globalData.openId = result.openId;
-          that.setData({
-            userInfo: result,
-            is_logged: true
-          });
-          that.dealWithFirstLogged()
-        } else {
-          // 如果不是首次登录，不会返回用户信息，请求用户信息接口获取
-          qcloud.request({
-            url: config.service.requestUrl,
-            login: true,
-            success(result) {
-              util.showSuccess('登录成功')
-              getApp().globalData.logged = true;
-              getApp().globalData.openId = result.openId;
-              that.setData({
-                userInfo: result.data.data,
-                is_logged: true
-              })
-            },
-
-            fail(error) {
-              util.showModel('请求失败', error)
-              console.log('request fail', error)
-            }
-          })
-        }
-      },
-
-      fail(error) {
-        util.showModel('登录失败', error)
-        console.log('登录失败', error)
-      }
-    });
   },
 
   /**
@@ -152,25 +98,18 @@ Page({
    */
   onShow: function () {
     var that = this;
+    if (getApp().globalData.name == "")
+      getApp().globalData.name = that.data.userInfo.nickName
+
+    var str1 = getApp().globalData.self_ctt;
+    var str2 = getApp().globalData.cont_ctt;
+
     that.setData({
-      is_logged: getApp().globalData.logged,
-      first_logged: getApp().globalData.first_logged
-    });
-
-    if(that.data.is_logged){
-      if (getApp().globalData.name == "")
-        getApp().globalData.name = that.data.userInfo.nickName
-
-      var str1 = getApp().globalData.self_ctt;
-      var str2 = getApp().globalData.cont_ctt;
-
-      that.setData({
-        name: getApp().globalData.name,
-        intro: getApp().globalData.intro,
-        self_detail_ctt: str1.split("#%#"),
-        cont_detail_ctt: str2.split("#%#")
-      })
-    }
+      name: getApp().globalData.name,
+      intro: getApp().globalData.intro,
+      self_detail_ctt: str1.split("#%#"),
+      cont_detail_ctt: str2.split("#%#")
+    })
   },
 
   /**
