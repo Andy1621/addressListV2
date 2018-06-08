@@ -6,13 +6,13 @@
 </view>
 <view wx:if="{{is_logged}}" class="weui-panel">
   <block wx:for-items="{{list}}">
-    <view class="weui-panel-news" hover-class='other-button-hover' hover-start-time='10' hover-stay-time='100' bindlongpress='newsLongpress'>
-        <view class="weui-panel__bd">
+    <view class="weui-panel-news" hover-class='other-button-hover' hover-start-time='10' hover-stay-time='100'  bindtap='onClick'  data-id='{{item.sysInfoId}}' data-type='{{item.systype}}' bindlongpress='newsLongpress' >
+        <view class="weui-panel__bd" >
             <view class="weui-media-box weui-media-box_text">
-                <view class="weui-media-box__title weui-media-box__title_in-text">{{item.title}}</view>
+                <view class="weui-media-box__title weui-media-box__title_in-text">{{item.systype}}</view>
                 <view class="weui-media-box__desc">{{item.content}}</view>
                 <view class="weui-media-box__info">
-                    <view class="weui-media-box__info__meta">{{item.date}}</view>
+                    <view class="weui-media-box__info__meta">{{item.time}}</view>
                     <view class="weui-media-box__info__meta weui-media-box__info__meta_extra" bindtap="onClick">{{item.othermsg}}</view>
                 </view>
                 <view class="widget__line {{index == 0 ? 'widget__line_first' : ''}}"></view>

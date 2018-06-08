@@ -79,6 +79,7 @@ Page({
   },
   fLongpress1: function (e) {
     var that = this;
+    console.log(e.currentTarget.dataset);
     var id = e.currentTarget.dataset.id
     var index = e.currentTarget.dataset.index, list = this.data.list1;
     for (var i = 0, len = list.length; i < len; ++i) {
