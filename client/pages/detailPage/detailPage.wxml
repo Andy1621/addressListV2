@@ -108,13 +108,14 @@
                             auto-height="true" 
                             value="{{messageVal}}"
                             focus="{{releaseFocus}}"
+                            bindinput="inputReplying"
                             placeholder="留言给 {{msgName}}"></textarea> 
                         <view class="submit" bindtap="bindSend">发送</view>
                         <view class="divide"></view>
                         <view class="submit" bindtap="bindCancel">取消</view>
                     </view>
                     <view class="weui-panel__bd" bindtouchstart="clickView">
-                        <view wx:for-items="{{listmsg}}" url="" class="weui-media-box weui-media-box_appmsg_mes" hover-class="weui-cell_active">
+                        <view wx:for="{{listmsg}}" id="{{index}}" url="" class="weui-media-box weui-media-box_appmsg_mes" hover-class="weui-cell_active" bindlongpress="longtap">
                             <view class="mes_photo_name">
                                 <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
                                     <image class="weui-media-box__thumb" src="{{'./user-unlogin.png'}}" />
@@ -129,28 +130,18 @@
 
                             <!--reply  -->
                             <!-- <view class="reply" bindtap="bindReply">回复</view> -->
-                            <button class="weui-btn mini-btn" type="default" size="mini" bindtap="bindReply">留言</button>
+                            <button class="weui-btn mini-btn" type="default" size="mini" bindtap="bindReply" id="{{index}}">留言</button>
                             <!--评论内容-->
-                            <view class="msgReply"  wx:if="{{msgCount > 0}}">
+                            <view class="msgReply" wx:for="{{item.listreply}}" wx:for-item="items" wx:if="{{msgCount > 0}}">
                                 <image class="replyimage" src="{{'./user-unlogin.png'}}" background-size="cover"></image>
                                 <view class="nameAndtime">
-                                    <view class="replyName">姓名</view>
-                                    <view class="mesreplytime">mesTime</view>
+                                    <view class="replyName">{{items.name}}</view>
+                                    <view class="mesreplytime"></view>
                                 </view>
                                 <view class="replytext">
-                                    <view>这里是评论这里是评论这里是评论</view>
+                                    <view>{{items.reply}}</view>
                                 </view>
                             </view>
-                            <view class="msgReply" wx:if="{{msgCount > 0}}">
-                                <image class="replyimage" src="{{'./user-unlogin.png'}}" background-size="cover"></image>
-                                <view class="nameAndtime">
-                                    <view class="replyName">姓名</view>
-                                    <view class="mesreplytime">mesTime</view>
-                                </view>
-                                <view class="replytext">
-                                    <view>这里是评论这里是评论这里是评论</view>
-                                </view>
-                            </view>   
                         </view>
                     </view> 
                   <view class='bottom'>

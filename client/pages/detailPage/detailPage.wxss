@@ -487,6 +487,7 @@ page {
     color: #9b9b9b;
     font-size: 12px;
     margin-left: 10px;
+    margin-bottom: 20rpx;
 }
 
 .replyimage{
