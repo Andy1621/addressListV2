@@ -6,6 +6,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+      is_logged: getApp().globalData.logged,
     list1: [
       {
         // id: 'card_holder',
@@ -206,7 +207,9 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+        this.setData({
+            is_logged: getApp().globalData.logged,
+        })
   },
 
   /**

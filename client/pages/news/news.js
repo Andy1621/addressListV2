@@ -5,6 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    is_logged:false,
     list:[
       {
         id: 0,
@@ -47,6 +48,13 @@ Page({
     });
   },
 
+/* 点击查看详情跳转到处理申请*/
+  onClick:function(){
+      wx.navigateTo({
+          url: '/pages/dealApplication/dealApplication',
+      });
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
@@ -65,7 +73,9 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-  
+    this.setData({
+        is_logged:getApp().globalData.logged,
+    })
   },
 
   /**

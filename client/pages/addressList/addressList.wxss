@@ -1,4 +1,12 @@
 /* pages/addressList/addressList.wxss */
+
+.asklog{
+    font-family: Times, TimesNR, '微软雅黑';
+    font-size: 20px;
+    margin-top: 200px;
+    text-align: center;
+}
+
 .navbar {
 flex: none;
 display:flex;

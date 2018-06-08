@@ -1,3 +1,9 @@
+.asklog{
+    font-family: Times, TimesNR, '微软雅黑';
+    font-size: 20px;
+    margin-top: 200px;
+    text-align: center;
+}
 .weui-panel-news{
   margin-top: 0px;
   margin-bottom: 0px;

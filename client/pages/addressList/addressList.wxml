@@ -1,5 +1,10 @@
 <!-- pages/addressList/addressList.wxml -->
-<view class="page">
+<view wx:if="{{!is_logged}}" class="page">
+    <view class="asklog">
+        <text>请在登录后查看详细信息</text>
+    </view>
+</view>
+<view  wx:if="{{is_logged}}" class="page">
   <view class="top">
     <view class="weui-search-bar">
       <view class="weui-search-bar__form" bindtap="search">

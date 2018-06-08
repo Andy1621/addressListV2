@@ -1,6 +1,54 @@
 //peoplePage.js
 Page({
     data: {
+        addressListName:"通讯录名",
+        memberInfo:"人数",
+        originator:"群主",
+        detail:"群信息",
+        listpeople:[
+            {
+                name:"Name1",
+                sex:"Man",
+                company:"Company1",
+            },
+            {
+                name: "Name2",
+                sex: "Man",
+                company: "Company2",
+            },
+            {
+                name: "Name3",
+                sex: "Woman",
+                company: "Company3",
+            },
+            {
+                name: "Name4",
+                sex: "Woman",
+                company: "Company4",
+            },
+        ],
+        listmsg:[
+            {
+                name:"Name1",
+                time:"2018/6/8 14:00",
+                msg:"MessaggeTest1",
+            },
+            {
+                name: "Name2",
+                time: "2018/6/8 14:00",
+                msg: "MessaggeTest2",
+            },
+            {
+                name: "Name3",
+                time: "2018/6/8 14:00",
+                msg: "MessaggeTest3",
+            },
+            {
+                name: "Name4",
+                time: "2018/6/8 14:00",
+                msg: "MessaggeTest4",
+            },
+        ],
         userInfo: {},
         logged: false,
         takeSession: false,

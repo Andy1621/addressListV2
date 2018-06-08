@@ -9,8 +9,8 @@
     "pages/createAddressList/createAddressList",
     "pages/news/news",
     "pages/myInfo/myInfo",
-    "pages/setting/setting"
-    
+    "pages/setting/setting",
+    "pages/dealApplication/dealApplication"
   ],
   "tabBar": {
     "selectedColor": "#1296db",
