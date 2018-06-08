@@ -10,7 +10,8 @@
     "pages/news/news",
     "pages/myInfo/myInfo",
     "pages/setting/setting",
-    "pages/dealApplication/dealApplication"
+    "pages/dealApplication/dealApplication",
+    "pages/addGroupPlease/addGroupPlease"
   ],
   "tabBar": {
     "selectedColor": "#1296db",

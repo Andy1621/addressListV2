@@ -166,6 +166,12 @@ Page({
     })
   },
 
+  jumpToDetail: function (e) {
+    wx.navigateTo({
+      url: '../detailPage/detailPage',
+    })
+  },
+
   //切换至搜索界面
   search: function (e) {
     wx.navigateTo({
