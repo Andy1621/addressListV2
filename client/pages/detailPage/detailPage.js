@@ -1,8 +1,11 @@
 //peoplePage.js
-var util = require('../../utils/util.js'); 
+//var util = require('../../utils/util.js'); 
+var config = require('../../config')
+const util = require('../../utils/util');
 
 Page({
     data: {
+        is_logged:true,
         is_member:true,//false为未加群，true为已加群
         index:0,
         nameindex:0,
@@ -13,24 +16,24 @@ Page({
         detail:"群信息",
         listpeople:[
             {
-                name:"Name1",
-                sex:"Man",
-                company:"Company1",
+                userName:"Name1",
+                city:"Man",
+                department:"department1",
             },
             {
-                name: "Name2",
-                sex: "Man",
-                company: "Company2",
+                userName: "Name2",
+                city: "Man",
+                department: "department2",
             },
             {
-                name: "Name3",
-                sex: "Woman",
-                company: "Company3",
+                userName: "Name3",
+                city: "Woman",
+                department: "department3",
             },
             {
-                name: "Name4",
-                sex: "Woman",
-                company: "Company4",
+                userName: "Name4",
+                city: "Woman",
+                department: "department4",
             },
         ],
         listmsg:[
@@ -335,32 +338,73 @@ Page({
         })
     },
 
+    //参数接受
+    onLoad:function(options){
+        let object = JSON.parse(options.jsonStr);
+        console.log(object);
+        var that=this;
+        //获取群主姓名
+        wx.request({
+            url: config.service.userInfoUrl,
+            data: {
+                userId: object.groupMaster
+            },
+            method: 'GET',
+            header: {
+                'content-type': 'application/json' // 默认值
+            },
+            success: function (res) {
+                console.log(res.data);
+                that.setData({
+                    addressListName: object.groupName,
+                    originator: "群主：" + res.data.userName,
+                    detail: object.groupIntro,
+                });
+                //util.showSuccess('操作成功');
+            },
+            fail: function (res) {
+                util.showModel('操作失败');
+            },
+        })
+        //获取群信息
+        wx.request({
+            url: config.service.groupInfoUrl,
+            data: {
+                groupId: object.groupId,
+            },
+            method: 'GET',
+            header: {
+                'content-type': 'application/json' // 默认值
+            },
+            success: function (res) {
+                console.log(res.data.member[0][0]);
+                var param=[];
+                for(var i=0;i<res.data.memberNum;i++)
+                {
+                    param.push(res.data.member[i][0])
+                };
+                that.setData({
+                    memberInfo: "人数："+res.data.memberNum,
+                    listpeople:param,
+                });
+                console.log(that.data.listpeople)
+                //util.showSuccess('操作成功');
+            },
+            fail: function (res) {
+                util.showModel('操作失败');
+            },
+        })
+    },
+
     onShow:function(){
         this.setData({
             msgCount:this.data.listmsg[0].listreply.length,
+            is_logged: getApp().globalData.logged,
         })
     },
 
     onPullDownRefresh: function () {
       wx.showNavigationBarLoading() //在标题栏中显示加载
-      // wx.request({
-      //     url: 'https://URL',
-      //     data: {},
-      //     method: 'GET',
-      //     // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
-      //     // header: {}, // 设置请求的 header
-      //     success: function (res) {
-      //         // success
-      //     },
-      //     fail: function () {
-      //         // fail
-      //     },
-      //     complete: function () {
-      //         // complete
-      //         wx.hideNavigationBarLoading() //完成停止加载
-      //         wx.stopPullDownRefresh() //停止下拉刷新
-      //     },
-      // })
       //模拟加载
       setTimeout(function () {
         // complete
@@ -368,6 +412,7 @@ Page({
         wx.stopPullDownRefresh() //停止下拉刷新
       }, 1500);
     },
+
   //sendMessage
     sendMessage: function() {
       wx.navigateTo({

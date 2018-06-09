@@ -65,7 +65,7 @@ page {
 
 .userinfo-detail{
     margin: 5px;
-    font-size: 25rpx;
+    font-size: 30rpx;
     color: #e6e6ea;
     align-content: center;
     text-align: center;
