@@ -1,33 +1,45 @@
-// pages/sendMessage/sendMessage.js
+// pages/sendMessage/sendMessage.js   图片上传以及确定按钮还没实现
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    showTopTips: false,
+    content: "",
+    ctt_len: 0,
     files: []
   },
 
-  //确定后错误提示
-  showTopTips: function () {
+  onClick: function(){
+
+  },
+
+  //获取textarea（用户输入）数据
+  formSubmit: function (e) {
     var that = this;
+    console.log('form发生了submit事件，携带数据为：', e.detail.value["content"]);
+    that.setData({
+      content: e.detail.value["content"]
+    })
+    console.log(that.data.content);
+  },
+
+  //输入时同步字数
+  whenInput: function(e){
     this.setData({
-      showTopTips: true
-    });
-    setTimeout(function () {
-      that.setData({
-        showTopTips: false
-      });
-    }, 3000);
+      ctt_len: e.detail.value.length
+    })
   },
 
   //图片上传相关
   chooseImage: function (e) {
     var that = this;
+    if(that.data.files.length == 9)
+      return;
+
     wx.chooseImage({
       sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
-      sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+      sourceType: ['album'], // 可以指定来源是相册还是相机，默认二者都有
       success: function (res) {
         // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
         that.setData({

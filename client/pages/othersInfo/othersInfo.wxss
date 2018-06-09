@@ -134,14 +134,29 @@
 .bottom{
     position:fixed;
     bottom: 0;
+    width: 100%;
+    display: flex;  
+    flex: 1;
+    flex-direction: row;  
 }
 
-.mybtn{
-    width: 750rpx;
-    color: royalblue;
-    border: solid 3rpx skyblue;
+.mybtn_tjmp{
+    width: 100%;
+    background-color: blue;
+    color: white;
+    margin: 0rpx 1rpx 0rpx;
 }
 
-.mybtn::after{
-    border:none;
+.mybtn_jrtbgz{
+    width: 100%;
+    background-color: green;
+    color: white;
+    margin: 0rpx 1rpx 0rpx;
+}
+
+.mybtn_jrhmd{
+    width: 100%;
+    background-color: black;
+    color: white;
+    margin: 0rpx 1rpx 0rpx;
 }

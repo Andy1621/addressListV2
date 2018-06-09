@@ -1,14 +1,19 @@
 // pages/othersInfo/othersInfo.js
+var util = require('../../utils/util.js')
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    rest_height: 0,
-    userInfo: {},
+    category: 0,  //设置页面类型，以便确定按钮种类    
+    rest_height: 0,  //用于设置scroll-view高度
+    //下面是用户的信息
+    userId: "",
     name: "temp",
     intro: "快要被晒干了……gg",
+    imgUrl: "",
 
     self_detail_title: [
       "所在大学", "专业", "所在城市"
@@ -27,41 +32,40 @@ Page({
     ]
   },
 
-  //数据处理完毕后跳到setting
-  onClick: function () {
-    this.boxingData();
-    wx.navigateTo({
-      url: '/pages/setting/setting',
-    })
+  onClick_tjmp: function(){
+      //对全局变量的好友关系进行更改
+      //向后端发送request修改数据库值
+      //跳转回之前页面
+      util.showSuccess('成功添加名片');
+      setTimeout(function () {
+        wx.navigateBack({
+
+        });
+      }, 850);
   },
 
-  //将当前个人信息的数据内容处理后传到全局变量
-  boxingData: function () {
-    var str1 = "", str2 = "";
-    var len1 = this.data.self_detail_ctt.length;
-    var len2 = this.data.cont_detail_ctt.length;
-    for (var i = 0; i < len1 - 1; i++)
-      str1 += this.data.self_detail_ctt[i] + "#%#";
-    str1 += this.data.self_detail_ctt[len1 - 1];
-    for (var i = 0; i < len2 - 1; i++)
-      str2 += this.data.cont_detail_ctt[i] + "#%#";
-    str2 += this.data.cont_detail_ctt[len2 - 1];
-    getApp().globalData.name = this.data.name;
-    getApp().globalData.intro = this.data.intro;
-    getApp().globalData.self_ctt = str1;
-    getApp().globalData.cont_ctt = str2;
+  onClick_jrtbgz: function () {
+      //对全局变量的好友关系进行更改
+      //向后端发送request修改数据库值
+      //跳转回之前页面
+      util.showSuccess('成功加入特别关注');
+      setTimeout(function () {
+        wx.navigateBack({
+
+        });
+      }, 850);
   },
 
-  //判断该用户是否为初次登录
-  dealWithFirstLogged: function () {
-    var that = this;
-    //此时向数据库传openId，如果发现是新用户，则设置first_logged为true，否则设为false，并且直接对that.data赋值
-    if (that.data.first_logged)
-      wx.navigateTo({
-        url: '/pages/setInfoFirst/setInfoFirst',
-      })
-    else
-      this.boxingData()
+  onClick_jrhmd: function () {
+      //对全局变量的好友关系进行更改
+      //向后端发送request修改数据库值
+      //跳转回之前页面
+      util.showSuccess('成功加入黑名单');
+      setTimeout(function () {
+        wx.navigateBack({
+
+        });
+      }, 850);
   },
 
   /**
@@ -79,11 +83,21 @@ Page({
         console.log('width=' + res.windowWidth);
         // 计算主体部分高度,单位为px
         that.setData({
-          // rest部分高度 = 利用窗口可使用高度 - first部分高度（这里的高度单位为px，所有利用比例将260rpx转换为px）
-          rest_height: res.windowHeight - res.windowWidth / 750 * 260
+          // rest部分高度 = 利用窗口可使用高度 - first部分高度（这里的高度单位为px，所有利用比例将400rpx转换为px）
+          rest_height: res.windowHeight - res.windowWidth / 750 * 400
         })
       }
+    });
+    /* 依据跳转来源界面设置页面种类，从而控制按钮种类
+          未加好友：0 添加名片 加入黑名单
+          普通好友：1 加入特别关注 加入黑名单
+          特别关注或黑名单：233 什么都没有
+    */
+    that.setData({
+      category: options.category
     })
+    //获取用户数据
+
   },
 
   /**
@@ -97,19 +111,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    var that = this;
-    if (getApp().globalData.name == "")
-      getApp().globalData.name = that.data.userInfo.nickName
-
-    var str1 = getApp().globalData.self_ctt;
-    var str2 = getApp().globalData.cont_ctt;
-
-    that.setData({
-      name: getApp().globalData.name,
-      intro: getApp().globalData.intro,
-      self_detail_ctt: str1.split("#%#"),
-      cont_detail_ctt: str2.split("#%#")
-    })
+    
   },
 
   /**
