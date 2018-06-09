@@ -492,15 +492,17 @@ page {
 }
 
 .replyimage{
-    margin-right:0px;
-    width:35px;
-    height:30px;
+    margin-right:30rpx;
+    width:60rpx;
+    height:60rpx;
     line-height:30px;
     text-align:left;
 }
 
 .replyName{
     font-size: 15px;
+    margin-left: 10rpx;
+    margin-top: 5rpx;
 }
 
 .nameAndtime{
@@ -511,6 +513,8 @@ page {
 .replytext{
     font-size: 13px;
     color: #9b9b9b;
+    margin-left: 3rpx;
+    max-width: 450rpx;
 }
 
 /*Button*/
