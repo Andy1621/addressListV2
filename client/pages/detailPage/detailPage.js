@@ -5,6 +5,8 @@ Page({
     data: {
         is_member:true,//false为未加群，true为已加群
         index:0,
+        nameindex:0,
+        replyindex:0,
         addressListName:"通讯录名",
         memberInfo:"人数",
         originator:"群主",
@@ -241,15 +243,15 @@ Page({
         })
     },
 
-    longtap:function(e){
+    deleteMessage:function(e){
         //console.log(e);
-        console.log(this.data.index);
+        //console.log(this.data.index);
         this.setData({
             index:e.target.id,
         });
         var that=this;
         wx.showActionSheet({
-            itemList: ["删除信息"],
+            itemList: ["删除消息"],
             success: function(res) {
                 //console.log(res.tapIndex);
                 if(res.tapIndex==0){
@@ -262,6 +264,66 @@ Page({
                 }
             },
         });
+    },
+
+    deleteReply:function(e){
+        var getnum=e.currentTarget.id;
+        var num=getnum.split("+");
+        //console.log(num[0]);
+        //console.log(e);
+        //console.log(this.data.replyindex);
+        this.setData({
+            index:num[0],
+            replyindex:num[1],
+        });
+        var that = this;
+        wx.showActionSheet({
+            itemList: ["删除留言"],
+            success: function (res) {
+                //console.log(res.tapIndex);
+                if (res.tapIndex == 0) {
+                    console.log(that.data.index);
+                    var param={};
+                    var str = "listmsg[" + that.data.index + "].listreply";
+                    var obj = that.data.listmsg[that.data.index].listreply;
+                    obj.splice(that.data.replyindex, 1);
+                    param[str]=obj;
+                    that.setData(param);
+                }
+            },
+        });
+    },
+
+    deleteMember:function(e){
+        //console.log(this.data.nameindex);
+        //console.log(e.currentTarget.id);
+        this.setData({
+            nameindex: e.currentTarget.id,
+        });
+        var that = this;
+        wx.showActionSheet({
+            itemList: ["删除成员"],
+            success: function (res) {
+                //console.log(res.tapIndex);
+                if (res.tapIndex == 0) {
+                    //console.log(that.data.nameindex);
+                    var obj = that.data.listpeople;
+                    obj.splice(that.data.nameindex, 1);
+                    that.setData({
+                        listpeople: obj,
+                    });
+                }
+            },
+        });
+    },
+
+    jumpToInfo:function(e){
+        wx.navigateTo({
+            url: '/pages/othersInfo/othersInfo',
+            success: function(res) {},
+            fail: function(res) {},
+            complete: function(res) {},
+        })
     },
 
     jumpToAdd:function(e){

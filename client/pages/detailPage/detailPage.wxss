@@ -478,6 +478,7 @@ page {
     flex-direction: row;
     text-align: left;
     padding-left: 5%;
+    padding-bottom: 15rpx;
     margin-top: 5px;
     margin-bottom: 5px;
 }

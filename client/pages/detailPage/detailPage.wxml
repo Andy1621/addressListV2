@@ -56,7 +56,7 @@
                         <view class="weui-panel weui-panel_access">
                             <!-- <view class="weui-panel__hd">图文组合列表</view> -->
                             <view class="weui-panel__bd">
-                                <navigator wx:for-items="{{listpeople}}" url="/pages/othersInfo/othersInfo" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
+                                <view wx:for="{{listpeople}}" id="{{index}}" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active" bindlongpress="deleteMember" bindtap='jumpToInfo'>
                                     <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
                                         <image class="weui-media-box__thumb" src="{{'./user-unlogin.png'}}" />
                                     </view>
@@ -67,7 +67,7 @@
                                         </view>
                                         <view class="weui-media-box__desc">{{item.company}}</view>
                                     </view>
-                                </navigator>
+                                </view>
                             </view>
                         </view>
                     </view>
@@ -115,7 +115,8 @@
                         <view class="submit" bindtap="bindCancel">取消</view>
                     </view>
                     <view class="weui-panel__bd" bindtouchstart="clickView">
-                        <view wx:for="{{listmsg}}" id="{{index}}" url="" class="weui-media-box weui-media-box_appmsg_mes" hover-class="weui-cell_active" bindlongpress="longtap">
+                        <view wx:for="{{listmsg}}" url="" class="weui-media-box weui-media-box_appmsg_mes" hover-class="weui-cell_active">
+                            <view class="weui-media-box_appmsg_mes" style='width:100%' id="{{index}}" bindlongpress="deleteMessage">
                             <view class="mes_photo_name">
                                 <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
                                     <image class="weui-media-box__thumb" src="{{'./user-unlogin.png'}}" />
@@ -131,8 +132,9 @@
                             <!--reply  -->
                             <!-- <view class="reply" bindtap="bindReply">回复</view> -->
                             <button class="weui-btn mini-btn" type="default" size="mini" bindtap="bindReply" id="{{index}}">留言</button>
+                            </view>
                             <!--评论内容-->
-                            <view class="msgReply" wx:for="{{item.listreply}}" wx:for-item="items" wx:if="{{msgCount > 0}}">
+                            <view class="msgReply" wx:for="{{item.listreply}}" wx:for-item="items" wx:if="{{msgCount > 0}}" wx:for-index="replyindex" id="{{index}}+{{replyindex}}" bindlongpress="deleteReply">
                                 <image class="replyimage" src="{{'./user-unlogin.png'}}" background-size="cover"></image>
                                 <view class="nameAndtime">
                                     <view class="replyName">{{items.name}}</view>
