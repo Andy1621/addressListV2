@@ -1,0 +1,28 @@
+<view class="page">
+  <view class="page__bd">
+  </view>
+  <view class="page__bd page__bd_spacing">
+    <button class="weui-btn" type="primary" bindtap="getUserInfo">1.测试 getUserInfo</button>
+    <button class="weui-btn" type="primary" bindtap="changeUserInfo">2.测试 changeUserInfo</button>
+    <button class="weui-btn" type="primary" bindtap="addUser">3.测试 addUser</button>
+    <button class="weui-btn" type="primary" bindtap="getGroupInfo">4.测试 getGroupInfo</button>
+    <button class="weui-btn" type="primary" bindtap="getGroupMessage">5.测试 getGroupMessage</button>
+    <button class="weui-btn" type="primary" bindtap="randGetGroup">6.测试 randGetGroup</button>
+    <button class="weui-btn" type="primary" bindtap="searchPublic">7.测试 searchPublic</button>
+    <button class="weui-btn" type="primary" bindtap="getNews">8.测试 getNews</button>
+    <button class="weui-btn" type="primary" bindtap="getAddressList">9.测试 getAddressList</button>
+    <button class="weui-btn" type="primary" bindtap="searchGroupMessage">10.测试 searchGroupMessage</button>
+    <button class="weui-btn" type="primary" bindtap="addGroupRequest">11.测试 addGroupRequest</button>
+    <button class="weui-btn" type="primary" bindtap="dealAddGroupRequest">12.测试 dealAddGroupRequest</button>
+    <button class="weui-btn" type="primary" bindtap="createGroupRequest">13.测试 createGroupRequest</button>
+    <button class="weui-btn" type="primary" bindtap="dealCreateGroupRequest">14.测试 dealCreateGroupRequest</button>
+    <button class="weui-btn" type="primary" bindtap="sendGroupMessage">15.测试 sendGroupMessage</button>
+    <button class="weui-btn" type="primary" bindtap="sendLeaveMessage">16.测试 sendLeaveMessage</button>
+    <button class="weui-btn" type="primary" bindtap="deleteGroupMessage">17.测试 deleteGroupMessage</button>
+    <button class="weui-btn" type="primary" bindtap="deleteLeaveMessage">18.测试 deleteLeaveMessage</button>
+    <button class="weui-btn" type="primary" bindtap="deleteGroup">19.测试 deleteGroup</button>
+    <button class="weui-btn" type="primary" bindtap="deleteCard">20.测试 deleteCard</button>
+    <button class="weui-btn" type="primary" bindtap="deleteNews">21.测试 deleteNews</button>
+    <button class="weui-btn" type="primary" bindtap="deleteMember">22.测试 deleteMember</button>
+  </view>
+</view>

@@ -6,6 +6,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+      is_logged: getApp().globalData.logged,
     list1: [
       {
         // id: 'card_holder',
@@ -78,6 +79,7 @@ Page({
   },
   fLongpress1: function (e) {
     var that = this;
+    console.log(e.currentTarget.dataset);
     var id = e.currentTarget.dataset.id
     var index = e.currentTarget.dataset.index, list = this.data.list1;
     for (var i = 0, len = list.length; i < len; ++i) {
@@ -165,6 +167,12 @@ Page({
     })
   },
 
+  jumpToDetail: function (e) {
+    wx.navigateTo({
+      url: '../detailPage/detailPage',
+    })
+  },
+
   //切换至搜索界面
   search: function (e) {
     wx.navigateTo({
@@ -206,7 +214,9 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+        this.setData({
+            is_logged: getApp().globalData.logged,
+        })
   },
 
   /**

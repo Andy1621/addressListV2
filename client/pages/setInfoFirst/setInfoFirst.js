@@ -1,4 +1,4 @@
-// pages/setting/setting.js
+// pages/setInfoFirst/setInfoFirst.js
 Page({
 
   /**
@@ -6,8 +6,8 @@ Page({
    */
   data: {
     rest_height: 0,
-    name:"",
-    intro:"",
+    name: "",
+    intro: "",
 
     self_detail_title: [
       "所在大学", "专业", "所在城市"
@@ -17,43 +17,43 @@ Page({
       "手机号", "qq号", "微信号", "电子邮箱"
     ],
 
-    self_detail_ctt:[],
-    cont_detail_ctt:[]
+    self_detail_ctt: [],
+    cont_detail_ctt: []
   },
   //将该页面数据处理完毕后赋给全局变量
-  onClick:function(){
-      var that = this;
-      var str1 = "", str2 = "";
-      var len1 = that.data.self_detail_ctt.length;
-      var len2 = that.data.cont_detail_ctt.length;
-      for (var i = 0; i < len1 - 1; i++)
-        str1 += that.data.self_detail_ctt[i] + "#%#";
-      str1 += that.data.self_detail_ctt[len1 - 1];
-      for (var i = 0; i < len2 - 1; i++)
-        str2 += that.data.cont_detail_ctt[i] + "#%#";
-      str2 += that.data.cont_detail_ctt[len2 - 1];
-      getApp().globalData.name = that.data.name;
-      getApp().globalData.intro = that.data.intro;
-      getApp().globalData.self_ctt = str1;
-      getApp().globalData.cont_ctt = str2;
-      wx.switchTab({
-        url: '/pages/myInfo/myInfo',
-      })
+  onClick: function () {
+    var that = this;
+    var str1 = "", str2 = "";
+    var len1 = that.data.self_detail_ctt.length;
+    var len2 = that.data.cont_detail_ctt.length;
+    for (var i = 0; i < len1 - 1; i++)
+      str1 += that.data.self_detail_ctt[i] + "#%#";
+    str1 += that.data.self_detail_ctt[len1 - 1];
+    for (var i = 0; i < len2 - 1; i++)
+      str2 += that.data.cont_detail_ctt[i] + "#%#";
+    str2 += that.data.cont_detail_ctt[len2 - 1];
+    getApp().globalData.name = that.data.name;
+    getApp().globalData.intro = that.data.intro;
+    getApp().globalData.self_ctt = str1;
+    getApp().globalData.cont_ctt = str2;
+    wx.switchTab({
+      url: '/pages/myInfo/myInfo',
+    })
   },
   //获取input（用户输入）数据
   formSubmit: function (e) {
-      var that = this;
-      console.log('form发生了submit事件，携带数据为：', e.detail.value["info" + 1]);
-      that.data.intro = e.detail.value["intro"];
-      that.data.name = e.detail.value["name"];
-      var len1 = that.data.self_detail_ctt.length;
-      var len2 = that.data.cont_detail_ctt.length;
-      for (var i = 0; i < len1; i++)
-          that.data.self_detail_ctt[i] = e.detail.value["info" + i];
-      for (var i = 0; i < len2; i++)
-          that.data.cont_detail_ctt[i] = e.detail.value["cont" + i];
-      console.log(that.data.self_detail_ctt);
-      console.log(that.data.cont_detail_ctt);
+    var that = this;
+    console.log('form发生了submit事件，携带数据为：', e.detail.value["info" + 1]);
+    that.data.intro = e.detail.value["intro"];
+    that.data.name = e.detail.value["name"];
+    var len1 = that.data.self_detail_title.length;
+    var len2 = that.data.cont_detail_title.length;
+    for (var i = 0; i < len1; i++)
+      that.data.self_detail_ctt[i] = e.detail.value["info" + i];
+    for (var i = 0; i < len2; i++)
+      that.data.cont_detail_ctt[i] = e.detail.value["cont" + i];
+    console.log(that.data.self_detail_ctt);
+    console.log(that.data.cont_detail_ctt);
   },
 
   /**
@@ -76,15 +76,6 @@ Page({
         })
       }
     });
-    //获取个人信息
-    var str1 = getApp().globalData.self_ctt.split("#%#");
-    var str2 = getApp().globalData.cont_ctt.split("#%#");
-    that.setData({
-        name: getApp().globalData.name,
-        intro: getApp().globalData.intro,
-        self_detail_ctt: str1,
-        cont_detail_ctt: str2
-    })
   },
 
   /**
@@ -98,7 +89,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    getApp().globalData.first_logged = false;
   },
 
   /**

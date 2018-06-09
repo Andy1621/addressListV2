@@ -2,12 +2,12 @@
 <view class="page">
     <!--Information-->
     <view class="userinfo"  bindtouchstart="clickView"><!--bindtap="login"-->
-        <text class='userinfo-addressListName'>{{'addressListName'}}</text>
+        <text class='userinfo-addressListName'>{{addressListName}}</text>
         <view>
-            <text class='userinfo-memberInfo'>{{'memberInfo'}}</text>
-            <text class='userinfo-originator'>{{'originator'}}</text>
+            <text class='userinfo-memberInfo'>{{memberInfo}}</text>
+            <text class='userinfo-originator'>{{originator}}</text>
         </view>
-        <text class='userinfo-detail'>{{'detail'}}</text>
+        <text class='userinfo-detail'>{{detail}}</text>
     </view>
 
     <!--navbar-->
@@ -42,84 +42,30 @@
                             </view>
                             <view class="weui-search-bar__cancel-btn" hidden="{{!inputShowed}}" bindtap="hideInput">取消</view>
                         </view>
-                        <view class="weui-cells searchbar-result" wx:if="{{inputVal.length > 0}}">
+                        <!--原先的实时搜索<view class="weui-cells searchbar-result" wx:if="{{inputVal.length > 0}}">
                             <navigator url="" class="weui-cell" hover-class="weui-cell_active">
                                 <image class="userinfo-avatar" src="{{'./user-unlogin.png'}}" background-size="cover"></image>
                                 <view class="weui-cell__bd">
                                     <view>实时搜索文本</view>
                                 </view>
                             </navigator>
-                            <navigator url="" class="weui-cell" hover-class="weui-cell_active">
-                                <image class="userinfo-avatar" src="{{'./user-unlogin.png'}}" background-size="cover"></image>
-                                <view class="weui-cell__bd">
-                                    <view>实时搜索文本</view>
-                                </view>
-                            </navigator>
-                            <navigator url="" class="weui-cell" hover-class="weui-cell_active">
-                                <image class="userinfo-avatar" src="{{'./user-unlogin.png'}}" background-size="cover"></image>
-                                <view class="weui-cell__bd">
-                                    <view>实时搜索文本</view>
-                                </view>
-                            </navigator>
-                            <navigator url="" class="weui-cell" hover-class="weui-cell_active">
-                                <image class="userinfo-avatar" src="{{'./user-unlogin.png'}}" background-size="cover"></image>
-                                <view class="weui-cell__bd">
-                                    <view>实时搜索文本</view>
-                                </view>
-                            </navigator>
-                        </view>
+                        </view>-->
                     </view>
                     <!--人员-->
                     <view class="page__bd" hidden="{{peopleShow != 1}}">
                         <view class="weui-panel weui-panel_access">
                             <!-- <view class="weui-panel__hd">图文组合列表</view> -->
                             <view class="weui-panel__bd">
-                                <navigator url="" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
+                                <navigator wx:for-items="{{listpeople}}" url="" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
                                     <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
                                         <image class="weui-media-box__thumb" src="{{'./user-unlogin.png'}}" />
                                     </view>
                                     <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
                                         <view class="weui-media-box__title">
-                                            <view>姓名</view>
-                                            <view class="weui-media-box__desc">性别</view>
+                                            <view>{{item.name}}</view>
+                                            <view class="weui-media-box__desc">{{item.sex}}</view>
                                         </view>
-                                        <view class="weui-media-box__desc">公司</view>
-                                    </view>
-                                </navigator>
-                                <navigator url="" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
-                                    <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
-                                        <image class="weui-media-box__thumb" src="{{'./user-unlogin.png'}}" />
-                                    </view>
-                                    <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
-                                        <view class="weui-media-box__title">
-                                            <view>姓名</view>
-                                            <view class="weui-media-box__desc">性别</view>
-                                        </view>
-                                        <view class="weui-media-box__desc">公司</view>
-                                    </view>
-                                </navigator>
-                                <navigator url="" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
-                                    <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
-                                        <image class="weui-media-box__thumb" src="{{'./user-unlogin.png'}}" />
-                                    </view>
-                                    <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
-                                        <view class="weui-media-box__title">
-                                            <view>姓名</view>
-                                            <view class="weui-media-box__desc">性别</view>
-                                        </view>
-                                        <view class="weui-media-box__desc">公司</view>
-                                    </view>
-                                </navigator>
-                                <navigator url="" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
-                                    <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
-                                        <image class="weui-media-box__thumb" src="{{'./user-unlogin.png'}}" />
-                                    </view>
-                                    <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
-                                        <view class="weui-media-box__title">
-                                            <view>姓名</view>
-                                            <view class="weui-media-box__desc">性别</view>
-                                        </view>
-                                        <view class="weui-media-box__desc">公司</view>
+                                        <view class="weui-media-box__desc">{{item.company}}</view>
                                     </view>
                                 </navigator>
                             </view>
@@ -130,6 +76,27 @@
 
                 <view class="weui-tab__content" hidden="{{activeIndex != 1}}">
                     <!--选项二-->
+                    <!--Search Bar-->
+                    <view class="page">
+                        <view class="weui-search-bar">
+                            <view class="weui-search-bar__form">
+                                <view class="weui-search-bar__box">
+                                    <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
+                                    <input type="text" class="weui-search-bar__input" placeholder="搜索" value="{{inputVal}}" focus="{{inputShowed}}" bindinput="inputTyping" />
+                                    <view class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" bindtap="clearInput">
+                                        <icon type="clear" size="14"></icon>
+                                    </view>
+                                </view>
+                                <label class="weui-search-bar__label" hidden="{{inputShowed}}" bindtap="showInput">
+                                    <icon class="weui-icon-search" type="search" size="14"></icon>
+                                    <view class="weui-search-bar__text">搜索</view>
+                                </label>
+                            </view>
+                            <view class="weui-search-bar__cancel-btn" hidden="{{!inputShowed}}" bindtap="hideInput">取消</view>
+                        </view>
+                        <!--原先的实时搜索<view class="weui-cells searchbar-result" wx:if="{{inputVal.length > 0}}">
+                        </view>-->
+                    </view>
                     <!--Reply-->
                     <view class="release" hidden="{{!releaseFocus}}">
                         <textarea class="text"
@@ -141,79 +108,42 @@
                             auto-height="true" 
                             value="{{messageVal}}"
                             focus="{{releaseFocus}}"
+                            bindinput="inputReplying"
                             placeholder="留言给 {{msgName}}"></textarea> 
                         <view class="submit" bindtap="bindSend">发送</view>
                         <view class="divide"></view>
                         <view class="submit" bindtap="bindCancel">取消</view>
                     </view>
                     <view class="weui-panel__bd" bindtouchstart="clickView">
-                        <view url="" class="weui-media-box weui-media-box_appmsg_mes" hover-class="weui-cell_active">
+                        <view wx:for="{{listmsg}}" id="{{index}}" url="" class="weui-media-box weui-media-box_appmsg_mes" hover-class="weui-cell_active" bindlongpress="longtap">
                             <view class="mes_photo_name">
                                 <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
                                     <image class="weui-media-box__thumb" src="{{'./user-unlogin.png'}}" />
                                 </view>
-                                <view class="weui-media-box__title">姓名</view>
-                                <view class="mestime">mesTime</view>
+                                <view class="weui-media-box__title">{{item.name}}</view>
+                                <view class="mestime">{{item.time}}</view>
                             </view>
                             
                             <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
-                                <view class="weui-media-box__mes">这里是详细的消息内容</view>
+                                <view class="weui-media-box__mes">{{item.msg}}</view>
                             </view>
 
                             <!--reply  -->
                             <!-- <view class="reply" bindtap="bindReply">回复</view> -->
-                            <button class="weui-btn mini-btn" type="default" size="mini" bindtap="bindReply">留言</button>
+                            <button class="weui-btn mini-btn" type="default" size="mini" bindtap="bindReply" id="{{index}}">留言</button>
                             <!--评论内容-->
-                            <view class="msgReply"  wx:if="{{msgCount > 0}}">
+                            <view class="msgReply" wx:for="{{item.listreply}}" wx:for-item="items" wx:if="{{msgCount > 0}}">
                                 <image class="replyimage" src="{{'./user-unlogin.png'}}" background-size="cover"></image>
                                 <view class="nameAndtime">
-                                    <view class="replyName">姓名</view>
-                                    <view class="mesreplytime">mesTime</view>
+                                    <view class="replyName">{{items.name}}</view>
+                                    <view class="mesreplytime"></view>
                                 </view>
                                 <view class="replytext">
-                                    <view>这里是评论这里是评论这里是评论</view>
+                                    <view>{{items.reply}}</view>
                                 </view>
                             </view>
-                            <view class="msgReply" wx:if="{{msgCount > 0}}">
-                                <image class="replyimage" src="{{'./user-unlogin.png'}}" background-size="cover"></image>
-                                <view class="nameAndtime">
-                                    <view class="replyName">姓名</view>
-                                    <view class="mesreplytime">mesTime</view>
-                                </view>
-                                <view class="replytext">
-                                    <view>这里是评论这里是评论这里是评论</view>
-                                </view>
-                            </view>   
-                        </view> 
-                        <view url="" class="weui-media-box weui-media-box_appmsg_mes" hover-class="weui-cell_active">
-                            <view class="mes_photo_name">
-                                <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
-                                    <image class="weui-media-box__thumb" src="{{'./user-unlogin.png'}}" />
-                                </view>
-                                <view class="weui-media-box__title">姓名</view>
-                                <view class="mestime">mesTime</view>
-                            </view>
-                            
-                            <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
-                                <view class="weui-media-box__mes">这里是详细的消息内容</view>
-                            </view>
-                            <button class="weui-btn mini-btn" type="default" size="mini" bindtap="bindReply">留言</button>
                         </view>
-                        <view url="" class="weui-media-box weui-media-box_appmsg_mes" hover-class="weui-cell_active">
-                            <view class="mes_photo_name">
-                                <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
-                                    <image class="weui-media-box__thumb" src="{{'./user-unlogin.png'}}" />
-                                </view>
-                                <view class="weui-media-box__title">姓名</view>
-                                <view class="mestime">mesTime</view>
-                            </view>
-                            
-                            <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
-                                <view class="weui-media-box__mes">这里是详细的消息内容</view>
-                            </view>
-                            <button class="weui-btn mini-btn" type="default" size="mini" bindtap="bindReply">留言</button>
-                        </view>
-                    </view>
+                    </view> 
                   <view class='bottom'>
                       <button class='mybtn' form-type='submit' bindtap='sendMessage'>发布</button>
                   </view>

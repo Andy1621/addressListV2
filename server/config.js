@@ -3,10 +3,10 @@ const CONF = {
     rootPathname: '',
 
     // 微信小程序 App ID
-    appId: '',
+    appId: 'wx7ca9d7f62b37103a',
 
     // 微信小程序 App Secret
-    appSecret: '',
+    appSecret: 'dc41843563fc8d6acecb91ce249243e3',
 
     // 是否使用腾讯云代理登录小程序
     useQcloudLogin: true,
@@ -22,7 +22,18 @@ const CONF = {
         user: 'root',
         db: 'cAuth',
         pass: 'wx7ca9d7f62b37103a',
-        char: 'utf8mb4'
+        char: 'utf8mb4',
+        //库名
+        myDb: 'addressList',
+        //表名
+        InfoSentBySys: 'InfoSentBySys',
+        User: 'User',
+        UUship: 'UUship',
+        UGship: 'UGship',
+        MyGroup: 'MyGroup',
+        GroupMessage: 'GroupMessage',
+        LeaveMessage: 'LeaveMessage',
+        Administrator: 'Administrator'
     },
 
     cos: {

@@ -1,6 +1,9 @@
 {
   "pages": [
     "pages/community/community",
+    "pages/addGroupPlease/addGroupPlease",
+    "pages/othersInfo/othersInfo",
+    "pages/setInfoFirst/setInfoFirst",
     "pages/detailPage/detailPage",
     "pages/addressList/addressList",
     "pages/searchDetail/searchDetail",
@@ -9,8 +12,8 @@
     "pages/createAddressList/createAddressList",
     "pages/news/news",
     "pages/myInfo/myInfo",
-    "pages/setting/setting"
-    
+    "pages/setting/setting",
+    "pages/dealApplication/dealApplication"
   ],
   "tabBar": {
     "selectedColor": "#1296db",

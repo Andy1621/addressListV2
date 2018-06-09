@@ -7,10 +7,13 @@ App({
   },
 
   globalData: {
+      //个人状态和信息
       logged: false,
+      first_logged: true,
       openID: '',
       intro: "",
-      self_ctt: "",
-      cont_ctt: ""
+      name:"",
+      self_ctt: "#%##%##%##%##%#", //个人信息内容
+      cont_ctt: "#%##%##%##%##%#"  //联系方式内容
   }
 })

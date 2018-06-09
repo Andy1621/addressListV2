@@ -1,6 +1,126 @@
 //peoplePage.js
+var util = require('../../utils/util.js'); 
+
 Page({
     data: {
+        index:0,
+        addressListName:"通讯录名",
+        memberInfo:"人数",
+        originator:"群主",
+        detail:"群信息",
+        listpeople:[
+            {
+                name:"Name1",
+                sex:"Man",
+                company:"Company1",
+            },
+            {
+                name: "Name2",
+                sex: "Man",
+                company: "Company2",
+            },
+            {
+                name: "Name3",
+                sex: "Woman",
+                company: "Company3",
+            },
+            {
+                name: "Name4",
+                sex: "Woman",
+                company: "Company4",
+            },
+        ],
+        listmsg:[
+            {
+                name:"Name1",
+                time:"2018/6/8 14:00",
+                msg:"MessaggeTest1",
+                listreply: [
+                    {
+                        name: "Reply1-1",
+                        time: "2018/6/8 19:26",
+                        reply: "replytest1",
+                    },
+                    {
+                        name: "Reply1-2",
+                        time: "2018/6/8 19:26",
+                        reply: "replytest2",
+                    },
+                    {
+                        name: "Reply1-3",
+                        time: "2018/6/8 19:26",
+                        reply: "replytest3",
+                    },
+                ],
+            },
+            {
+                name: "Name2",
+                time: "2018/6/8 14:00",
+                msg: "MessaggeTest2",
+                listreply: [
+                    {
+                        name: "Reply2-1",
+                        time: "2018/6/8 19:26",
+                        reply: "replytest1",
+                    },
+                    {
+                        name: "Reply2-2",
+                        time: "2018/6/8 19:26",
+                        reply: "replytest2",
+                    },
+                    {
+                        name: "Reply2-3",
+                        time: "2018/6/8 19:26",
+                        reply: "replytest3",
+                    },
+                ],
+            },
+            {
+                name: "Name3",
+                time: "2018/6/8 14:00",
+                msg: "MessaggeTest3",
+                listreply: [
+                    {
+                        name: "Reply3-1",
+                        time: "2018/6/8 19:26",
+                        reply: "replytest1",
+                    },
+                    {
+                        name: "Reply3-2",
+                        time: "2018/6/8 19:26",
+                        reply: "replytest2",
+                    },
+                    {
+                        name: "Reply3-3",
+                        time: "2018/6/8 19:26",
+                        reply: "replytest3",
+                    },
+                ],
+            },
+            {
+                name: "Name4",
+                time: "2018/6/8 14:00",
+                msg: "MessaggeTest4",
+                listreply: [
+                    {
+                        name: "Reply4-1",
+                        time: "2018/6/8 19:26",
+                        reply: "replytest1",
+                    },
+                    {
+                        name: "Reply4-2",
+                        time: "2018/6/8 19:26",
+                        reply: "replytest2",
+                    },
+                    {
+                        name: "Reply4-3",
+                        time: "2018/6/8 19:26",
+                        reply: "replytest3",
+                    },
+                ],
+            },
+        ],
+        
         userInfo: {},
         logged: false,
         takeSession: false,
@@ -15,6 +135,7 @@ Page({
         sliderLeft: 0,
         peopleShow: 1,
         releaseFocus: false,
+        //messaege
         messageVal:"",
         msgName:"Tom",
         msgCount: 0,
@@ -74,18 +195,41 @@ Page({
 
 //Reply
     bindReply: function (e) {
+        console.log(e)
         this.setData({
+            index:e.target.id,
             releaseFocus: true,
-            messageVal:""
-
-        })
+            messageVal:"",
+        });
     },
 
+    inputReplying:function(e){
+        this.setData({
+            messageVal: e.detail.value,
+        });
+    },
+    /*发送留言 */
     bindSend: function (e) {
+        /*console.log(this.data.index);*/
+        var param={};
+        var obj = {};
+        obj.name="Test1";
+        obj.time = util.formatTime(new Date);
+        /*console.log(obj.time);*/
+        obj.reply=this.data.messageVal;
+        /*console.log(this.data.messageVal);
+        console.log(obj);*/
+        this.data.listmsg[this.data.index].listreply.push(obj);
+        var all = this.data.listmsg[this.data.index].listreply;
+        /*console.log(all);*/
+        var str= "listmsg["+this.data.index+"].listreply";
+        /*console.log(str);*/
+        param[str]=all;
+        this.setData(param),
         this.setData({
             releaseFocus: false,
             messageVal:"",
-            msgCount:this.data.msgCount+1,
+            msgCount: this.data.listmsg[0].listreply.length,
         })
     },
 
@@ -93,6 +237,35 @@ Page({
         this.setData({
             releaseFocus: false,
             messageVal:""
+        })
+    },
+
+    longtap:function(e){
+        //console.log(e);
+        console.log(index);
+        this.setData({
+            index:e.target.id,
+        });
+        var that=this;
+        wx.showActionSheet({
+            itemList: ["删除信息"],
+            success: function(res) {
+                //console.log(res.tapIndex);
+                if(res.tapIndex==0){
+                    console.log(that.data.index);
+                    var obj = that.data.listmsg;
+                    obj.splice(that.data.index, 1);
+                    that.setData({
+                        listmsg: obj,
+                    });
+                }
+            },
+        });
+    },
+
+    onShow:function(){
+        this.setData({
+            msgCount:this.data.listmsg[0].listreply.length,
         })
     },
 
