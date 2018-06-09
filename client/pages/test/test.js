@@ -2,7 +2,13 @@
 var config = require('../../config')
 const util = require('../../utils/util');
 
+
+
 Page({
+
+  data:{
+    news:[{}],
+  },
 
   //1.获取用户信息
   getUserInfo: function () {
@@ -181,6 +187,7 @@ Page({
   //8.获取系统通知
   getNews: function () {
     console.log("发出一个getNews请求");
+    var that = this;
     wx.request({
       url: config.service.newsUrl,
       data: {
@@ -192,6 +199,9 @@ Page({
       },
       success: function (res) {
         console.log(res.data);
+        that.setData({
+          news: res.data
+        })
         util.showSuccess('操作成功');
       },
       fail: function (res) {
@@ -505,7 +515,7 @@ Page({
     })
   },
 
-  //21.删除群成员
+  //22.删除群成员
   deleteMember: function () {
     console.log("发出一个deleteMember请求");
     wx.request({
@@ -527,4 +537,23 @@ Page({
       },
     })
   },
+  
+  //23.时间格式转换,以获取news为例
+  timetrans:function(){
+    this.getNews();
+    var that =this;
+    //异步的原因
+    setTimeout(function () {
+      var anew = that.data.news;
+      anew.forEach(function(value,index,array){
+        console.log();
+        var t1 = new Date(array[index].time).format("yyyy-MM-dd hh:mm:ss");
+        array[index].time = t1;
+      })
+      that.setData({
+        news:anew
+      })
+      console.log(that.data.news[0].time);
+    }, 500);
+  },       
 })
