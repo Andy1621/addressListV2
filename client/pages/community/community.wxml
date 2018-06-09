@@ -1,5 +1,9 @@
 <!--pages/community/community.wxml-->
-<view class="page">
+<view class="page" style='margin-bottom:50rpx'>
+    <view class="btn-area">
+        <text></text>
+        <button class="add-btn" bindtap='randGetGroup'>换一批</button>
+    </view>
     <view class="page__bd">
         <view class="weui-search-bar">
             <view class="weui-search-bar__form" bindtap="search">
@@ -13,17 +17,18 @@
                 </label>
             </view>
         </view>
+        
         <view class="weui-panel weui-panel_access">
             <view class="weui-panel__bd">
-                <navigator url="/pages/detailPage/detailPage" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
+                <view class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active" wx:for="{{groupArr}}" id="{{index}}" bindtap='jumpToAddresslist'>
                     <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
                         <image class="weui-media-box__thumb" src="{{list}}" />
                     </view>
                     <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
-                        <view class="weui-media-box__title">面筋哥后援团</view>
-                        <view class="weui-media-box__desc">香香的烤面筋你吃过没</view>
+                        <view class="weui-media-box__title">{{item.groupName}}</view>
+                        <view class="weui-media-box__desc">{{item.groupIntro}}</view>
                     </view>
-                </navigator>
+                </view>
             </view>
         </view>
     </view>

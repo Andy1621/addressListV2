@@ -40,7 +40,7 @@ module.exports = async (ctx, next) => {
       .then(
       function (data) {
         console.log(data);
-        data2[i] = data;
+        data2[i] = data[0];
         console.log("获取用户信息成功")
       });
   }
