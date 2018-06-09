@@ -41,10 +41,14 @@ Page({
   onClick:function(e){
     console.log(e.currentTarget.dataset);
     var systype = e.currentTarget.dataset.type
-    if (systype == 'addRequest' || systype == 'createRequest')
+    if (systype == 'addRequest')
       wx.navigateTo({
-          url: '/pages/dealApplication/dealApplication',
+          url: '/pages/dealApplication/dealApplication?application_type=1',
       });
+    else if (systype == 'createRequest')
+        wx.navigateTo({
+            url: '/pages/dealApplication/dealApplication?application_type=2',
+        });
     else if (systype == 'special' || systype =='leaveMessage'){
       wx.navigateTo({
         url: '/pages/detailPage/detailPage',

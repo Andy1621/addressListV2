@@ -3,6 +3,7 @@ var util = require('../../utils/util.js');
 
 Page({
     data: {
+        is_member:true,//false为未加群，true为已加群
         index:0,
         addressListName:"通讯录名",
         memberInfo:"人数",
@@ -242,7 +243,7 @@ Page({
 
     longtap:function(e){
         //console.log(e);
-        console.log(index);
+        console.log(this.data.index);
         this.setData({
             index:e.target.id,
         });
@@ -261,6 +262,15 @@ Page({
                 }
             },
         });
+    },
+
+    jumpToAdd:function(e){
+        wx.navigateTo({
+            url: '/pages/addGroupPlease/addGroupPlease',
+            success: function(res) {},
+            fail: function(res) {},
+            complete: function(res) {},
+        })
     },
 
     onShow:function(){

@@ -39,7 +39,7 @@
                   <!-- <view class="weui-panel weui-panel_access"> -->
                   <block wx:for-items="{{item.subName}}" wx:for-item="name">
                     <view class="weui-panel__bd">
-                      <view class="widget test" data-phone="{{item.phone[index]}}" bindlongpress='fLongpress1' hover-class="weui-cell_active" data-index='{{index}}' data-id='{{item.id}}' hover-start-time="10" hover-stay-time="100">
+                      <view class="widget test" data-phone="{{item.phone[index]}}" bindlongpress='fLongpress1' bindtap="jumpToInfo" hover-class="weui-cell_active" data-index='{{index}}' data-id='{{item.id}}' hover-start-time="10" hover-stay-time="100">
                           <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
                             <image class="weui-media-box__thumb" src="{{'/images/addressList/user-unlogin.png'}}" />
                           </view>

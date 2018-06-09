@@ -173,6 +173,12 @@ Page({
     })
   },
 
+  jumpToInfo:function(e){
+        wx.navigateTo({
+            url: '/pages/othersInfo/othersInfo',
+        })
+  },
+
   //切换至搜索界面
   search: function (e) {
     wx.navigateTo({

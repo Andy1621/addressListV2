@@ -537,3 +537,30 @@ page {
     background-color: #1296db;
     color: white;
 }
+
+.btn-area{
+    /*border-top: solid 1rpx #9F9F9F;*/
+    /*border-bottom: solid 3px #9F9F9F;*/
+    margin-top: 30rpx;
+    padding-bottom: 15rpx;
+    display: flex;
+    position: fixed;
+    bottom: 0rpx;
+    width: 100%;
+    background-color: #f8f8f8;
+}
+
+.add-btn{
+    margin-top: 15rpx;
+    width: 95%;
+    height: 100%;
+    color: white;
+    background-color: #1296db;
+}
+
+.asklog{
+    font-family: Times, TimesNR, '微软雅黑';
+    font-size: 40rpx;
+    margin-top: 300rpx;
+    text-align: center;
+}

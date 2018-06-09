@@ -22,7 +22,7 @@
                 <view class="weui-navbar__slider" style="left: {{sliderLeft}}px; transform: translateX({{sliderOffset}}px); -webkit-transform: translateX({{sliderOffset}}px);"></view>
             </view>
             <view class="weui-tab__panel">
-                <view class="weui-tab__content" hidden="{{activeIndex != 0}}">
+                <view class="weui-tab__content" hidden="{{activeIndex != 0||is_member==false}}">
                     <!--选项一-->
                     <!--Search Bar-->
                     <view class="page">
@@ -56,7 +56,7 @@
                         <view class="weui-panel weui-panel_access">
                             <!-- <view class="weui-panel__hd">图文组合列表</view> -->
                             <view class="weui-panel__bd">
-                                <navigator wx:for-items="{{listpeople}}" url="" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
+                                <navigator wx:for-items="{{listpeople}}" url="/pages/othersInfo/othersInfo" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
                                     <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
                                         <image class="weui-media-box__thumb" src="{{'./user-unlogin.png'}}" />
                                     </view>
@@ -74,7 +74,7 @@
                 </view>
 
 
-                <view class="weui-tab__content" hidden="{{activeIndex != 1}}">
+                <view class="weui-tab__content" hidden="{{activeIndex != 1||is_member==false}}">
                     <!--选项二-->
                     <!--Search Bar-->
                     <view class="page">
@@ -144,9 +144,21 @@
                             </view>
                         </view>
                     </view> 
+                    <!--发布消息按钮-->
                   <view class='bottom'>
                       <button class='mybtn' form-type='submit' bindtap='sendMessage'>发布</button>
                   </view>
+                </view>
+                <!--未加群的文字提醒-->
+                <view wx:if="{{is_member==false}}" class="page">
+                    <view class="asklog">
+                        <text>您只能在入群后查看详细信息</text>
+                    </view>
+                </view>
+                <!--申请加群按钮-->
+                <view class="btn-area" wx:if="{{is_member==false}}">
+                    <text></text>
+                    <button class="add-btn" bindtap='jumpToAdd'>申请入群</button>
                 </view>
             </view>
         </view>
