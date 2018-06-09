@@ -13,7 +13,8 @@
     "pages/news/news",
     "pages/myInfo/myInfo",
     "pages/setting/setting",
-    "pages/dealApplication/dealApplication"
+    "pages/dealApplication/dealApplication",
+    "pages/test/test"
   ],
   "tabBar": {
     "selectedColor": "#1296db",
@@ -41,6 +42,10 @@
         "pagePath": "pages/myInfo/myInfo",
         "iconPath": "images/tab/me.png",
         "selectedIconPath": "images/tab/me_selected.png"
+      },
+      {
+        "text": "测试",
+        "pagePath": "pages/test/test"
       }
     ]
   },
