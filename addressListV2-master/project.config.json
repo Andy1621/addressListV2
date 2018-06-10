@@ -1,0 +1,43 @@
+{
+	"miniprogramRoot": "./client",
+	"qcloudRoot": "./server",
+	"setting": {
+		"newFeature": true
+	},
+	"appid": "wx7ca9d7f62b37103a",
+	"projectname": "addressListV2",
+	"condition": {
+		"search": {
+			"current": -1,
+			"list": []
+		},
+		"conversation": {
+			"current": -1,
+			"list": []
+		},
+		"plugin": {
+			"current": -1,
+			"list": []
+		},
+		"game": {
+			"list": []
+		},
+		"miniprogram": {
+			"current": -1,
+			"list": [
+				{
+					"id": -1,
+					"name": "处理申请",
+					"pathName": "pages/dealApplication/dealApplication",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "通讯录",
+					"pathName": "pages/detailPage/detailPage",
+					"query": ""
+				}
+			]
+		}
+	}
+}
