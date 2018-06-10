@@ -57,6 +57,8 @@ router.get('/searchPublic', controllers.searchPublic)
 
 //GET 获取系统通知
 router.get('/news', controllers.news.get)
+//DELETE 获取系统通知
+router.delete('/news', controllers.news.deleteM)
 
 //POST 发布留言
 router.post('/leaveMessage', controllers.leaveMessage.send)

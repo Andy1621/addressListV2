@@ -16,6 +16,7 @@ const dbnnn = require('knex')({
 module.exports = async (ctx, next) => {
   let groupId = ctx.request.body.groupId;
   let userId = ctx.request.body.userId;
+  let reason = ctx.request.body.reason;
   var master, userName, groupName;
 
   await dbnnn(config.UGship).where({ groupId: groupId, type: 'master'}).select('userId')
@@ -53,7 +54,7 @@ module.exports = async (ctx, next) => {
 
   var news = {
     type: 'addRequest',
-    content: userName + ' 申请加入您创建的群 ' + groupName + ' %@%' + groupId + '%@%' + userId,
+    content: userName + ' 申请加入您创建的群 ' + groupName + ' %@%' + reason + '%@%' + groupId + '%@%' + userId,
     time: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
     userId: master
   }
