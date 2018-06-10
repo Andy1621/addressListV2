@@ -62,19 +62,4 @@ Page({
       },
     })
   },
-
-  jumpToAddresslist: function (e) {
-    console.log(e);
-    var num = e.currentTarget.id;
-    var passInfo = this.data.groupArr[num];
-    /*var groupId = this.data.groupArr[num].groupId;
-    var groupName = this.data.groupArr[num].groupName;
-    var groupIntro = this.data.groupArr[num].groupInfo;
-    var groupMaster = this.data.groupArr[num].groupMaster;*/
-    let str = JSON.stringify(passInfo);
-    wx.navigateTo({
-      url: '/pages/detailPage/detailPage?jsonStr=' + str,
-    })
-  },
-  
 });
