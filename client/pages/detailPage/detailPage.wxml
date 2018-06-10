@@ -121,7 +121,7 @@
                                 <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
                                     <image class="weui-media-box__thumb" src="{{'./user-unlogin.png'}}" />
                                 </view>
-                                <view class="weui-media-box__title">{{item.userId}}</view>
+                                <view class="weui-media-box__title">{{item.name}}</view>
                                 <view class="mestime">{{item.time}}</view>
                             </view>
                             
@@ -137,7 +137,7 @@
                             <view class="msgReply" wx:for="{{item.leaveMessage}}" wx:for-item="items" wx:for-index="replyindex" id="{{index}}+{{replyindex}}" bindlongpress="deleteReply">
                                 <image class="replyimage" src="{{'./user-unlogin.png'}}" background-size="cover"></image>
                                 <view class="nameAndtime">
-                                    <view class="replyName">{{items.userId}}</view>
+                                    <view class="replyName">{{items.name}}</view>
                                     <view class="mesreplytime"></view>
                                 </view>
                                 <view class="replytext">
