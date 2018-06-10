@@ -291,7 +291,7 @@ Page({
             success: function (res) {
                 that.setData({
                     addressListName: object.groupName,
-                    originator: "群主：" + res.data.userName,
+                    originator: "群主：" + res.data.info.userName,
                     detail: object.groupIntro,
                 });
                 //util.showSuccess('操作成功');

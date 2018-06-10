@@ -92,4 +92,7 @@ router.post('/dealCreateGroupRequest', controllers.dealCreateGroupRequest)
 //GET 获取通讯录表
 router.get('/getAddressList', controllers.getAddressList)
 
+//POST 修改用户关系
+router.post('/changeUUship', controllers.changeUUship)
+
 module.exports = router

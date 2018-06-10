@@ -74,6 +74,8 @@ var config = {
         // 获取通讯录表
         getAddressListUrl: `${host}/weapp/getAddressList`,
         
+        // 修改用户关系
+        changeUUshipUrl: `${host}/weapp/changeUUship`,
     }
 };
 
