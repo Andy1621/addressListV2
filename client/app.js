@@ -15,8 +15,9 @@ App({
       name:"",
       self_ctt: "#%##%##%##%##%#", //个人信息内容
       cont_ctt: "#%##%##%##%##%#" , //联系方式内容
-      listCard: "", //好友数组
-      listAddress: "" //通讯录数组
+      cardList:"", //名片夹
+      specialList:"", //特别关注
+      blackList:"" //黑名单
   }
 })
 
