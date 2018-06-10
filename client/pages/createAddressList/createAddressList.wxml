@@ -4,12 +4,12 @@
         <view class="weui-toptips weui-toptips_warn" wx:if="{{showTopTips}}">错误提示</view>
 
         
-
+        <form bindsubmit='onClick'>
         <view class="weui-cells__title">通讯录名</view>
         <view class="weui-cells weui-cells_after-title">
             <view class="weui-cell weui-cell_input">
                 <view class="weui-cell__bd">
-                    <input class="weui-input" placeholder="请输入文本" />
+                    <input class="weui-input" placeholder="请输入文本" value="{{groupName}}" bindinput='inputName' name="groupName" />
                 </view>
             </view>
         </view>
@@ -36,28 +36,14 @@
         <view class="weui-cells weui-cells_after-title">
             <view class="weui-cell">
                 <view class="weui-cell__bd">
-                    <textarea class="weui-textarea" placeholder="请输入文本" style="height: 9em" />
+                    <textarea class="weui-textarea" placeholder="请输入文本" style="height: 9em" value="{{groupIntro}}" name="groupIntro"/>
                     <view class="weui-textarea-counter">0/200</view>
                 </view>
             </view>
         </view>
-
-        
-
-        <checkbox-group bindchange="bindAgreeChange">
-            <label class="weui-agree" for="weuiAgree">
-                <view class="weui-agree__text">
-                    <checkbox class="weui-agree__checkbox" id="weuiAgree" value="agree" checked="{{isAgree}}" />
-                    <view class="weui-agree__checkbox-icon">
-                        <icon class="weui-agree__checkbox-icon-check" type="success_no_circle" size="9" wx:if="{{isAgree}}"></icon>
-                    </view>
-                    阅读并同意<navigator url="" class="weui-agree__link">《相关条款》</navigator>
-                </view>
-            </label>
-        </checkbox-group>
-
         <view class="weui-btn-area">
-            <button class="weui-btn" type="primary" bindtap="showTopTips">确认提交</button>
+            <button class="weui-btn" type="primary" form-type="submit">确认提交</button>
         </view>
+        </form>
     </view>
 </view>
