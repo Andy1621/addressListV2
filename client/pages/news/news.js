@@ -1,4 +1,3 @@
-// pages/news/news.js
 var config = require('../../config')
 const util = require('../../utils/util');
 
@@ -8,48 +7,73 @@ Page({
    * 页面的初始数据
    */
   data: {
-    is_logged:false,
-    list:[]
+    is_logged: false,
+    list: []
   },
-  newsLongpress: function () {
+  newsLongpress: function (e) {
+    var sysId = e.currentTarget.dataset.sysid;
+    var that = this;
+    console.log(sysId);
     wx.showActionSheet({
+
       itemList: ['删除', '清空'],
       success: function (res) {
         if (!res.cancel) {
           console.log(res.tapIndex)
+          if (res.tapIndex == 0) {
+            wx.request({
+              url: config.service.newsUrl,
+              data: {
+                sysInfoId: sysId
+              },
+              method: 'DELETE',
+              header: {
+                'content-type': 'application/json' // 默认值
+              },
+              success: function (res) {
+                console.log(res.data);
+                that.getNews();
+                util.showSuccess('操作成功');
+              },
+              fail: function (res) {
+                util.showModel('操作失败');
+              },
+            })
+          }
         }
       }
     });
   },
 
-/* 点击查看详情跳转到处理申请*/
-  onClick:function(e){
-    console.log(e.currentTarget.dataset);
+  /* 点击查看详情跳转到处理申请*/
+  onClick: function (e) {
+    // console.log(e.currentTarget.dataset);
     var systype = e.currentTarget.dataset.type
     var content = e.currentTarget.dataset.content
-    console.log(e.currentTarget);
+    var sysId = e.currentTarget.dataset.sysid;
+    // console.log(e.currentTarget);
     if (systype == 'addRequest')
       wx.navigateTo({
-        url: '/pages/dealApplication/dealApplication?application_type=1&content=' + JSON.stringify(content),
+        url: '/pages/dealApplication/dealApplication?application_type=1&content=' + JSON.stringify(content) + '&sysInfoId=' + JSON.stringify(sysId),
       });
     else if (systype == 'createRequest')
-        wx.navigateTo({
-          url: '/pages/dealApplication/dealApplication?application_type=2&content=' + JSON.stringify(content),
-        });
-    else if (systype == 'special' || systype =='leaveMessage'){
       wx.navigateTo({
-        url: '/pages/detailPage/detailPage?groupId='+content[1],
+        url: '/pages/dealApplication/dealApplication?application_type=2&content=' + JSON.stringify(content) + '&sysInfoId=' + JSON.stringify(sysId),
+      });
+    else if (systype == 'special' || systype == 'leaveMessage') {
+      wx.navigateTo({
+        url: '/pages/detailPage/detailPage?groupId=' + content[1],
       })
     }
   },
 
-  getNews:function(){
+  getNews: function () {
     var that = this;
     console.log("发出一个getNews请求");
     wx.request({
       url: config.service.newsUrl,
       data: {
-        userId: '0001'
+        userId: 'buaasoft1621'
       },
       method: 'GET',
       header: {
@@ -87,7 +111,7 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-  
+
   },
 
   /**
@@ -95,9 +119,9 @@ Page({
    */
   onShow: function () {
     this.setData({
-        is_logged:getApp().globalData.logged,
+      is_logged: getApp().globalData.logged,
     })
-    if(this.data.is_logged)
+    if (this.data.is_logged)
       this.getNews();
   },
 
@@ -105,14 +129,14 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-  
+
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-  
+
   },
 
   /**
@@ -126,13 +150,13 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-  
+
   },
 
   /**
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-  
+
   }
 })
