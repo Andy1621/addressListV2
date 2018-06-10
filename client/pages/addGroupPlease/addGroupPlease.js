@@ -1,4 +1,7 @@
 // pages/addGroupPlease/addGroupPlease.js
+var config = require('../../config')
+const util = require('../../utils/util');
+
 Page({
 
   /**
@@ -6,20 +9,10 @@ Page({
    */
   data: {
     showTopTips: false,
-
-  },
-
-  radioChange: function (e) {
-    console.log('radio发生change事件，携带value值为：', e.detail.value);
-
-    var radioItems = this.data.radioItems;
-    for (var i = 0, len = radioItems.length; i < len; ++i) {
-      radioItems[i].checked = radioItems[i].value == e.detail.value;
-    }
-
-    this.setData({
-      radioItems: radioItems
-    });
+    groupId:0,
+    reason:"",
+    userId:"",
+    textLength:0,
   },
 
   showTopTips: function () {
@@ -34,12 +27,71 @@ Page({
     }, 3000);
   },
 
+  onClick: function (e) {
+      console.log(e);
+      var that = this;
+      if (e.detail.value.reason != "") {
+        that.setData({
+            reason:e.detail.value.reason,
+        })
+        console.log(that.data.groupId);
+        console.log(that.data.reason);
 
+        console.log("发出一个addGroupRequest请求");
+        wx.request({
+            url: config.service.addGroupRequestUrl,
+            data: {
+                groupId: that.data.groupId,
+                userId: that.data.reason,//'buaasoft1621',
+                reason: that.data.reason
+            },
+            method: 'POST',
+            header: {
+                'content-type': 'application/json' // 默认值
+            },
+            success: function (res) {
+                console.log(res.data);
+                util.showSuccess('操作成功');
+                setTimeout(function () {
+                    wx.navigateBack({
+                        delta: 1,
+                    })
+                }, 2000)
+            },
+            fail: function (res) {
+                util.showModel('操作失败');
+            },
+        })
+      }
+      else this.openAlert();//"错误提示"
+  },
+
+  openAlert: function () {
+      wx.showModal({
+          content: '信息未填写完毕',
+          showCancel: false,
+          success: function (res) {
+              if (res.confirm) {
+                  console.log('用户点击确定')
+              }
+          }
+      });
+  },
+
+  inputTyping:function(e){
+      console.log(e);
+    this.setData({
+        textLength:e.detail.value.length,
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    console.log(options);
+    this.setData({
+        groupId:options,
+    })
   },
 
   /**
@@ -53,7 +105,10 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+      console.log(getApp().globalData.openId);
+      this.setData({
+          userId: getApp().globalData.openId,
+      })
   },
 
   /**
