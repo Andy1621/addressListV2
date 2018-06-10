@@ -10,7 +10,7 @@ App({
       //个人状态和信息
       logged: false,
       first_logged: true,
-      openID: '',
+      openId: '',
       intro: "",
       name:"",
       self_ctt: "#%##%##%##%##%#", //个人信息内容

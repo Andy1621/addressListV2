@@ -1,4 +1,7 @@
 // pages/setInfoFirst/setInfoFirst.js
+var config = require('../../config')
+var util = require('../../utils/util.js')
+
 Page({
 
   /**
@@ -8,6 +11,7 @@ Page({
     rest_height: 0,
     name: "",
     intro: "",
+    userInfo: {},
 
     self_detail_title: [
       "所在大学", "专业", "所在城市"
@@ -32,10 +36,41 @@ Page({
     for (var i = 0; i < len2 - 1; i++)
       str2 += that.data.cont_detail_ctt[i] + "#%#";
     str2 += that.data.cont_detail_ctt[len2 - 1];
+    if (that.data.name == "")
+      that.data.name = that.data.userInfo.nickName
     getApp().globalData.name = that.data.name;
     getApp().globalData.intro = that.data.intro;
     getApp().globalData.self_ctt = str1;
     getApp().globalData.cont_ctt = str2;
+    //添加新用户
+    wx.request({
+      url: config.service.addUserUrl,
+      data: {
+        userId: that.data.userInfo.openId,
+        intro: that.data.intro,
+        userName: that.data.name,
+        email: that.data.cont_detail_ctt[3],
+        phoneNum: that.data.cont_detail_ctt[0],
+        department: that.data.self_detail_ctt[0],
+        major: that.data.self_detail_ctt[1],
+        city: that.data.self_detail_ctt[2],
+        wxNum: that.data.cont_detail_ctt[2],
+        qqNum: that.data.cont_detail_ctt[1],
+        imgUrl: that.data.userInfo.avatarUrl
+      },
+      method: 'POST',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        console.log(res.data);
+        util.showSuccess('操作成功');
+      },
+      fail: function (res) {
+        util.showModel('操作失败');
+      },
+    })
+
     wx.switchTab({
       url: '/pages/myInfo/myInfo',
     })
@@ -76,6 +111,10 @@ Page({
         })
       }
     });
+    //获取userInfo
+    that.setData({
+      userInfo: JSON.parse(options.userInfo)
+    })
   },
 
   /**
@@ -103,7 +142,33 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+    wx.request({
+      url: config.service.addUserUrl,
+      data: {
+        userId: that.data.userInfo.openId,
+        intro: "",
+        userName: that.data.userInfo.nickName,
+        email: "",
+        phoneNum: "",
+        department: "",
+        major: "",
+        city: "",
+        wxNum: "",
+        qqNum: "",
+        imgUrl: that.data.userInfo.avatarUrl
+      },
+      method: 'POST',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        console.log(res.data);
+        util.showSuccess('操作成功');
+      },
+      fail: function (res) {
+        util.showModel('操作失败');
+      },
+    })
   },
 
   /**
