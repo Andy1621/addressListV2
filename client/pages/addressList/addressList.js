@@ -23,19 +23,22 @@ Page({
         name: '名片夹',
         open: false,
         subName: [],
-        intro: []
+        intro: [],
+        Userid:[],
       }, {
         id: 'special_attention',
         name: '特别关注',
         open: false,
         subName: [],
-        intro: []
+        intro: [],
+        Userid: [],
       }, {
         id: 'blacklist',
         name: '黑名单',
         open: false,
         subName: [],
-        intro: []
+        intro: [],
+        Userid: [],
       }
     ],
     list2: [
@@ -86,6 +89,7 @@ Page({
     var that = this;
     console.log(e.currentTarget.dataset);
     var id = e.currentTarget.dataset.id
+    var userBid = e.currentTarget.dataset.userbid;
     var index = e.currentTarget.dataset.index, list = this.data.list1;
     for (var i = 0, len = list.length; i < len; ++i) {
       if (list[i].id == id) {
@@ -94,7 +98,26 @@ Page({
           content: '确定要删除此名片吗？',
           success: function (res) {
             if (res.confirm) {
+              wx.request({
+                url: config.service.deleteCardUrl,
+                data: {
+                  userS_id: 'buaasoft1621',
+                  userB_id: userBid
+                },
+                method: 'DELETE',
+                header: {
+                  'content-type': 'application/json' // 默认值
+                },
+                success: function (res) {
+                  console.log(res.data);
+                  util.showSuccess('操作成功');
+                },
+                fail: function (res) {
+                  util.showModel('操作失败');
+                },
+              })
               console.log('点击确定了');
+              that.onShow();
             } else if (res.cancel) {
               console.log('点击取消了');
               return false;
@@ -318,10 +341,93 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+<<<<<<< HEAD
+    var that = this;
+    var list = this.data.list2;
+    var listC = this.data.list1;
+    console.log("发出一个getAddressList请求");
+    wx.request({
+      url: config.service.getAddressListUrl,
+      data: {
+        userId: 'buaasoft1621'
+      },
+      method: 'GET',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        console.log(res.data);
+        util.showSuccess('操作成功');
+        //好友数据
+        var listCN = [], listCI = [],listCD=[];
+        var len = res.data.card.length;
+        for (var i = 0; i < len; i++) {
+          listCN[i] = res.data.card[i].userName;
+          listCI[i] = res.data.card[i].intro;
+          listCD[i] = res.data.card[i].userId;
+        }
+        var listSN = [], listSI = [],listSD=[];
+        var len = res.data.special.length;
+        for (var i = 0; i < len; i++) {
+          listSN[i] = res.data.special[i].userName;
+          listSI[i] = res.data.special[i].intro;
+          listSD[i] = res.data.special[i].userId;
+        }
+        var listBN = [], listBI = [],listBD=[];
+        var len = res.data.black.length;
+        for (var i = 0; i < len; i++) {
+          listBN[i] = res.data.black[i].userName;
+          listBI[i] = res.data.black[i].intro;
+          listBD[i] = res.data.black[i].userId;
+        }
+        listC[0].subName = listCN;
+        listC[0].intro = listCI;
+        listC[0].Userid = listCD;
+        listC[1].subName = listSN;
+        listC[1].intro = listSI;
+        listC[1].Userid = listSD
+        listC[2].subName = listBN;
+        listC[2].intro = listBI;
+        listC[2].Userid = listBD;
+
+        //通讯录数据
+        var listNC = [],listIC = [];
+        var len = res.data.create.length;
+        for (var i = 0; i < len; i++){
+          listNC[i] = res.data.create[i].groupName;
+          listIC[i] = res.data.create[i].groupIntro;
+        }
+        var listNA = [], listIA = [];
+        var len = res.data.add.length;
+        for (var i = 0; i < len; i++) {
+          listNA[i] = res.data.add[i].groupName;
+          listIA[i] = res.data.add[i].groupIntro;
+        }
+        list[0].subName = listNC;
+        list[0].intro = listIC;
+        list[1].subName = listNA;
+        list[1].intro = listIA;
+
+        that.setData({
+          is_logged: getApp().globalData.logged,
+          list1: listC,
+          list2: list
+        })
+
+        getApp().globalData.listCard = JSON.stringify(that.data.list1);
+        getApp().globalData.listAddress = JSON.stringify(that.data.list2);
+      },
+      fail: function (res) {
+        util.showModel('操作失败');
+      },
+      
+    })
+=======
     this.getAddressList();
     this.setData({
       is_logged: getApp().globalData.logged,
     });
+>>>>>>> 1198cfb4bcc0499b2326f7250339926a5176cd7a
 
   },
 

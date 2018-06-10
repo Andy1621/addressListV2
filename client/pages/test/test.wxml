@@ -25,7 +25,10 @@
     <button class="weui-btn" type="primary" bindtap="deleteNews">21.测试 deleteNews</button>
     <button class="weui-btn" type="primary" bindtap="deleteMember">22.测试 deleteMember</button>
     <button class="weui-btn" type="primary" bindtap="timetrans">23.时间转换</button>
+<<<<<<< HEAD
+=======
     <button class="weui-btn" type="primary" bindtap="f24">24.全局的getUserInfo测试</button>
     <button class="weui-btn" type="primary" bindtap="changeUUship">25.测试changeUUship</button>
+>>>>>>> 1198cfb4bcc0499b2326f7250339926a5176cd7a
   </view>
 </view>

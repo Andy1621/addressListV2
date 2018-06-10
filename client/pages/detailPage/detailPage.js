@@ -6,7 +6,7 @@ const util = require('../../utils/util');
 Page({
   data: {
     groupInfo: [],
-    isbindconfirmMessage:0,//是否按下消息搜索框的回车
+    isbindconfirmMessage: 0,//是否按下消息搜索框的回车
     isbindconfirmGroup: 0,//是否按下通讯录搜索框的回车
     myuserId:0,
     is_logged: true,
@@ -15,7 +15,8 @@ Page({
     nameindex: 0,
     replyindex: 0,
     addressListName: "通讯录名",
-    memberInfo: "人数",
+    memberInfo: "人数", 
+    groupMaster:"",
     originator: "群主",
     detail: "群信息",
     listpeople: [
@@ -86,13 +87,12 @@ Page({
       inputVal: "",
       inputShowed: false,
       peopleShow: 1,
-      
     });
     if (this.data.isbindconfirmGroup == 1) { //按下回车后
-      this.setData({
-        listpeople: this.data.listpeopletemp,
-        isbindconfirmGroup: 0
-      });
+        this.setData({
+            listpeople: this.data.listpeopletemp,
+            isbindconfirmGroup: 0
+        });
     }
   },
 
@@ -101,15 +101,13 @@ Page({
       inputVal: "",
       inputShowed: false,
       peopleShow: 1,
-      
     });
-    if (this.data.isbindconfirmMessage ==1) {//按下回车键后
-      this.setData({ 
-        listmsg: this.data.listmsgtemp,
-        isbindconfirmMessage:0
-      });
+    if (this.data.isbindconfirmMessage == 1) {//按下回车键后
+        this.setData({
+            listmsg: this.data.listmsgtemp,
+            isbindconfirmMessage: 0
+        });
     }
-
   },
 
   clearInput: function () {
@@ -273,69 +271,65 @@ Page({
 
   //参数接受
   onLoad: function (options) {
+    console.log(options.groupId);
     this.setData({
       is_logged: getApp().globalData.logged,
       myuserId:getApp().globalData.openId,
+      groupId: options.groupId,
     })
     console.log(this.data.is_logged);
-    let object = JSON.parse(options.jsonStr);
-    console.log(object);
-    this.setData({
-      groupInfo: object,
-    });
+    //let object = JSON.parse(options.jsonStr);
+    //console.log(object);
     var that = this;
-     that.setData({
-      groupId: object.groupId
-    });
-    //获取群主姓名
-    wx.request({
-      url: config.service.userInfoUrl,
-      data: {
-        userId: object.groupMaster
-      },
-      method: 'GET',
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success: function (res) {
-        that.setData({
-          addressListName: object.groupName,
-          originator: "群主：" + res.data.info.userName,
-          detail: object.groupIntro,
-        });
-        //util.showSuccess('操作成功');
-      },
-      fail: function (res) {
-        util.showModel('操作失败');
-      },
-    });
     //获取群信息
     wx.request({
-      url: config.service.groupInfoUrl,
-      data: {
-        groupId: object.groupId,
-      },
-      method: 'GET',
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success: function (res) {
-        console.log(res.data);
-        that.setData({
-          memberInfo: "人数：" + res.data.memberNum,
-          listpeople: res.data.member,
-          groupMessageId: res.data.groupMessage,
-          groupMessageNum: res.data.groupMessageNum,
-        });
-        //获取消息界面信息
-        for (var i = 0; i < that.data.groupMessageNum; i++) {
-          that.getGroupMessage(that.data.groupMessageId[i]);
-        };
-        //util.showSuccess('操作成功');
-      },
-      fail: function (res) {
-        util.showModel('操作失败');
-      },
+        url: config.service.groupInfoUrl,
+        data: {
+            groupId: that.data.groupId,
+        },
+        method: 'GET',
+        header: {
+            'content-type': 'application/json' // 默认值
+        },
+        success: function (res) {
+            that.setData({
+                addressListName: res.data.groupName,
+                detail: res.data.groupIntro,
+                groupMaster: res.data.groupMaster,
+                memberInfo: "人数：" + res.data.memberNum,
+                listpeople: res.data.member,
+                groupMessageId: res.data.groupMessage,
+                groupMessageNum: res.data.groupMessageNum,
+            });
+            //获取群主
+            wx.request({
+                url: config.service.userInfoUrl,
+                data: {
+                    userId: that.data.groupMaster,
+                },
+                method: 'GET',
+                header: {
+                    'content-type': 'application/json' // 默认值
+                },
+                success: function (res) {
+                    that.setData({
+                        originator: "群主：" + res.data.info.userName,
+                    });
+                    //util.showSuccess('操作成功');
+                },
+                fail: function (res) {
+                    util.showModel('操作失败');
+                },
+            });
+            //获取消息界面信息
+            for (var i = 0; i < that.data.groupMessageNum; i++) {
+                that.getGroupMessage(that.data.groupMessageId[i]);
+            };
+            //util.showSuccess('操作成功');
+        },
+        fail: function (res) {
+            util.showModel('操作失败');
+        },
     });
     console.log(this.data.listpeople.length);
     console.log(this.data.listmsg.length);
@@ -364,27 +358,6 @@ Page({
     })
   },
 
-  getUserInfo: function (e) {
-    wx.request({
-      url: config.service.userInfoUrl,
-      data: {
-        userId: e
-      },
-      method: 'GET',
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success: function (res) {
-        //console.log(res.data);
-        return res.data;
-        util.showSuccess('操作成功');
-      },
-      fail: function (res) {
-        util.showModel('操作失败');
-      },
-    })
-  },
-
   getGroupMessage: function (e) {
     console.log(e);
     var that = this;
@@ -404,7 +377,66 @@ Page({
         obj.time = util.formatTime(new Date(obj.time));
         that.data.listmsg.push(obj);
         that.setData({
+<<<<<<< HEAD
+          groupId: object.groupId
+        });
+        //获取群主姓名
+        wx.request({
+            url: config.service.userInfoUrl,
+            data: {
+                userId: object.groupMaster
+            },
+            method: 'GET',
+            header: {
+                'content-type': 'application/json' // 默认值
+            },
+            success: function (res) {
+                that.setData({
+                    addressListName: object.groupName,
+                    originator: "群主：" + res.data.info.userName,
+                    detail: object.groupIntro,
+                });
+                //util.showSuccess('操作成功');
+            },
+            fail: function (res) {
+                util.showModel('操作失败');
+            },
+        });
+        //获取群信息
+        wx.request({
+            url: config.service.groupInfoUrl,
+            data: {
+                groupId: object.groupId,
+            },
+            method: 'GET',
+            header: {
+                'content-type': 'application/json' // 默认值
+            },
+            success: function (res) {
+                that.setData({
+                    memberInfo: "人数："+res.data.memberNum,
+                    listpeople:res.data.member,
+                    groupMessageId:res.data.groupMessage,
+                    groupMessageNum:res.data.groupMessageNum,
+                });
+                //获取消息界面信息
+                for (var i=0;i<that.data.groupMessageNum;i++) {
+                    that.getGroupMessage(that.data.groupMessageId[i]);
+                };
+                //util.showSuccess('操作成功');
+            },
+            fail: function (res) {
+                util.showModel('操作失败');
+            },
+        });
+    },
+
+    onShow:function(){
+        this.setData({
+            is_logged: getApp().globalData.logged,
+=======
           listmsg: that.data.listmsg,
+>>>>>>> 1198cfb4bcc0499b2326f7250339926a5176cd7a
         })
         //util.showSuccess('操作成功');
       },
@@ -417,7 +449,7 @@ Page({
 
   //搜索群消息
   searchGroupMessage: function () {
-    that.data.isbindconfirmMessage=1;
+    that.data.isbindconfirmMessage = 1;
     var that = this;
     console.log("发出一个searchGroupMessage请求");
     console.log(this.data.groupInfo.groupId);
