@@ -6,6 +6,8 @@ const util = require('../../utils/util');
 Page({
   data: {
     groupInfo: [],
+    isbindconfirmMessage:0,//是否按下消息搜索框的回车
+    isbindconfirmGroup: 0,//是否按下通讯录搜索框的回车
     myuserId:0,
     is_logged: true,
     is_member: true,//false为未加群，true为已加群
@@ -84,8 +86,14 @@ Page({
       inputVal: "",
       inputShowed: false,
       peopleShow: 1,
-      listpeople:this.data.listpeopletemp
+      
     });
+    if (this.data.isbindconfirmGroup == 1) { //按下回车后
+      this.setData({
+        listpeople: this.data.listpeopletemp,
+        isbindconfirmGroup: 0
+      });
+    }
   },
 
   hideInput: function () {
@@ -93,8 +101,15 @@ Page({
       inputVal: "",
       inputShowed: false,
       peopleShow: 1,
-      listmsg: this.data.listmsgtemp,
+      
     });
+    if (this.data.isbindconfirmMessage ==1) {//按下回车键后
+      this.setData({ 
+        listmsg: this.data.listmsgtemp,
+        isbindconfirmMessage:0
+      });
+    }
+
   },
 
   clearInput: function () {
@@ -402,6 +417,7 @@ Page({
 
   //搜索群消息
   searchGroupMessage: function () {
+    that.data.isbindconfirmMessage=1;
     var that = this;
     console.log("发出一个searchGroupMessage请求");
     console.log(this.data.groupInfo.groupId);
@@ -435,7 +451,7 @@ Page({
 
   //搜索通讯录
   searchGroup: function () {
-
+    that.data.isbindconfirmGroup = 1;
     var that = this;
     that.data.listpeopleresult=[];
     for(var i=0;i<that.data.listpeople.length;i++)
