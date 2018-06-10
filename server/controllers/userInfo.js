@@ -12,6 +12,8 @@ const dbnnn = require('knex')({
   }
 })
 
+var res = {};
+
 async function get(ctx, next) {
   let userId = ctx.request.query.userId;
   await dbnnn(config.User).where({ userId: userId }).select()
@@ -21,10 +23,16 @@ async function get(ctx, next) {
     .then(
       function (data) {
         console.log(data);
-        ctx.response.body = data[0];
+        if(data.length == 0){
+          res.existed = false;
+        }
+        else{
+          res.existed = true;
+          res.info = data[0];
+        }
         console.log("获取用户信息成功")
     });
-  return ctx.response.body;
+  return ctx.response.body = res;
 }
 
 async function change(ctx, next) {

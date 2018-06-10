@@ -26,17 +26,19 @@ Page({
   onClick:function(e){
     console.log(e.currentTarget.dataset);
     var systype = e.currentTarget.dataset.type
+    var content = e.currentTarget.dataset.content
+    console.log(e.currentTarget);
     if (systype == 'addRequest')
       wx.navigateTo({
-          url: '/pages/dealApplication/dealApplication?application_type=1',
+        url: '/pages/dealApplication/dealApplication?application_type=1&content=' + JSON.stringify(content),
       });
     else if (systype == 'createRequest')
         wx.navigateTo({
-            url: '/pages/dealApplication/dealApplication?application_type=2',
+          url: '/pages/dealApplication/dealApplication?application_type=2&content=' + JSON.stringify(content),
         });
     else if (systype == 'special' || systype =='leaveMessage'){
       wx.navigateTo({
-        url: '/pages/detailPage/detailPage',
+        url: '/pages/detailPage/detailPage?groupId='+content[1],
       })
     }
   },
@@ -55,27 +57,23 @@ Page({
       },
       success: function (res) {
         console.log(res.data);
+        var anew = res.data;
+        anew.forEach(function (value, index, array) {
+          var t1 = new Date(array[index].time).format("yyyy-MM-dd hh:mm:ss");
+          array[index].time = t1;
+          // cnew[index] = JSON.stringify(array[index].content);
+          var str = array[index].content;
+          array[index].content = str.split('%@%')
+        })
         that.setData({
-          list: res.data,
-        });
+          list: anew,
+        })
         util.showSuccess('刷新成功');
       },
       fail: function (res) {
         util.showModel('刷新失败');
       },
     })
-    //时间处理
-    setTimeout(function () {
-      var anew = that.data.list;
-      anew.forEach(function (value, index, array) {
-        console.log();
-        var t1 = new Date(array[index].time).format("yyyy-MM-dd hh:mm:ss");
-        array[index].time = t1;
-      })
-      that.setData({
-        list: anew
-      })
-    }, 100);
   },
 
   /**
