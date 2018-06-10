@@ -553,7 +553,6 @@ page {
     bottom: 0rpx;
     width: 100%;
     background-color: #f8f8f8;
-    z-index: 5;
 }
 
 .add-btn{
