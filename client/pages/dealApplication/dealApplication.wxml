@@ -5,11 +5,11 @@
     <view class="weui-panel__main">
       <view class="weui-media-box weui-media-box_appmsg" bindtap='onClick'>
         <view class="weui-media-box__hd_in-appmsg">
-          <image class="weui-media-box__thumb" src="{{userInfo.imgUrl}}" />
+          <image class="weui-media-box__thumb" src="{{imagePath}}" />
         </view>
         <view class="weui-media-box__bd_in-appmsg">
-          <view class="weui-media-box__title">{{userInfo.userName}}</view>
-          <view class="weui-media-box__desc">{{userInfo.intro}}</view>
+          <view class="weui-media-box__title">{{nickname}}</view>
+          <view class="weui-media-box__desc">{{introduction}}</view>
         </view>
       </view>
     </view>

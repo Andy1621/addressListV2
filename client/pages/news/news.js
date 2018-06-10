@@ -11,36 +11,12 @@ Page({
     is_logged:false,
     list:[]
   },
-  newsLongpress: function (e) {
-    var sysId = e.currentTarget.dataset.sysid;
-    var that = this;
-    console.log(sysId);
+  newsLongpress: function () {
     wx.showActionSheet({
-    
       itemList: ['删除', '清空'],
       success: function (res) {
         if (!res.cancel) {
           console.log(res.tapIndex)
-          if(res.tapIndex==0){
-            wx.request({
-              url: config.service.newsUrl,
-              data: {
-                sysInfoId: sysId
-              },
-              method: 'DELETE',
-              header: {
-                'content-type': 'application/json' // 默认值
-              },
-              success: function (res) {
-                console.log(res.data);
-                that.getNews();
-                util.showSuccess('操作成功');
-              },
-              fail: function (res) {
-                util.showModel('操作失败');
-              },
-            })
-          }
         }
       }
     });
@@ -48,18 +24,17 @@ Page({
 
 /* 点击查看详情跳转到处理申请*/
   onClick:function(e){
-    // console.log(e.currentTarget.dataset);
+    console.log(e.currentTarget.dataset);
     var systype = e.currentTarget.dataset.type
     var content = e.currentTarget.dataset.content
-    var sysId = e.currentTarget.dataset.sysid;
-    // console.log(e.currentTarget);
+    console.log(e.currentTarget);
     if (systype == 'addRequest')
       wx.navigateTo({
-        url: '/pages/dealApplication/dealApplication?application_type=1&content=' + JSON.stringify(content)+'&sysInfoId='+JSON.stringify(sysId),
+        url: '/pages/dealApplication/dealApplication?application_type=1&content=' + JSON.stringify(content),
       });
     else if (systype == 'createRequest')
         wx.navigateTo({
-          url: '/pages/dealApplication/dealApplication?application_type=2&content=' + JSON.stringify(content) + '&sysInfoId=' + JSON.stringify(sysId),
+          url: '/pages/dealApplication/dealApplication?application_type=2&content=' + JSON.stringify(content),
         });
     else if (systype == 'special' || systype =='leaveMessage'){
       wx.navigateTo({
@@ -74,7 +49,7 @@ Page({
     wx.request({
       url: config.service.newsUrl,
       data: {
-        userId: 'buaasoft1621'
+        userId: '0001'
       },
       method: 'GET',
       header: {
@@ -105,11 +80,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> 1198cfb4bcc0499b2326f7250339926a5176cd7a
   },
 
   /**
@@ -124,13 +95,9 @@ Page({
    */
   onShow: function () {
     this.setData({
-      is_logged: getApp().globalData.logged,
+        is_logged:getApp().globalData.logged,
     })
-<<<<<<< HEAD
-    if (this.data.is_logged)
-=======
     if(this.data.is_logged)
->>>>>>> 1198cfb4bcc0499b2326f7250339926a5176cd7a
       this.getNews();
   },
 

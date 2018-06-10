@@ -377,66 +377,7 @@ Page({
         obj.time = util.formatTime(new Date(obj.time));
         that.data.listmsg.push(obj);
         that.setData({
-<<<<<<< HEAD
-          groupId: object.groupId
-        });
-        //获取群主姓名
-        wx.request({
-            url: config.service.userInfoUrl,
-            data: {
-                userId: object.groupMaster
-            },
-            method: 'GET',
-            header: {
-                'content-type': 'application/json' // 默认值
-            },
-            success: function (res) {
-                that.setData({
-                    addressListName: object.groupName,
-                    originator: "群主：" + res.data.info.userName,
-                    detail: object.groupIntro,
-                });
-                //util.showSuccess('操作成功');
-            },
-            fail: function (res) {
-                util.showModel('操作失败');
-            },
-        });
-        //获取群信息
-        wx.request({
-            url: config.service.groupInfoUrl,
-            data: {
-                groupId: object.groupId,
-            },
-            method: 'GET',
-            header: {
-                'content-type': 'application/json' // 默认值
-            },
-            success: function (res) {
-                that.setData({
-                    memberInfo: "人数："+res.data.memberNum,
-                    listpeople:res.data.member,
-                    groupMessageId:res.data.groupMessage,
-                    groupMessageNum:res.data.groupMessageNum,
-                });
-                //获取消息界面信息
-                for (var i=0;i<that.data.groupMessageNum;i++) {
-                    that.getGroupMessage(that.data.groupMessageId[i]);
-                };
-                //util.showSuccess('操作成功');
-            },
-            fail: function (res) {
-                util.showModel('操作失败');
-            },
-        });
-    },
-
-    onShow:function(){
-        this.setData({
-            is_logged: getApp().globalData.logged,
-=======
           listmsg: that.data.listmsg,
->>>>>>> 1198cfb4bcc0499b2326f7250339926a5176cd7a
         })
         //util.showSuccess('操作成功');
       },

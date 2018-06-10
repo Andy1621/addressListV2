@@ -14,14 +14,12 @@ App({
       intro: "",
       name:"",
       self_ctt: "#%##%##%##%##%#", //个人信息内容
-<<<<<<< HEAD
-      cont_ctt: "#%##%##%##%##%#"  //联系方式内容
-=======
       cont_ctt: "#%##%##%##%##%#" , //联系方式内容
-      cardList:"", //名片夹
-      specialList:"", //特别关注
-      blackList:"" //黑名单
->>>>>>> 1198cfb4bcc0499b2326f7250339926a5176cd7a
+      cardList: "", //名片夹
+      specialList: "", //特别关注
+      blackList: "", //黑名单
+      addGroupList: "", //我加入的群
+      createGroupList: "" //我创建的群
   }
 })
 
