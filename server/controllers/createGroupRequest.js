@@ -50,7 +50,7 @@ module.exports = async (ctx, next) => {
 
   var news = {
     type: 'createRequest',
-    content: userName + ' 申请创建群 ' + groupName + ' ，点击进行处理%@%' + groupType + '%@%' + groupId + '%@%' + userId,
+    content: userName + ' 申请创建群 ' + groupName + ' ，点击进行处理%@%' + groupName + '%@%' + groupType + '%@%' + groupId + '%@%' + userId,
     time: moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
   }
   
