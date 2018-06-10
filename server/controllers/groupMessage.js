@@ -16,7 +16,7 @@ const dbnnn = require('knex')({
 async function get(ctx, next) {
   let groupMessageId = ctx.request.query.groupMessageId;
   //data1为群消息基本内容，data2为对应留言, data3为最终结果
-  var data1, data2, data3={}, name;
+  var data1, data2, data3={}, temp;
   await dbnnn(config.GroupMessage).where({ groupMessageId: groupMessageId }).select()
     .catch(function (e) {
       console.error(e);
@@ -28,19 +28,20 @@ async function get(ctx, next) {
       console.log("获取群消息成功")
     });
 
-  await dbnnn(config.User).where({ userId: data1[0].userId }).select('userName')
+  await dbnnn(config.User).where({ userId: data1[0].userId }).select('userName', 'imgUrl')
     .catch(function (e) {
       console.error(e);
     })
     .then(
     function (data) {
       console.log(data);
-      name = data[0].userName;
-      console.log("获取发布消息者名字成功")
+      temp = data[0];
+      console.log("获取发布消息者信息成功")
     });
 
   data3.userId = data1[0].userId;
-  data3.name = name;
+  data3.name = temp.userName;
+  data3.imgUrl = temp.imgUrl;
   data3.content =  data1[0].content;
   data3.time = data1[0].time;
   data3.imagePath = data1[0].imagePath;

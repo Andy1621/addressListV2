@@ -57,6 +57,8 @@ router.get('/searchPublic', controllers.searchPublic)
 
 //GET 获取系统通知
 router.get('/news', controllers.news.get)
+//DELETE 获取系统通知
+router.delete('/news', controllers.news.deleteM)
 
 //POST 发布留言
 router.post('/leaveMessage', controllers.leaveMessage.send)
@@ -89,5 +91,8 @@ router.post('/dealCreateGroupRequest', controllers.dealCreateGroupRequest)
 
 //GET 获取通讯录表
 router.get('/getAddressList', controllers.getAddressList)
+
+//POST 修改用户关系
+router.post('/changeUUship', controllers.changeUUship)
 
 module.exports = router

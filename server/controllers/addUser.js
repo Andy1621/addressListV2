@@ -23,7 +23,8 @@ module.exports = async (ctx, next) => {
     major: ctx.request.body.major,
     city: ctx.request.body.city,
     wxNum: ctx.request.body.wxNum,
-    qqNum: ctx.request.body.qqNum
+    qqNum: ctx.request.body.qqNum,
+    imgUrl: ctx.request.body.imgUrl
   }
   console.log(user);
   await dbnnn(config.User).insert(user)

@@ -69,7 +69,7 @@ Page({
     wx.request({
       url: config.service.addUserUrl,
       data: {
-        userId: 'buaasoft1621',
+        userId: 'buaasoft1221',
         intro: 'hello',
         userName: 'superMan',
         email: '1621@qq.com',
@@ -262,7 +262,8 @@ Page({
       url: config.service.addGroupRequestUrl,
       data: {
         groupId: 1,
-        userId: 'buaaSoft1621'
+        userId: 'buaaSoft1621',
+        reason: 'hello'
       },
       method: 'POST',
       header: {
@@ -499,7 +500,7 @@ Page({
     wx.request({
       url: config.service.newsUrl,
       data: {
-        sysInfoId: 12
+        sysInfoId: 2
       },
       method: 'DELETE',
       header: {
@@ -540,37 +541,44 @@ Page({
   
   //23.时间格式转换,以获取news为例
   timetrans:function(){
-    var that = this;
-    console.log("发出一个getNews请求");
+    this.getNews();
+    var that =this;
+    //异步的原因
+    setTimeout(function () {
+      var anew = that.data.news;
+      anew.forEach(function(value,index,array){
+        console.log();
+        var t1 = new Date(array[index].time).format("yyyy-MM-dd hh:mm:ss");
+        array[index].time = t1;
+      })
+      that.setData({
+        news:anew
+      })
+      console.log(that.data.news[0].time);
+    }, 500);
+  }, 
+
+  //25.修改用户关系
+  changeUUship: function () {
+    console.log("发出一个changeUUship请求");
     wx.request({
-      url: config.service.newsUrl,
+      url: config.service.changeUUshipUrl,
       data: {
-        userId: '0001'
+        userS_id: '0002',
+        userB_id: '0004',
+        type: 'black'
       },
-      method: 'GET',
+      method: 'POST',
       header: {
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
         console.log(res.data);
-        /************ */
-        var anew = res.data;
-        anew.forEach(function (value, index, array) {
-          var t1 = new Date(array[index].time).format("yyyy-MM-dd hh:mm:ss");
-          array[index].time = t1;
-          // cnew[index] = JSON.stringify(array[index].content);
-          var str = array[index].content;
-          array[index].content = str.split('%')
-        })
-        that.setData({
-          news: anew,
-        })
-        /******** */
-        util.showSuccess('刷新成功');
+        util.showSuccess('操作成功');
       },
       fail: function (res) {
-        util.showModel('刷新失败');
+        util.showModel('操作失败');
       },
     })
-  },       
+  },
 })
