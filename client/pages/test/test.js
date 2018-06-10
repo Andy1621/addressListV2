@@ -284,8 +284,8 @@ Page({
     wx.request({
       url: config.service.dealAddGroupRequestUrl,
       data: {
-        op: 'no',
-        groupId: 1,
+        op: 'yes',
+        groupId: "15",
         userId: 'buaaSoft1621',
         sysInfoId: 26
       },
@@ -431,7 +431,7 @@ Page({
     wx.request({
       url: config.service.leaveMessageUrl,
       data: {
-        leaveMessageId: 21
+        leaveMessageId: 26
       },
       method: 'DELETE',
       header: {
@@ -477,7 +477,7 @@ Page({
       url: config.service.deleteCardUrl,
       data: {
         userS_id: 'buaasoft1621',
-        userB_id: '0001'
+        userB_id: '0007'
       },
       method: 'DELETE',
       header: {
@@ -499,7 +499,7 @@ Page({
     wx.request({
       url: config.service.newsUrl,
       data: {
-        sysInfoId: 12
+        sysInfoId: '73'
       },
       method: 'DELETE',
       header: {
