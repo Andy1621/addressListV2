@@ -1,5 +1,8 @@
 // pages/addressList/addressList.js
 var app = getApp()
+var config = require('../../config')
+const util = require('../../utils/util');
+
 Page({
 
   /**
@@ -7,30 +10,26 @@ Page({
    */
   data: {
       is_logged: getApp().globalData.logged,
+
     list1: [
       {
-        // id: 'card_holder',
-        // name: '名片夹',
-        // open: false,
-        // subName: ['火警', '盗警', '急救'],
-        // phone: ['119', '110', '120']
         id: 'card_holder',
         name: '名片夹',
         open: false,
-        subName: ['火警', '盗警', '急救'],
-        phone: ['119', '110', '120']
+        subName: [],
+        intro: []
       }, {
         id: 'special_attention',
         name: '特别关注',
         open: false,
-        subName: ['工商银行', '建设银行', '农业银行', '中国银行', '交通银行', '浦发银行', '民生银行', '兴业银行', '中信银行', '深圳发展银行', '华夏银行', '招商银行', '广发银行', '广东农信', '光大银行'],
-        phone: ['95588', '95533', '95599', '95566', '95559', '95528', '95568', '95561', '95558', '95501', '95577', '95555', '95508', '96138', '95595']
+        subName: [],
+        intro: []
       }, {
         id: 'blacklist',
         name: '黑名单',
         open: false,
-        subName: ['申通快递', 'EMS', '第三人民医院', '顺丰速运', '	圆通速递', '中通速递', '韵达快运', '天天快递', '汇通快运', '速尔快递', '德邦物流', '中铁快运', '鑫飞鸿快递', 'UPS', 'FedEx(联邦快递)'],
-        phone: ['4008895543', '4008100999', '400-811-1111', '021-69777888', '021-39777777', '021-39207888', '021-67662333', '021-62963636', '4008822168', '4008305555', '95572', '021-69781999', '4008208388', '4008861888','fuck']
+        subName: [],
+        intro: []
       }
     ],
     list2: [
@@ -38,15 +37,15 @@ Page({
         id: 'addresslist_holde1r',
         name: '我创建的通讯录',
         open: false,
-        subName: ['火警', '盗警', '急救','asdas'],
-        phone: ['119', '110', '120','asdasd']
+        subName: [],
+        intro: []
       },
       {
         id: 'addresslist_holder2',
         name: '我加入的通讯录',
         open: false,
-        subName: ['火警', '盗警', '急救','asd'],
-        phone: ['119', '110', '120','asd']
+        subName: [],
+        intro: []
       },
     ],
     navbar: ['好友', '通讯录'], //选项卡 导航
@@ -224,9 +223,81 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-        this.setData({
-            is_logged: getApp().globalData.logged,
+    var that = this;
+    var list = this.data.list2;
+    var listC = this.data.list1;
+    console.log("发出一个getAddressList请求");
+    wx.request({
+      url: config.service.getAddressListUrl,
+      data: {
+        userId: 'buaasoft1621'
+      },
+      method: 'GET',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        console.log(res.data);
+        util.showSuccess('操作成功');
+        //好友数据
+        var listCN = [], listCI = [];
+        var len = res.data.card.length;
+        for (var i = 0; i < len; i++) {
+          listCN[i] = res.data.card[i].userName;
+          listCI[i] = res.data.card[i].intro;
+        }
+        var listSN = [], listSI = [];
+        var len = res.data.special.length;
+        for (var i = 0; i < len; i++) {
+          listSN[i] = res.data.special[i].userName;
+          listSI[i] = res.data.special[i].intro;
+        }
+        var listBN = [], listBI = [];
+        var len = res.data.special.length;
+        for (var i = 0; i < len; i++) {
+          listBN[i] = res.data.black[i].userName;
+          listBI[i] = res.data.black[i].intro;
+        }
+        listC[0].subName = listCN;
+        listC[0].intro = listCI;
+        listC[1].subName = listSN;
+        listC[1].intro = listSI;
+        listC[2].subName = listBN;
+        listC[2].intro = listBI;
+
+        //通讯录数据
+        var listNC = [],listIC = [];
+        var len = res.data.create.length;
+        for (var i = 0; i < len; i++){
+          listNC[i] = res.data.create[i].groupName;
+          listIC[i] = res.data.create[i].groupIntro;
+        }
+        var listNA = [], listIA = [];
+        var len = res.data.add.length;
+        for (var i = 0; i < len; i++) {
+          listNA[i] = res.data.add[i].groupName;
+          listIA[i] = res.data.add[i].groupIntro;
+        }
+        list[0].subName = listNC;
+        list[0].intro = listIC;
+        list[1].subName = listNA;
+        list[1].intro = listIA;
+
+        that.setData({
+          is_logged: getApp().globalData.logged,
+          list1: listC,
+          list2: list
         })
+
+        getApp().globalData.listCard = JSON.stringify(that.data.list1);
+        getApp().globalData.listAddress = JSON.stringify(that.data.list2);
+      },
+      fail: function (res) {
+        util.showModel('操作失败');
+      },
+      
+    })
+
   },
 
   /**

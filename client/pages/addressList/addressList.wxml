@@ -39,7 +39,7 @@
                   <!-- <view class="weui-panel weui-panel_access"> -->
                   <block wx:for-items="{{item.subName}}" wx:for-item="name">
                     <view class="weui-panel__bd">
-                      <view class="widget test" data-phone="{{item.phone[index]}}" bindlongpress='fLongpress1' bindtap="jumpToInfo" hover-class="weui-cell_active" data-index='{{index}}' data-id='{{item.id}}' hover-start-time="10" hover-stay-time="100">
+                      <view class="widget test" data-intro="{{item.intro[index]}}" bindlongpress='fLongpress1' bindtap="jumpToInfo" hover-class="weui-cell_active" data-index='{{index}}' data-id='{{item.id}}' hover-start-time="10" hover-stay-time="100">
                           <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
                             <image class="weui-media-box__thumb" src="{{'/images/addressList/user-unlogin.png'}}" />
                           </view>
@@ -47,7 +47,7 @@
                             <view class="weui-media-box__title">
                               <view>{{name}}</view>
                             </view>
-                            <view class="weui-media-box__desc">{{item.phone[index]}}</view>
+                            <view class="weui-media-box__desc">{{item.intro[index]}}</view>
                           </view>
                         <view class="widget__line {{index == 0 ? 'widget__line_first' : ''}}"></view>
                       </view>
@@ -72,13 +72,13 @@
                 </view>
                 <view class="widgets__list {{item.open ? 'widgets__list_show' : ''}}">
                   <block wx:for-items="{{item.subName}}" wx:for-item="name">
-                    <view class="widget test" data-phone="{{item.phone[index]}}" bindlongpress='fLongpress2' hover-start-time="10" hover-stay-time="100" hover-class="weui-cell_active" data-index='{{index}}' data-id='{{item.id}}'  bindtap='jumpToDetail'>
+                    <view class="widget test" data-intro="{{item.intro[index]}}" bindlongpress='fLongpress2' hover-start-time="10" hover-stay-time="100" hover-class="weui-cell_active" data-index='{{index}}' data-id='{{item.id}}'  bindtap='jumpToDetail'>
                       <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
                         <image class="weui-media-box__thumb" src="/images/tab/list.png" />
                       </view>
                       <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
                         <view class="weui-media-box__title">{{name}}</view>
-                        <view class="weui-media-box__desc">{{item.phone[index]}}</view>
+                        <view class="weui-media-box__desc">{{item.intro[index]}}</view>
                       </view>
                       <view class="widget__line {{index == 0 ? 'widget__line_first' : ''}}"></view>
                     </view>
