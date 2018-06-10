@@ -5,6 +5,7 @@ const util = require('../../utils/util');
 
 Page({
     data: {
+        groupInfo:[],
         is_logged:true,
         is_member:true,//false为未加群，true为已加群
         index:0,
@@ -284,6 +285,9 @@ Page({
     onLoad:function(options){
         let object = JSON.parse(options.jsonStr);
         console.log(object);
+        this.setData({
+            groupInfo:object,
+        });
         var that=this;
         //获取群主姓名
         wx.request({
@@ -413,6 +417,22 @@ Page({
         wx.hideNavigationBarLoading() //完成停止加载
         wx.stopPullDownRefresh() //停止下拉刷新
       }, 1500);
+    },
+
+    onShareAppMessage: function () {
+
+        var passInfo = this.data.groupInfo;
+        let str = JSON.stringify(passInfo);
+        return {
+
+            title: "分享群" + this.data.addressListName,
+
+            desc: '邀请加入群通讯录',
+
+            path: '/pages/detailPage/detailPage?jsonStr=' + str,
+
+        }
+
     },
 
   //sendMessage
