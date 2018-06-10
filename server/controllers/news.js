@@ -29,7 +29,7 @@ async function get(ctx, next) {
 
 async function deleteM(ctx, next) {
   let sysInfoId = ctx.request.body.sysInfoId;
-  await dbnnn(config.InfoSentBySys).where({ sysInfoId: sysInfoId }).delete()
+  await dbnnn(config.InfoSentBySys).where({ sysInfoId: sysInfoId }).del()
     .catch(function (e) {
       console.error(e);
     })

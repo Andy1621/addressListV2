@@ -13,6 +13,7 @@ Page({
     groupType: '',
     groupIntro: '',
     userId: '',
+    textLength:0,
     radioItems: [
       { name: 'private', value: '私人' },
       { name: 'public', value: '共享' },
@@ -106,6 +107,13 @@ Page({
               }
           }
       });
+  },
+
+  inputTyping: function (e) {
+      console.log(e);
+      this.setData({
+          textLength: e.detail.value.length,
+      })
   },
 
 

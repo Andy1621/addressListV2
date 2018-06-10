@@ -15,7 +15,7 @@ const dbnnn = require('knex')({
 
 module.exports = async (ctx, next) => {
   let groupId = ctx.request.query.groupId;
-  //data1群成员Id，data2群成员基本信息，data3群消息Id,data4最终结果
+  //data1群成员Id，data2群成员基本信息，data3群消息Id，data4最终结果
   var data1, data2 = [], data3 = [], data4 = {};
   data4.member = new Array();
   data4.groupMessage = new Array();
@@ -60,6 +60,17 @@ module.exports = async (ctx, next) => {
   for(var i = 0; i <len2; i++){
     data3[i] = temp[i].groupMessageId;
   }
+
+  await dbnnn(config.MyGroup).where({ groupId: groupId }).select()
+    .catch(function (e) {
+      console.error(e);
+    })
+    .then(
+    function (data) {
+      console.log(data);
+      data4 = data[0];
+      console.log("获取群基本信息成功")
+    });
 
   data4.member = data2;
   data4.memberNum = len1;

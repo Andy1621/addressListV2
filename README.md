@@ -78,30 +78,31 @@
 
 ### 接口定义
 
-| 编号 | 接口名字               | 输入                                               | 输出                                                 | 功能                         |
-| ---- | :--------------------- | -------------------------------------------------- | ---------------------------------------------------- | ---------------------------- |
-| 1    | getUserInfo            | userId                                             | User表的所有信息                                     | 获取用户信息                 |
-| 2    | changeUserInfo         | 修改的user的所有信息                               | 无                                                   | 修改用户信息                 |
-| 3    | addUser                | 添加的user的所有信息                               | 无                                                   | 添加新用户                   |
-| 4    | getGroupInfo           | groupId                                            | 所有群成员信息，群成员数量，所有群消息id，群消息数量 | 获取群基本信息               |
-| 5    | getGroupMessage        | groupMessageId                                     | 群消息内容                                           | 获取群消息内容               |
-| 6    | randGetGroup           | 无                                                 | 数个公有群的基本信息                                 | 随机获取数个公有群的基本信息 |
-| 7    | searchPublic           | 字符串                                             | 匹配的公有群的基本信息                               | 查询公有群                   |
-| 8    | getNews                | userId                                             | 所有系统通知                                         | 获取系统通知                 |
-| 9    | getAddressList         | userId                                             | 通讯录页的五个内容                                   | 获取通讯录表                 |
-| 10   | searchGroupMessage     | groupId，字符串                                    | 该群里匹配的消息                                     | 查询群消息                   |
-| 11   | addGroupRequest        | groupId，申请者userId                              | 无                                                   | 申请加群                     |
-| 12   | dealAddGroupRequest    | 操作，groupId，申请者userId，申请加群通知sysInfoId | 无                                                   | 处理加群                     |
-| 13   | createGroupRequest     | 群名，类型，简介，申请者userId                     | 无                                                   | 申请建群                     |
-| 14   | dealCreateGroupRequest | 操作，群类型，申请者userId，申请建群通知sysInfoId  | 无                                                   | 处理建群                     |
-| 15   | sendGroupMessage       | userId，groupId，消息内容，图片地址                | 无                                                   | 发布群消息                   |
-| 16   | sendLeaveMessage       | userId， groupMessageId，groupId，消息内容         | 无                                                   | 发布留言                     |
-| 17   | deleteGroupMessage     | groupMessageId                                     | 无                                                   | 删除群消息                   |
-| 18   | deleteLeaveMessage     | leaveMessageId                                     | 无                                                   | 删除留言                     |
-| 19   | deleteGroup            | userId，groupId                                    | 无                                                   | 成员删群                     |
-| 20   | deleteCard             | 操作者userS_id，名片userB_id                       | 无                                                   | 删除名片                     |
-| 21   | deleteNews             | sysInfoId                                          | 无                                                   | 删除通知                     |
-| 22   | deleteMember           | groupId，被删的userId                              | 无                                                   | 删除群成员                   |
+| 编号 | 接口名字               | 输入                                               | 输出                                                         | 功能                         |
+| ---- | :--------------------- | -------------------------------------------------- | ------------------------------------------------------------ | ---------------------------- |
+| 1    | getUserInfo            | userId                                             | User表的所有信息                                             | 获取用户信息                 |
+| 2    | changeUserInfo         | 修改的user的所有信息                               | 无                                                           | 修改用户信息                 |
+| 3    | addUser                | 添加的user的所有信息                               | 无                                                           | 添加新用户                   |
+| 4    | getGroupInfo           | groupId                                            | 群基本信息、所有群成员信息，群成员数量，所有群消息id，群消息数量 | 获取群基本信息               |
+| 5    | getGroupMessage        | groupMessageId                                     | 群消息内容                                                   | 获取群消息内容               |
+| 6    | randGetGroup           | 无                                                 | 数个公有群的基本信息                                         | 随机获取数个公有群的基本信息 |
+| 7    | searchPublic           | 字符串                                             | 匹配的公有群的基本信息                                       | 查询公有群                   |
+| 8    | getNews                | userId                                             | 所有系统通知                                                 | 获取系统通知                 |
+| 9    | getAddressList         | userId                                             | 通讯录页的五个内容                                           | 获取通讯录表                 |
+| 10   | searchGroupMessage     | groupId，字符串                                    | 该群里匹配的消息                                             | 查询群消息                   |
+| 11   | addGroupRequest        | groupId，申请原因，申请者userId                    | 无                                                           | 申请加群                     |
+| 12   | dealAddGroupRequest    | 操作，groupId，申请者userId，申请加群通知sysInfoId | 无                                                           | 处理加群                     |
+| 13   | createGroupRequest     | 群名，类型，简介，申请者userId                     | 无                                                           | 申请建群                     |
+| 14   | dealCreateGroupRequest | 操作，群类型，申请者userId，申请建群通知sysInfoId  | 无                                                           | 处理建群                     |
+| 15   | sendGroupMessage       | userId，groupId，消息内容，图片地址                | 无                                                           | 发布群消息                   |
+| 16   | sendLeaveMessage       | userId， groupMessageId，groupId，消息内容         | 无                                                           | 发布留言                     |
+| 17   | deleteGroupMessage     | groupMessageId                                     | 无                                                           | 删除群消息                   |
+| 18   | deleteLeaveMessage     | leaveMessageId                                     | 无                                                           | 删除留言                     |
+| 19   | deleteGroup            | userId，groupId                                    | 无                                                           | 成员删群                     |
+| 20   | deleteCard             | 操作者userS_id，名片userB_id                       | 无                                                           | 删除名片                     |
+| 21   | deleteNews             | sysInfoId                                          | 无                                                           | 删除通知                     |
+| 22   | deleteMember           | groupId，被删的userId                              | 无                                                           | 删除群成员                   |
+| 23   | changeUUship           | 关系type，userS_id，userB_id                       | 无                                                           | 修改用户关系                 |
 
 时间格式处理==>https://www.cnblogs.com/yanglf/p/5775224.html
 
@@ -109,7 +110,7 @@
 
 接口12发送通知给申请者，通知格式为：**您申请加入群 （某群） 的申请已被群主通过/拒绝**
 
-接口13发送通知给管理员，建群格式为：**（某人） 申请创建 （某群） ，点击进行处理%@%申请原因%@%群类型%@%待处理群Id%@%申请者userId**
+接口13发送通知给管理员，建群格式为：**（某人） 申请创建 （某群） ，点击进行处理%@%群名%@%群类型%@%待处理群Id%@%申请者userId**
 
 接口13发送通知给申请者，建群格式为：**您申请创建 群（某群） 的请求已被管理员通过** 
 

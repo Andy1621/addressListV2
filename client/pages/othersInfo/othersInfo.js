@@ -1,4 +1,5 @@
 // pages/othersInfo/othersInfo.js
+var config = require('../../config')
 var util = require('../../utils/util.js')
 
 Page({
@@ -94,10 +95,33 @@ Page({
           特别关注或黑名单：233 什么都没有
     */
     that.setData({
-      category: options.category
+      category: options.category,
+      userId: options.userId
     })
     //获取用户数据
-
+    wx.request({
+      url: config.service.userInfoUrl,
+      data: {
+        userId: that.data.userId
+      },
+      method: 'GET',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        console.log(res.data);
+        that.setData({
+          name: res.data.info.userName,
+          intro: res.data.info.intro,
+          self_detail_ctt: [res.data.info.department, res.data.info.major, res.data.info.city],
+          cont_detail_ctt: [res.data.info.phoneNum, res.data.info.qqNum, res.data.info.wxNum, res.data.info.email],
+          imgUrl: res.data.info.imgUrl
+        })
+      },
+      fail: function (res) {
+        util.showModel('操作失败');
+      },
+    })
   },
 
   /**

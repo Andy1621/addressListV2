@@ -105,7 +105,11 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 1198cfb4bcc0499b2326f7250339926a5176cd7a
   },
 
   /**
@@ -122,7 +126,11 @@ Page({
     this.setData({
       is_logged: getApp().globalData.logged,
     })
+<<<<<<< HEAD
     if (this.data.is_logged)
+=======
+    if(this.data.is_logged)
+>>>>>>> 1198cfb4bcc0499b2326f7250339926a5176cd7a
       this.getNews();
   },
 

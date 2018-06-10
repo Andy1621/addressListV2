@@ -19,17 +19,13 @@ Page({
       "所在大学", "专业", "所在城市"
     ],
 
-    self_detail_ctt: [
-      "信息1", "信息2", "信息3"
-    ],
+    self_detail_ctt: [],
 
     cont_detail_title: [
       "手机号", "qq号", "微信号", "电子邮箱"
     ],
 
-    cont_detail_ctt: [
-      "方式1", "方式2", "方式3", "方式4"
-    ],
+    cont_detail_ctt: [],
 
     is_logged: false
   },
@@ -37,8 +33,9 @@ Page({
   //数据处理完毕后跳到setting
   onClick: function () {
     this.boxingData();
+    var temp = JSON.stringify(this.data.userInfo)
     wx.navigateTo({
-      url: '/pages/setting/setting',
+      url: '/pages/setting/setting?userInfo=' + temp,
     })
   },
 
@@ -63,12 +60,40 @@ Page({
   dealWithFirstLogged: function () {
     var that = this;
     //此时向数据库传openId，如果发现是新用户，则设置first_logged为true，否则设为false，并且直接对that.data赋值
-    if (that.data.first_logged)
-      wx.navigateTo({
-        url: '/pages/setInfoFirst/setInfoFirst',
-      })
-    else
-      this.boxingData()
+    wx.request({
+      url: config.service.userInfoUrl,
+      data: {
+        userId: that.data.userInfo.openId
+      },
+      method: 'GET',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        console.log(res.data);
+        if(!res.data.existed){
+          var temp = JSON.stringify(that.data.userInfo)
+          wx.navigateTo({
+            url: '/pages/setInfoFirst/setInfoFirst?userInfo=' + temp,
+          })
+        }
+        else{
+          getApp().globalData.first_logged = false;
+          that.setData({
+            first_logged: false,
+            name: res.data.info.userName,
+            intro: res.data.info.intro,
+            self_detail_ctt: [res.data.info.department, res.data.info.major, res.data.info.city],
+            cont_detail_ctt: [res.data.info.phoneNum, res.data.info.qqNum, res.data.info.wxNum, res.data.info.email]
+          })
+          that.boxingData()
+        }          
+        util.showSuccess('操作成功');
+      },
+      fail: function (res) {
+        util.showModel('操作失败');
+      },
+    })
   },
 
   bindGetUserInfo: function (e) {
@@ -156,11 +181,8 @@ Page({
       is_logged: getApp().globalData.logged,
       first_logged: getApp().globalData.first_logged
     });
-
+    console.log(that.data.is_logged + " " + that.data.first_logged)
     if(that.data.is_logged){
-      if (getApp().globalData.name == "")
-        getApp().globalData.name = that.data.userInfo.nickName
-
       var str1 = getApp().globalData.self_ctt;
       var str2 = getApp().globalData.cont_ctt;
 
