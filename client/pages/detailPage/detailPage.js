@@ -6,6 +6,7 @@ const util = require('../../utils/util');
 Page({
   data: {
     groupInfo: [],
+    myuserId:0,
     is_logged: true,
     is_member: true,//false为未加群，true为已加群
     index: 0,
@@ -67,6 +68,7 @@ Page({
     messageVal: "",
     msgName: "Tom",
     timetmp: "",
+    groupId:"",
     //msgCount: 0,
   },
 
@@ -247,7 +249,7 @@ Page({
 
   jumpToAdd: function (e) {
     wx.navigateTo({
-      url: '/pages/addGroupPlease/addGroupPlease',
+      url: '/pages/addGroupPlease/addGroupPlease?groupId='+groupId,
       success: function (res) { },
       fail: function (res) { },
       complete: function (res) { },
@@ -258,6 +260,7 @@ Page({
   onLoad: function (options) {
     this.setData({
       is_logged: getApp().globalData.logged,
+      myuserId:getApp().globalData.openId,
     })
     console.log(this.data.is_logged);
     let object = JSON.parse(options.jsonStr);
@@ -347,7 +350,6 @@ Page({
   },
 
   getUserInfo: function (e) {
-    console.log("发出一个getUserInfo请求");
     wx.request({
       url: config.service.userInfoUrl,
       data: {
@@ -371,7 +373,6 @@ Page({
   getGroupMessage: function (e) {
     console.log(e);
     var that = this;
-    console.log("发出一个groupMessageId请求");
     wx.request({
       url: config.service.groupMessageUrl,
       data: {
@@ -472,8 +473,9 @@ Page({
   //sendMessage
   sendMessage: function () {
     console.log(this.data.listmsg);
+    var groupId = this.data.groupId;
     wx.navigateTo({
-      url: '/pages/sendMessage/sendMessage'
+      url: '/pages/sendMessage/sendMessage?groupId=' + groupId,
     })
   },
 })
