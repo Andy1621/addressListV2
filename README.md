@@ -102,7 +102,7 @@
 | 20   | deleteCard             | 操作者userS_id，名片userB_id                       | 无                                                           | 删除名片                     |
 | 21   | deleteNews             | sysInfoId                                          | 无                                                           | 删除通知                     |
 | 22   | deleteMember           | groupId，被删的userId                              | 无                                                           | 删除群成员                   |
-| 23   | changeUUship           | 关系，userS_id，userB_id                           | 无                                                           | 修改用户关系                 |
+| 23   | changeUUship           | 关系type，userS_id，userB_id                       | 无                                                           | 修改用户关系                 |
 
 时间格式处理==>https://www.cnblogs.com/yanglf/p/5775224.html
 
