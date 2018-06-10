@@ -70,6 +70,7 @@ async function get(ctx, next) {
         name = data[0].userName;
         console.log("获取留言消息者名字成功");
         data3.leaveMessage[i]={};
+        data3.leaveMessage[i].userId = data2[i].userId;
         data3.leaveMessage[i].name = name;
         data3.leaveMessage[i].content = data2[i].content;
       });
