@@ -102,7 +102,6 @@ Page({
 
     //搜索群消息
     searchGroupMessage: function () {
-      console.log("发出一个searchGroupMessage请求");
       wx.request({
         url: config.service.searchGroupMessageUrl,
         data: {
@@ -158,20 +157,14 @@ Page({
     },
     /*发送留言 */
     bindSend: function (e) {
-        /*console.log(this.data.index);*/
         var param={};
         var obj = {};
         obj.userId="Test1";
         obj.time = util.formatTime(new Date);
-        /*console.log(obj.time);*/
         obj.content=this.data.messageVal;
-        /*console.log(this.data.messageVal);
-        console.log(obj);*/
         this.data.listmsg[this.data.index].leaveMessage.push(obj);
         var all = this.data.listmsg[this.data.index].leaveMessage;
-        /*console.log(all);*/
         var str = "listmsg[" + this.data.index +"].leaveMessage";
-        /*console.log(str);*/
         param[str]=all;
         this.setData(param),
         this.setData({
@@ -189,8 +182,6 @@ Page({
     },
 
     deleteMessage:function(e){
-        //console.log(e);
-        //console.log(this.data.index);
         this.setData({
             index:e.target.id,
         });
@@ -198,7 +189,6 @@ Page({
         wx.showActionSheet({
             itemList: ["删除消息"],
             success: function(res) {
-                //console.log(res.tapIndex);
                 if(res.tapIndex==0){
                     console.log(that.data.index);
                     var obj = that.data.listmsg;
@@ -214,9 +204,6 @@ Page({
     deleteReply:function(e){
         var getnum=e.currentTarget.id;
         var num=getnum.split("+");
-        //console.log(num[0]);
-        //console.log(e);
-        //console.log(this.data.replyindex);
         this.setData({
             index:num[0],
             replyindex:num[1],
@@ -225,7 +212,6 @@ Page({
         wx.showActionSheet({
             itemList: ["删除留言"],
             success: function (res) {
-                //console.log(res.tapIndex);
                 if (res.tapIndex == 0) {
                     console.log(that.data.index);
                     var param={};
@@ -240,8 +226,6 @@ Page({
     },
 
     deleteMember:function(e){
-        //console.log(this.data.nameindex);
-        //console.log(e.currentTarget.id);
         this.setData({
             nameindex: e.currentTarget.id,
         });
@@ -249,9 +233,7 @@ Page({
         wx.showActionSheet({
             itemList: ["删除成员"],
             success: function (res) {
-                //console.log(res.tapIndex);
                 if (res.tapIndex == 0) {
-                    //console.log(that.data.nameindex);
                     var obj = that.data.listpeople;
                     obj.splice(that.data.nameindex, 1);
                     that.setData({
@@ -283,6 +265,10 @@ Page({
 
     //参数接受
     onLoad:function(options){
+        this.setData({
+            is_logged: getApp().globalData.logged,
+        })
+        console.log(this.data.is_logged);
         let object = JSON.parse(options.jsonStr);
         console.log(object);
         this.setData({
@@ -303,7 +289,6 @@ Page({
                 'content-type': 'application/json' // 默认值
             },
             success: function (res) {
-                console.log(res.data);
                 that.setData({
                     addressListName: object.groupName,
                     originator: "群主：" + res.data.userName,
@@ -326,21 +311,14 @@ Page({
                 'content-type': 'application/json' // 默认值
             },
             success: function (res) {
-                console.log(res.data);
                 that.setData({
                     memberInfo: "人数："+res.data.memberNum,
                     listpeople:res.data.member,
                     groupMessageId:res.data.groupMessage,
                     groupMessageNum:res.data.groupMessageNum,
                 });
-                console.log(that.data.listpeople);
-                console.log(that.data.groupMessageId);
-                console.log(that.data.groupMessageNum);
-                console.log(that.data.listmsg.length);
                 //获取消息界面信息
                 for (var i=0;i<that.data.groupMessageNum;i++) {
-                    //console.log(i);
-                    //console.log(that.data.groupMessageId[i]);
                     that.getGroupMessage(that.data.groupMessageId[i]);
                 };
                 //util.showSuccess('操作成功');
@@ -349,8 +327,6 @@ Page({
                 util.showModel('操作失败');
             },
         });
-        console.log(this.data.listpeople.length);
-        console.log(this.data.listmsg.length);
     },
 
     onShow:function(){
@@ -360,7 +336,6 @@ Page({
     },
 
     getUserInfo: function (e) {
-        console.log("发出一个getUserInfo请求");
         wx.request({
             url: config.service.userInfoUrl,
             data: {
@@ -371,7 +346,6 @@ Page({
                 'content-type': 'application/json' // 默认值
             },
             success: function (res) {
-                //console.log(res.data);
                 return res.data;
                 util.showSuccess('操作成功');
             },
@@ -382,9 +356,7 @@ Page({
     },
 
     getGroupMessage: function (e) {
-        console.log(e);
         var that = this;
-        console.log("发出一个groupMessageId请求");
         wx.request({
             url: config.service.groupMessageUrl,
             data: {
@@ -395,9 +367,7 @@ Page({
                 'content-type': 'application/json' // 默认值
             },
             success: function (res) {
-                console.log(res.data);
                 var obj = res.data;
-                console.log(obj.time);
                 obj.time = util.formatTime(new Date(obj.time));
                 that.data.listmsg.push(obj);
                 that.setData({
@@ -409,7 +379,6 @@ Page({
                 util.showModel('操作失败');
             },
         })
-        console.log(that.data.listmsg);
     },
 
     onPullDownRefresh: function () {

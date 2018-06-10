@@ -22,7 +22,7 @@
                 <view class="weui-navbar__slider" style="left: {{sliderLeft}}px; transform: translateX({{sliderOffset}}px); -webkit-transform: translateX({{sliderOffset}}px);"></view>
             </view>
             <view class="weui-tab__panel">
-                <view class="weui-tab__content" hidden="{{activeIndex != 0||is_member==false}}">
+                <view class="weui-tab__content" hidden="{{activeIndex != 0||is_member==false||is_logged==false}}">
                     <!--选项一-->
                     <!--Search Bar-->
                     <view class="page">
@@ -74,7 +74,7 @@
                 </view>
 
 
-                <view class="weui-tab__content" hidden="{{activeIndex != 1||is_member==false}}">
+                <view class="weui-tab__content" hidden="{{activeIndex != 1||is_member==false||is_logged==false}}">
                     <!--选项二-->
                     <!--Search Bar-->
                     <view class="page">
@@ -152,8 +152,8 @@
                   </view>
                 </view>
                 <!--未加群的文字提醒-->
-                <view wx:if="{{is_member==false}}" class="page">
-                    <view class="asklog" wx:if="{{is_logged==true}}">
+                <view class="page">
+                    <view class="asklog" wx:if="{{is_member==false&&is_logged==true}}">
                         <text>您只能在入群后查看详细信息</text>
                     </view>
                     <view class="asklog" wx:if="{{is_logged==false}}">
