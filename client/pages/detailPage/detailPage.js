@@ -5,6 +5,7 @@ const util = require('../../utils/util');
 
 Page({
     data: {
+        groupInfo:[],
         is_logged:true,
         is_member:true,//false为未加群，true为已加群
         index:0,
@@ -97,6 +98,29 @@ Page({
         else{
             this.setData({ peopleShow: 0 });
         }
+    },
+
+    //搜索群消息
+    searchGroupMessage: function () {
+      console.log("发出一个searchGroupMessage请求");
+      wx.request({
+        url: config.service.searchGroupMessageUrl,
+        data: {
+          groupId: 1, //从哪个群点进
+          str: '2号'
+        },
+        method: 'GET',
+        header: {
+          'content-type': 'application/json' // 默认值
+        },
+        success: function (res) {
+          console.log(res.data);
+          util.showSuccess('操作成功');
+        },
+        fail: function (res) {
+          util.showModel('操作失败');
+        },
+      })
     },
 
 //navbar
@@ -261,7 +285,13 @@ Page({
     onLoad:function(options){
         let object = JSON.parse(options.jsonStr);
         console.log(object);
+        this.setData({
+            groupInfo:object,
+        });
         var that=this;
+        that.setData({
+          groupId: object.groupId
+        });
         //获取群主姓名
         wx.request({
             url: config.service.userInfoUrl,
@@ -392,11 +422,28 @@ Page({
       }, 1500);
     },
 
+    onShareAppMessage: function () {
+
+        var passInfo = this.data.groupInfo;
+        let str = JSON.stringify(passInfo);
+        return {
+
+            title: "分享群" + this.data.addressListName,
+
+            desc: '邀请加入群通讯录',
+
+            path: '/pages/detailPage/detailPage?jsonStr=' + str,
+
+        }
+
+    },
+
   //sendMessage
     sendMessage: function() {
         console.log(this.data.listmsg);
-      wx.navigateTo({
-        url: '/pages/sendMessage/sendMessage',
-      })
+        var groupId = this.data.groupId;
+        wx.navigateTo({
+          url: '/pages/sendMessage/sendMessage?groupId=' + groupId,
+        })
     },
 })

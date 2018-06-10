@@ -1,4 +1,7 @@
 // pages/sendMessage/sendMessage.js   图片上传以及确定按钮还没实现
+var qcloud = require('../../vendor/wafer2-client-sdk/index')
+var config = require('../../config')
+var util = require('../../utils/util.js')
 Page({
 
   /**
@@ -7,7 +10,9 @@ Page({
   data: {
     content: "",
     ctt_len: 0,
-    files: []
+    files: [],
+    groupId: '',
+    imgUrl: [],
   },
 
   onClick: function(){
@@ -21,7 +26,56 @@ Page({
     that.setData({
       content: e.detail.value["content"]
     })
-    console.log(that.data.content);
+    //console.log(that.data.content);
+    //console.log(that.data.files)
+    var len = that.data.files.length;
+    var success = 0;
+    for(var i = 0; i < len; i++){
+      wx.uploadFile({
+        url: config.service.uploadUrl,
+        filePath: that.data.files[i],
+        name: 'file',
+        success: function (res) {
+          res = JSON.parse(res.data)
+          success++;
+          that.data.imgUrl.push(res.data.imgUrl)
+          if (success == len) {
+            that.sendGroupMessage();
+          }
+        },
+        fail: function (e) {
+          util.showModel('上传图片失败')
+        }
+      })
+    }
+  },
+
+  sendGroupMessage: function () {
+    var that = this;
+    console.log("发出一个sendGroupMessage请求");
+    wx.request({
+      url: config.service.groupMessageUrl,
+      data: {
+        groupId: that.data.groupId,
+        userId: '0002',
+        content: that.data.content,
+        imagePath: that.data.imgUrl.toString()
+      },
+      method: 'POST',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        console.log(res.data);
+        util.showSuccess('发布成功');
+      },
+      fail: function (res) {
+        util.showModel('发布失败');
+      },
+    })
+    wx.navigateBack({
+      delta: 1
+    })
   },
 
   //输入时同步字数
@@ -60,7 +114,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-  
+    this.setData({
+      groupId: options.groupId
+    })
   },
 
   /**
@@ -74,7 +130,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-  
+    
   },
 
   /**
