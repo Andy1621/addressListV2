@@ -10,11 +10,6 @@ Page({
    */
   data: {
     is_logged: false,
-    cGroupArr: null,
-    aGroupArr: null,
-    cardArr:null,
-    specialArr: null,
-    blackArr: null,
 
     list1: [
       {
@@ -124,51 +119,18 @@ Page({
   },
 
   getAddressList: function () {
-    var that = this;
     var temp_cards = this.data.list1;
     var temp_groups = this.data.list2;
-    console.log("发出一个getAddressList请求");
-    wx.request({
-      url: config.service.getAddressListUrl,
-      data: {
-        userId: 'buaasoft1621' //这里修改为全局openId
-      },
-      method: 'GET',
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success: function (res) {
-        console.log(res.data);
 
-        that.setData({
-          cGroupArr: res.data.create,
-          aGroupArr: res.data.add,
-          cardArr: res.data.card,
-          specialArr: res.data.special,
-          blackArr: res.data.black
-        })
+    temp_cards[0].cards = JSON.parse(getApp().globalData.cardList);
+    temp_cards[1].cards = JSON.parse(getApp().globalData.specialList);
+    temp_cards[2].cards = JSON.parse(getApp().globalData.blackList);
+    temp_groups[0].groups = JSON.parse(getApp().globalData.createGroupList);
+    temp_groups[1].groups = JSON.parse(getApp().globalData.addGroupList);
 
-        temp_cards[0].cards = that.data.cardArr;
-        temp_cards[1].cards = that.data.specialArr;
-        temp_cards[2].cards = that.data.blackArr;
-        temp_groups[0].groups = that.data.cGroupArr;
-        temp_groups[1].groups = that.data.aGroupArr;
-
-        that.setData({
-            list1: temp_cards,
-            list2: temp_groups
-        })
-
-        getApp().globalData.cardList = JSON.stringify(that.data.cardArr);
-        getApp().globalData.specialList = JSON.stringify(that.data.specialArr);
-        getApp().globalData.blackList = JSON.stringify(that.data.blackArr);
-        getApp().globalData.addGroupList = JSON.stringify(that.data.aGroupArr);
-        getApp().globalData.createGroupList = JSON.stringify(that.data.cGroupArr)
-      },
-      fail: function (res) {
-        util.showModel('操作失败');
-      },
-
+    this.setData({
+        list1: temp_cards,
+        list2: temp_groups
     })
   },
 

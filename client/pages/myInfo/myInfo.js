@@ -87,6 +87,27 @@ Page({
             cont_detail_ctt: [res.data.info.phoneNum, res.data.info.qqNum, res.data.info.wxNum, res.data.info.email]
           })
           that.boxingData()
+          //获取五个列表
+          wx.request({
+            url: config.service.getAddressListUrl,
+            data: {
+              userId: 'buaasoft1621' //这里修改为全局openId
+            },
+            method: 'GET',
+            header: {
+              'content-type': 'application/json' // 默认值
+            },
+            success: function (res) {
+              getApp().globalData.cardList = JSON.stringify(res.data.card);
+              getApp().globalData.specialList = JSON.stringify(res.data.special);
+              getApp().globalData.blackList = JSON.stringify(res.data.black);
+              getApp().globalData.addGroupList = JSON.stringify(res.data.add);
+              getApp().globalData.createGroupList = JSON.stringify(res.data.create)
+            },
+            fail: function (res) {
+              util.showModel('操作失败');
+            }
+          })
         }          
         util.showSuccess('操作成功');
       },
@@ -126,6 +147,7 @@ Page({
                 userInfo: result.data.data,
                 is_logged: true
               })
+              that.dealWithFirstLogged()
             },
 
             fail(error) {
