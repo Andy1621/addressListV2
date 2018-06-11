@@ -52,17 +52,6 @@ page {
     align-self: center;
 }
 
-.userinfo-memberInfo,.userinfo-originator {
-    margin: 5px;
-    font-size: 32rpx;
-    color: #F6F6F6;
-    align-content: center;
-    text-align: center;
-    align-items: center;
-    vertical-align: middle;
-    align-self: center; 
-}
-
 .userinfo-detail{
     margin: 5px;
     font-size: 30rpx;

@@ -15,9 +15,7 @@ Page({
     nameindex: 0,
     replyindex: 0,
     addressListName: "通讯录名",
-    memberInfo: "人数",
     groupMaster: "",
-    originator: "群主",
     detail: "群信息",
     listpeople: [
       {
@@ -40,7 +38,7 @@ Page({
     inputShowed: false,
     inputVal: "",
     //navbar
-    tabs: ["通讯录", "消息"],
+    tabs: [],
     activeIndex: 0,
     sliderOffset: 0,
     sliderLeft: 0,
@@ -284,34 +282,18 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
+        var temp = [];
+        temp[0] = '通讯录' + '(' + res.data.memberNum + ')';
+        temp[1] = '消息';
         that.setData({
           addressListName: res.data.groupName,
           detail: res.data.groupIntro,
+          tabs: temp,
           groupMaster: res.data.groupMaster,
-          memberInfo: "人数：" + res.data.memberNum,
+          //memberInfo: "人数：" + res.data.memberNum,
           listpeople: res.data.member,
           groupMessageId: res.data.groupMessage,
           groupMessageNum: res.data.groupMessageNum,
-        });
-        //获取群主
-        wx.request({
-          url: config.service.userInfoUrl,
-          data: {
-            userId: that.data.groupMaster,
-          },
-          method: 'GET',
-          header: {
-            'content-type': 'application/json' // 默认值
-          },
-          success: function (res) {
-            that.setData({
-              originator: "群主：" + res.data.info.userName,
-            });
-            //util.showSuccess('操作成功');
-          },
-          fail: function (res) {
-            util.showModel('操作失败', '未知错误');
-          },
         });
         //获取群消息
         var cur = that.data.currentNum;
