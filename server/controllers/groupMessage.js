@@ -61,7 +61,7 @@ async function get(ctx, next) {
 
   var len = data2.length;
   for(var i = 0; i < len; i++){
-    await dbnnn(config.User).where({ userId: data2[i].userId }).select('userName')
+    await dbnnn(config.User).where({ userId: data2[i].userId }).select('userName', 'imgUrl')
       .catch(function (e) {
         console.error(e);
       })
@@ -73,6 +73,7 @@ async function get(ctx, next) {
         data3.leaveMessage[i]={};
         data3.leaveMessage[i].userId = data2[i].userId;
         data3.leaveMessage[i].name = name;
+        data3.leaveMessage[i].imgUrl = data[0].imgUrl;
         data3.leaveMessage[i].content = data2[i].content;
         data3.leaveMessage[i].leaveMessageId = data2[i].leaveMessageId;
       });
