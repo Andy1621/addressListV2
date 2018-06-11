@@ -160,12 +160,12 @@ Page({
       })
     } else {
       this.setData({
-        groupType: options.content[2]
+        groupType: options.content[3]
       })
-      if (options.content[3] == 'public') {
-        options.content[3] = '共享'
+      if (options.content[4] == 'public') {
+        options.content[4] = '共享'
       } else {
-        options.content[3] = '私人'
+        options.content[4] = '私人'
       }
       this.setData({
         addresslist_name: options.content[1],
