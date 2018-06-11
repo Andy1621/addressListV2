@@ -1,4 +1,8 @@
 // pages/searchEverything/searchEverything.js
+var app = getApp()
+var config = require('../../config')
+const util = require('../../utils/util');
+
 Page({
 
   /**
@@ -6,7 +10,10 @@ Page({
    */
   data: {
     inputShowed: false,
-    inputVal: ""
+    inputVal: "",
+    isbindconfirm:0,
+    listtxlresult:[],
+    listpeople:[]
   },
 
   showInput: function () {
@@ -18,7 +25,10 @@ Page({
   hideInput: function () {
     this.setData({
       inputVal: "",
-      inputShowed: false
+      inputShowed: false,
+      listtxlresult:[],
+      listpeople:[],
+      isbindconfirm:0
     });
   },
 
@@ -45,5 +55,84 @@ Page({
       list: "/images/tab/list.png",
       people: "/images/tab/me.png"
     });
-  }
+  },
+
+  //查找通讯录和名片
+  searchEverything: function () {
+    var that = this;
+    that.data.isbindconfirm= 1;
+    that.data.listtxlresult = [];
+    var card = JSON.parse(getApp().globalData.cardList);//名片夹
+    var special = JSON.parse(getApp().globalData.specialList);//特别关心
+    var black = JSON.parse(getApp().globalData.blackList);//黑名单
+    var addGroup = JSON.parse(getApp().globalData.addGroupList);//我加入的群
+    var createGroup = JSON.parse(getApp().globalData.createGroupList);//我建的群
+    console.log(createGroup);
+    console.log(card);
+    //查找通讯录
+    for (var i = 0; i < createGroup.length; i++) {
+      if (createGroup[i]['groupName'].indexOf(this.data.inputVal) != -1) {
+        that.data.listtxlresult.push(createGroup[i]);
+      }
+    }
+    for (var i = 0; i < addGroup.length; i++) {
+      if (addGroup[i]['groupName'].indexOf(this.data.inputVal) != -1) {
+        that.data.listtxlresult.push(addGroup[i]);
+      }
+    }
+    console.log(that.data.listtxlresult);
+
+    //查找人
+    for (var i = 0; i < card.length; i++) {
+      if (card[i]['userName'].indexOf(this.data.inputVal) != -1) {
+        that.data.listpeople.push(card[i]);
+      }
+    }
+    for (var i = 0; i < special.length; i++) {
+      if (special[i]['userName'].indexOf(this.data.inputVal) != -1) {
+        that.data.listpeople.push(special[i]);
+      }
+    }
+    for (var i = 0; i < black.length; i++) {
+      if (black[i]['userName'].indexOf(this.data.inputVal) != -1) {
+        that.data.listpeople.push(black[i]);
+      }
+    }
+
+    that.setData({
+      listtxlresult: that.data.listtxlresult,
+      isbindconfirm: that.data.isbindconfirm,
+      listpeople: that.data.listpeople
+      //listpeople: that.data.listpeopleresult
+    })
+  },
+
+   jumpToAddresslist: function (e) {
+    console.log(e);
+    var num = e.currentTarget.id;
+    var passInfo = this.data.listtxlresult[num];
+    var groupId = passInfo.groupId;
+    console.log(groupId);
+    /*var groupId = this.data.groupArr[num].groupId;
+    var groupName = this.data.groupArr[num].groupName;
+    var groupIntro = this.data.groupArr[num].groupInfo;
+    var groupMaster = this.data.groupArr[num].groupMaster;*/
+    let str = JSON.stringify(passInfo);
+    wx.navigateTo({
+      //url: '/pages/detailPage/detailPage?jsonStr=' + str,
+      url: '/pages/detailPage/detailPage?groupId=' + groupId,
+    })
+  },
+
+  //跳转到其它用户资料
+   jumpToInfo: function (e) {
+     //先判断该用户与这位名片用户的关系，来设置category
+     wx.navigateTo({
+       url: '/pages/othersInfo/othersInfo?category=1',
+       success: function (res) { },
+       fail: function (res) { },
+       complete: function (res) { },
+     })
+   },
+
 })
