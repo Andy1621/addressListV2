@@ -18,13 +18,15 @@ module.exports = async (ctx, next) => {
   let groupIntro = ctx.request.body.groupIntro;
   let groupType = ctx.request.body.groupType;
   let userId = ctx.request.body.userId;
+  let imgUrl = ctx.request.body.imgUrl;
   var userName, administartor = [], groupId;
 
   var group = {
     groupName: groupName,
     groupIntro: groupIntro,
     groupType: 'wait',
-    groupMaster: userId
+    groupMaster: userId,
+    imgUrl: imgUrl
   }
   await dbnnn(config.MyGroup).insert(group)
     .catch(function (e) {
