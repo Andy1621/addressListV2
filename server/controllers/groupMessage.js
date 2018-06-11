@@ -46,7 +46,7 @@ async function get(ctx, next) {
   data3.time = data1[0].time;
   data3.imagePath = data1[0].imagePath;
 
-  await dbnnn(config.LeaveMessage).where({ groupMessageId: groupMessageId }).select('userId', 'content')
+  await dbnnn(config.LeaveMessage).where({ groupMessageId: groupMessageId }).select('userId', 'content', 'leaveMessageId')
     .catch(function (e) {
       console.error(e);
     })
@@ -74,6 +74,7 @@ async function get(ctx, next) {
         data3.leaveMessage[i].userId = data2[i].userId;
         data3.leaveMessage[i].name = name;
         data3.leaveMessage[i].content = data2[i].content;
+        data3.leaveMessage[i].leaveMessageId = data2[i].leaveMessageId;
       });
   }
 
