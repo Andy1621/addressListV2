@@ -23,7 +23,7 @@
 
     <view class="weui-panel weui-panel_access">
       <view class="weui-panel__bd">
-        <view class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active" wx:for="{{groupArr}}" id="{{index}}" bindtap='jumpToAddresslist'>
+        <view class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active" wx:for="{{groupArr}}" id="{{index}}" bindtap='jumpToAddresslist' wx:key="{{groupArr.groupId}}">
           <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
             <image class="weui-media-box__thumb" src="{{list}}" />
           </view>

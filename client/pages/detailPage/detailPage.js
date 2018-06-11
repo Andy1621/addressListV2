@@ -360,7 +360,7 @@ Page({
 
   jumpToAdd: function (e) {
     wx.navigateTo({
-      url: '/pages/addGroupPlease/addGroupPlease?groupId=' + groupId,
+      url: '/pages/addGroupPlease/addGroupPlease?groupId=' + this.data.groupId,
       success: function (res) { },
       fail: function (res) { },
       complete: function (res) { },

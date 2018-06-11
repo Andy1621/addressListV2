@@ -17,7 +17,7 @@
     <scroll-view scroll-y="true" class='middle__info' style='height:{{rest_height}}px'>
         <view style='margin-bottom: 35rpx'>
             <view class="weui-panel__hd_my">个人信息</view>
-            <block wx:for="{{self_detail_title}}">
+            <block wx:for="{{self_detail_title}}" wx:key="*this">
                 <view class='weui-panel__middle'>
                     <view class="weui-cell weui-cell_access">
                         <view class="weui-cell__bd_my">
@@ -30,7 +30,7 @@
         </view>
         <view>
             <view class="weui-panel__hd_my">联系方式</view>
-            <block wx:for="{{cont_detail_title}}">
+            <block wx:for="{{cont_detail_title}}" wx:key="*this">
                 <view class='weui-panel__middle'>
                     <view class="weui-cell weui-cell_access">
                         <view class="weui-cell__bd_my">

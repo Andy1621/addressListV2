@@ -40,7 +40,7 @@
       <view wx:if="{{isbindconfirm==1}}" class="weui-panel__hd">名片搜索结果</view>
       <view class="weui-panel weui-panel_access">
         <view class="weui-panel__bd">
-          <view wx:for="{{listpeople}}" id="{{index}}" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active" bindlongpress="deleteMember" bindtap='jumpToInfo'>
+          <view wx:for="{{listpeople}}" id="{{index}}" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active" bindlongpress="deleteMember" bindtap='jumpToInfo' wx:key="{{listpeople.userId}}">
             <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
               <image class="weui-media-box__thumb" src="{{'./user-unlogin.png'}}" />
             </view>
@@ -54,8 +54,6 @@
           </view>
         </view>
       </view>
-
     </view>
-
   </view>
 </view>

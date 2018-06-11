@@ -29,7 +29,7 @@
       <swiper-item>
         <scroll-view class="body" scroll-y="true" style="height: {{rest_height1}}px">
           <view class="widgets">
-            <block wx:for-items="{{list1}}">
+            <block wx:for-items="{{list1}}" wx:key="{{list1.id}}">
               <view class="widgets__item">
                 <view id="{{item.id}}" class="widgets__info {{item.open ? 'widgets__info_show' : ''}}" bindtap="widgetsToggle1" hover-class='weui-cell_active'>
                   <text class="widgets__info-name">{{item.name}}</text>
@@ -37,7 +37,7 @@
                 </view>
                 <view class="widgets__list {{item.open ? 'widgets__list_show' : ''}}">
                   <!-- <view class="weui-panel weui-panel_access"> -->
-                  <block wx:for-items="{{item.cards}}" wx:for-item="user">
+                  <block wx:for-items="{{item.cards}}" wx:for-item="user" wx:key="{{item.cards.userId}}">
                     <view class="weui-panel__bd">
                       <view class="widget test" bindlongpress='fLongpress1' bindtap="jumpToInfo" hover-class="weui-cell_active" data-id='{{user.userId}}' hover-start-time="10" hover-stay-time="100">
                           <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
@@ -64,14 +64,14 @@
         <view class="widgets">
           <button class="weui-btn" type="default" bindtap="jumpToCreate" style='margin-top:10rpx;margin-bottom:10rpx;'>创建通讯录</button>
           <scroll-view class="body" scroll-y="true" style="height: {{rest_height2}}px">
-            <block wx:for-items="{{list2}}">
+            <block wx:for-items="{{list2}}" wx:key="{{list2.id}}">
               <view class="widgets__item">
                 <view id="{{item.id}}" class="widgets__info {{item.open ? 'widgets__info_show' : ''}}" bindtap="widgetsToggle2" hover-class='weui-cell_active'>
                   <text class="widgets__info-name">{{item.name}}</text>
                   <image class="widgets__info-img" src="/images/addressList/arrowright.png" mode="aspectFill" />
                 </view>
                 <view class="widgets__list {{item.open ? 'widgets__list_show' : ''}}">
-                  <block wx:for-items="{{item.groups}}" wx:for-item="group">
+                  <block wx:for-items="{{item.groups}}" wx:for-item="group" wx:key="{{item.groups.groupId}}">
                     <view class="widget test" bindlongpress='fLongpress2' hover-start-time="10" hover-stay-time="100" hover-class="weui-cell_active" data-id='{{group.groupId}}'  bindtap='jumpToDetail'>
                       <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
                         <image class="weui-media-box__thumb" src="/images/tab/list.png" /><!--群头像emmm-->

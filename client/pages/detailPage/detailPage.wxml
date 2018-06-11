@@ -47,7 +47,7 @@
             <view class="weui-panel weui-panel_access">
               <!-- <view class="weui-panel__hd">图文组合列表</view> -->
               <view class="weui-panel__bd">
-                <view wx:for="{{listpeople}}" id="{{index}}" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active" bindlongpress="deleteMember" bindtap='jumpToInfo'>
+                <view wx:for="{{listpeople}}" id="{{index}}" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active" bindlongpress="deleteMember" bindtap='jumpToInfo' wx:key="{{listpeople.userId}}">
                   <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
                     <image class="weui-media-box__thumb" src="{{'./user-unlogin.png'}}" />
                   </view>
@@ -97,7 +97,7 @@
             <view class="submit" bindtap="bindCancel">取消</view>
           </view>
           <view class="weui-panel__bd" bindtouchstart="clickView">
-            <view wx:for="{{listmsg}}" url="" class="weui-media-box weui-media-box_appmsg_mes" hover-class="weui-cell_active">
+            <view wx:for="{{listmsg}}" url="" class="weui-media-box weui-media-box_appmsg_mes" hover-class="weui-cell_active" wx:key="{{listmsg.groupMessageId}}">
               <view class="weui-media-box_appmsg_mes" style='width:100%' id="{{index}}" bindlongpress="deleteMessage">
                 <view class="mes_photo_name">
                   <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
