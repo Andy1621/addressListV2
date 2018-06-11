@@ -40,6 +40,26 @@ Page({
               },
             })
           }
+          else if (res.tapIndex == 1){
+              wx.request({
+                url: config.service.deleteAllNewsUrl,
+                data: {
+                  userId: '0007'
+                },
+                method: 'GET',
+                header: {
+                  'content-type': 'application/json' // 默认值
+                },
+                success: function (res) {
+                  console.log(res.data);
+                  that.getNews();
+                  util.showSuccess('操作成功');
+                },
+                fail: function (res) {
+                  util.showModel('操作失败');
+                },
+              })
+          }
         }
       }
     });
@@ -73,7 +93,7 @@ Page({
     wx.request({
       url: config.service.newsUrl,
       data: {
-        userId: '0001'
+        userId: '0007'
       },
       method: 'GET',
       header: {

@@ -95,4 +95,7 @@ router.get('/getAddressList', controllers.getAddressList)
 //POST 修改用户关系
 router.post('/changeUUship', controllers.changeUUship)
 
+//GET 删除全部通知
+router.get('/deleteAllNews', controllers.deleteAllNews)
+
 module.exports = router

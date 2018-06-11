@@ -76,6 +76,9 @@ var config = {
         
         // 修改用户关系
         changeUUshipUrl: `${host}/weapp/changeUUship`,
+
+        // 删除全部通知
+        deleteAllNewsUrl: `${host}/weapp/deleteAllNews`,
     }
 };
 

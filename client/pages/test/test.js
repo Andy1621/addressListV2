@@ -565,10 +565,31 @@ Page({
       url: config.service.changeUUshipUrl,
       data: {
         userS_id: '0002',
-        userB_id: '0004',
+        userB_id: '0007',
         type: 'black'
       },
       method: 'POST',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        console.log(res.data);
+        util.showSuccess('操作成功');
+      },
+      fail: function (res) {
+        util.showModel('操作失败');
+      },
+    })
+  },
+
+  deleteAllNews: function () {
+    console.log("发出一个deleteAllNews请求");
+    wx.request({
+      url: config.service.deleteAllNewsUrl,
+      data: {
+        userId: '0007'
+      },
+      method: 'GET',
       header: {
         'content-type': 'application/json' // 默认值
       },
