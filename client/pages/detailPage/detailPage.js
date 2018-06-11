@@ -212,13 +212,7 @@ Page({
         wx.showActionSheet({
             itemList: ["删除消息"],
             success: function (res) {
-                if (res.tapIndex == 0) {
-                    //console.log(that.data.index);
-                    var obj = that.data.listmsg;
-                    obj.splice(that.data.index, 1);
-                    that.setData({
-                        listmsg: obj,
-                    });
+                if (res.tapIndex == 0) {                    
                     //删除消息
                     console.log("发出一个deleteGroupMessage请求");
                     wx.request({
@@ -232,6 +226,12 @@ Page({
                         },
                         success: function (res) {
                             console.log(res.data);
+                            //console.log(that.data.index);
+                            var obj = that.data.listmsg;
+                            obj.splice(that.data.index, 1);
+                            that.setData({
+                              listmsg: obj,
+                            });
                             //util.showSuccess('操作成功');
                         },
                         fail: function (res) {
@@ -264,12 +264,6 @@ Page({
             if (res.tapIndex == 0) 
             {
                 //console.log(that.data.index);
-                var param = {};
-                var str = "listmsg[" + that.data.index + "].leaveMessage";
-                var obj = that.data.listmsg[that.data.index].leaveMessage;
-                obj.splice(that.data.replyindex, 1);
-                param[str] = obj;
-                that.setData(param);
                 //删除留言
                 console.log("发出一个deleteLeaveMessage请求");
                 wx.request({
@@ -283,6 +277,12 @@ Page({
                     },
                     success: function (res) {
                         console.log(res.data);
+                        var param = {};
+                        var str = "listmsg[" + that.data.index + "].leaveMessage";
+                        var obj = that.data.listmsg[that.data.index].leaveMessage;
+                        obj.splice(that.data.replyindex, 1);
+                        param[str] = obj;
+                        that.setData(param);
                         util.showSuccess('操作成功');
                     },
                     fail: function (res) {
@@ -314,11 +314,6 @@ Page({
                 itemList: ["删除成员"],
                 success: function (res) {
                     if (res.tapIndex == 0) {
-                        var obj = that.data.listpeople;
-                        obj.splice(that.data.nameindex, 1);
-                        that.setData({
-                            listpeople: obj,
-                        });
                         //删除群员
                         console.log("发出一个deleteMember请求");
                         wx.request({
@@ -333,6 +328,11 @@ Page({
                             },
                             success: function (res) {
                                 console.log(res.data);
+                                var obj = that.data.listpeople;
+                                obj.splice(that.data.nameindex, 1);
+                                that.setData({
+                                  listpeople: obj,
+                                });
                                 util.showSuccess('操作成功');
                             },
                             fail: function (res) {
