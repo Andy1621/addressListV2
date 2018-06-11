@@ -43,7 +43,7 @@
         </view>       
     </scroll-view>
 
-    <view class='bottom'>
+    <view class='bottom' wx:if="{{!isMyself}}">
         <button wx:if="{{category==0}}" class='mybtn_tjmp' bindtap='onClick_tjmp'>添加名片</button>
         <button wx:if="{{category==1 || category==-1}}" class='mybtn_jrtbgz' bindtap='onClick_jrtbgz'>加入特别关注</button>
         <button wx:if="{{category!=-1}}" class='mybtn_jrhmd' bindtap='onClick_jrhmd'>加入黑名单</button>
