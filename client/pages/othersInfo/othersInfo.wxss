@@ -160,3 +160,17 @@
     color: white;
     margin: 0rpx 1rpx 0rpx;
 }
+
+.mybtn_qxtbgz{
+    width: 100%;
+    background-color: gray;
+    color: white;
+    margin: 0rpx 1rpx 0rpx;
+}
+
+.mybtn_ychmd{
+    width: 100%;
+    background-color: pink;
+    color: white;
+    margin: 0rpx 1rpx 0rpx;
+}
