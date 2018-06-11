@@ -379,6 +379,7 @@ Page({
     var AddedgroupInfo = JSON.parse(getApp().globalData.addGroupList);
     //console.log(AddedgroupInfo);
     //是否群员
+    /*先别删
     for(var i=0,length=AddedgroupInfo.length;i<length;i++)
     {
         //console.log(that.data.groupId + " " + AddedgroupInfo[i].groupId)
@@ -388,7 +389,7 @@ Page({
                 is_member:true,
             })
         }
-    }
+    }*/
   },
 
   onShow: function () {
@@ -429,9 +430,19 @@ Page({
             groupMessageId: res.data.groupMessage,
             groupMessageNum: res.data.groupMessageNum,
           });
+          console.log(that.data.listpeople);
+          for (var i = 0, length = that.data.listpeople.length;i<length;i++)
+          {
+              if (that.data.listpeople[i].userId==that.data.myuserId)
+              {
+                  that.setData({
+                      is_member:true,
+                  })
+              }
+          }
           //是否群主
           if (that.data.groupMaster == that.data.myuserId) {
-            this.setData({
+            that.setData({
               is_member: true,
               is_master: true,
             })
