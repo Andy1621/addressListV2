@@ -9,8 +9,10 @@ Page({
     isbindconfirmMessage: 0,//是否按下消息搜索框的回车
     isbindconfirmGroup: 0,//是否按下通讯录搜索框的回车
     myuserId: 0,
+    myname:"",
     is_logged: true,
-    is_member: true,//false为未加群，true为已加群
+    is_member: false,//false为未加群，true为已加群
+    is_master:false,
     index: 0,
     nameindex: 0,
     replyindex: 0,
@@ -131,9 +133,11 @@ Page({
 
   //Reply
   bindReply: function (e) {
-    //console.log(e)
+    console.log(e)
+    console.log(this.data.listmsg[e.currentTarget.id])
     this.setData({
-      index: e.target.id,
+      msgName:this.data.listmsg[e.currentTarget.id].name,
+      index: e.currentTarget.id,
       releaseFocus: true,
       messageVal: "",
     });
@@ -148,7 +152,7 @@ Page({
   bindSend: function (e) {
     var param = {};
     var obj = {};
-    obj.userId = "Test1";
+    obj.name = this.data.myname;
     obj.time = util.formatTime(new Date);
     obj.content = this.data.messageVal;
     this.data.listmsg[this.data.index].leaveMessage.push(obj);
@@ -161,6 +165,30 @@ Page({
         messageVal: "",
         msgCount: this.data.listmsg[0].leaveMessage.length,
       })
+      //增加留言
+      var that=this;
+    console.log("发出一个sendLeaveMessage请求");
+    console.log(this.data.listmsg[this.data.index]);
+    wx.request({
+        url: config.service.leaveMessageUrl,
+        data: {
+            groupId: that.data.groupId,
+            groupMessageId: that.data.listmsg[this.data.index].groupMessageId,
+            userId: that.data.myuserId,
+            content: obj.content
+        },
+        method: 'POST',
+        header: {
+            'content-type': 'application/json' // 默认值
+        },
+        success: function (res) {
+            console.log(res.data);
+            //util.showSuccess('操作成功');
+        },
+        fail: function (res) {
+            util.showModel('操作失败');
+        },
+    })
   },
 
   bindCancel: function (e) {
@@ -171,23 +199,48 @@ Page({
   },
 
   deleteMessage: function (e) {
+      console.log(e);
     this.setData({
-      index: e.target.id,
+      index: e.currentTarget.id,
     });
     var that = this;
-    wx.showActionSheet({
-      itemList: ["删除消息"],
-      success: function (res) {
-        if (res.tapIndex == 0) {
-          //console.log(that.data.index);
-          var obj = that.data.listmsg;
-          obj.splice(that.data.index, 1);
-          that.setData({
-            listmsg: obj,
-          });
-        }
-      },
-    });
+    console.log(this.data.listmsg[e.currentTarget.id]);
+    if (this.data.listmsg[e.currentTarget.id].userId==this.data.myuserId||this.data.is_master==true)
+    {
+        wx.showActionSheet({
+            itemList: ["删除消息"],
+            success: function (res) {
+                if (res.tapIndex == 0) {
+                    //console.log(that.data.index);
+                    var obj = that.data.listmsg;
+                    obj.splice(that.data.index, 1);
+                    that.setData({
+                        listmsg: obj,
+                    });
+                    //删除消息
+                    console.log("发出一个deleteGroupMessage请求");
+                    wx.request({
+                        url: config.service.groupMessageUrl,
+                        data: {
+                            groupMessageId: that.data.listmsg[e.currentTarget.id].groupMessageId,
+                        },
+                        method: 'DELETE',
+                        header: {
+                            'content-type': 'application/json' // 默认值
+                        },
+                        success: function (res) {
+                            console.log(res.data);
+                            //util.showSuccess('操作成功');
+                        },
+                        fail: function (res) {
+                            util.showModel('操作失败');
+                        },
+                    })
+                }
+            },
+        });
+    }
+    else console.log("Not Master or Messager");
   },
 
   deleteReply: function (e) {
@@ -198,20 +251,44 @@ Page({
       replyindex: num[1],
     });
     var that = this;
-    wx.showActionSheet({
-      itemList: ["删除留言"],
-      success: function (res) {
-        if (res.tapIndex == 0) {
-          //console.log(that.data.index);
-          var param = {};
-          var str = "listmsg[" + that.data.index + "].leaveMessage";
-          var obj = that.data.listmsg[that.data.index].leaveMessage;
-          obj.splice(that.data.replyindex, 1);
-          param[str] = obj;
-          that.setData(param);
-        }
-      },
-    });
+    console.log(this.data.listmsg[this.data.index].leaveMessage[this.data.replyindex]);
+    if (this.data.listmsg[this.data.index].leaveMessage[this.data.replyindex].userId == this.data.myuserId || this.data.groupMaster == this.data.myuserId) 
+    {
+        wx.showActionSheet({
+        itemList: ["删除留言"],
+        success: function (res) {
+            if (res.tapIndex == 0) {
+            //console.log(that.data.index);
+            var param = {};
+            var str = "listmsg[" + that.data.index + "].leaveMessage";
+            var obj = that.data.listmsg[that.data.index].leaveMessage;
+            obj.splice(that.data.replyindex, 1);
+            param[str] = obj;
+            that.setData(param);
+            //删除留言
+            console.log("发出一个deleteLeaveMessage请求");
+            wx.request({
+                url: config.service.leaveMessageUrl,
+                data: {
+                    leaveMessageId: 21
+                },
+                method: 'DELETE',
+                header: {
+                    'content-type': 'application/json' // 默认值
+                },
+                success: function (res) {
+                    console.log(res.data);
+                    util.showSuccess('操作成功');
+                },
+                fail: function (res) {
+                    util.showModel('操作失败');
+                },
+            })
+            }
+        },
+        });
+    }
+    else console.log("No Master or Message Replyer")
   },
 
   deleteMember: function (e) {
@@ -219,24 +296,58 @@ Page({
       nameindex: e.currentTarget.id,
     });
     var that = this;
-    wx.showActionSheet({
-      itemList: ["删除成员"],
-      success: function (res) {
-        if (res.tapIndex == 0) {
-          var obj = that.data.listpeople;
-          obj.splice(that.data.nameindex, 1);
-          that.setData({
-            listpeople: obj,
-          });
+    console.log(that.data.listpeople[that.data.nameindex]);
+    if(this.data.is_master==true)
+    {
+        if (that.data.groupMaster == that.data.listpeople[that.data.nameindex].userId)
+        {
+            util.showModel('操作失败', '您不能删除自己');
         }
-      },
-    });
+        else
+        {
+            wx.showActionSheet({
+                itemList: ["删除成员"],
+                success: function (res) {
+                    if (res.tapIndex == 0) {
+                        var obj = that.data.listpeople;
+                        obj.splice(that.data.nameindex, 1);
+                        that.setData({
+                            listpeople: obj,
+                        });
+                        //删除群员
+                        console.log("发出一个deleteMember请求");
+                        wx.request({
+                            url: config.service.deleteMemberUrl,
+                            data: {
+                                groupId: that.data.groupId,
+                                userId: that.data.listpeople[that.data.nameindex].userId
+                            },
+                            method: 'DELETE',
+                            header: {
+                                'content-type': 'application/json' // 默认值
+                            },
+                            success: function (res) {
+                                console.log(res.data);
+                                util.showSuccess('操作成功');
+                            },
+                            fail: function (res) {
+                                util.showModel('操作失败');
+                            },
+                        })
+                    }
+                },
+            });
+        }
+    }
+    else console.log("Not GroupMaster");
   },
 
   jumpToInfo: function (e) {
     //先判断该用户与这位名片用户的关系，来设置category
+      console.log(this.data.listpeople[e.currentTarget.id]);
+    var otherId=this.data.listpeople[e.currentTarget.id].userId;
     wx.navigateTo({
-      url: '/pages/othersInfo/othersInfo?category=1',
+      url: '/pages/othersInfo/othersInfo?userId='+otherId,
       success: function (res) { },
       fail: function (res) { },
       complete: function (res) { },
@@ -258,7 +369,22 @@ Page({
       is_logged: getApp().globalData.logged,
       myuserId: getApp().globalData.openId,
       groupId: options.groupId,
+      myname:getApp().globalData.name,
     })
+    var that=this;
+    var AddedgroupInfo = JSON.parse(getApp().globalData.addGroupList);
+    //console.log(AddedgroupInfo);
+    //是否群员
+    for(var i=0,length=AddedgroupInfo.length;i<length;i++)
+    {
+        //console.log(that.data.groupId + " " + AddedgroupInfo[i].groupId)
+        if(that.data.groupId==AddedgroupInfo[i].groupId)
+        {
+            that.setData({
+                is_member:true,
+            })
+        }
+    }
   },
 
   onShow: function () {
@@ -274,8 +400,6 @@ Page({
       url: config.service.groupInfoUrl,
       data: {
         groupId: that.data.groupId,
-      
-
       },
       method: 'GET',
       header: {
@@ -295,6 +419,14 @@ Page({
           groupMessageId: res.data.groupMessage,
           groupMessageNum: res.data.groupMessageNum,
         });
+        //是否群主
+        if(that.data.groupMaster==that.data.myuserId)
+        {
+            this.setData({
+                is_member:true,
+                is_master:true,
+            })
+        }
         //获取群消息
         var cur = that.data.currentNum;
         for (var i = cur; i < cur + that.data.plusNum && i < that.data.groupMessageNum; i++) {
@@ -371,6 +503,7 @@ Page({
         else {
           obj.imgList = str.split(',');
         }
+        obj.groupMessageId=e;
         that.data.listmsg.push(obj);
         that.setData({
           listmsg: that.data.listmsg,
@@ -441,7 +574,7 @@ Page({
     that.data.isbindconfirmGroup = 1;
     that.data.listpeopleresult = [];
     for (var i = 0; i < that.data.listpeople.length; i++) {
-      if (that.data.listpeople[i]['userName'].indexOf(this.data.inputVal) != -1) {
+        if (that.data.listpeople[i]['userName'].toLowerCase().indexOf(this.data.inputVal.toLowerCase()) != -1) {
         that.data.listpeopleresult.push(that.data.listpeople[i]);
       }
     }
