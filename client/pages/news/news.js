@@ -137,7 +137,6 @@ Page({
         that.setData({
           list: anew,
         })
-        util.showSuccess('刷新成功');
       },
       fail: function (res) {
         util.showModel('刷新失败');
@@ -182,6 +181,7 @@ Page({
         that.freshList();
       }
       // complete
+      util.showSuccess('刷新成功');
       wx.hideNavigationBarLoading() //完成停止加载
       wx.stopPullDownRefresh() //停止下拉刷新
     }, 1500);
