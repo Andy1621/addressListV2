@@ -78,13 +78,34 @@ Page({
     var that = this;    
     var id = e.currentTarget.dataset.id
     var list = that.data.list1;
-
+    console.log(id);
     wx.showModal({
       title: '提示',
       content: '确定要删除此名片吗？',
       success: function (res) {
         if (res.confirm) {
           console.log('点击确定了');
+          //删除名片
+          console.log("发出一个deleteCard请求");
+          wx.request({
+              url: config.service.deleteCardUrl,
+              data: {
+                  userS_id: getApp().globalData.openId,//'buaasoft1621',
+                  userB_id: id//'0001'
+              },
+              method: 'DELETE',
+              header: {
+                  'content-type': 'application/json' // 默认值
+              },
+              success: function (res) {
+                  console.log(res.data);
+                  util.showSuccess('操作成功');
+              },
+              fail: function (res) {
+                  util.showModel('操作失败');
+              },
+          })
+          that.freshList();
         } else if (res.cancel) {
           console.log('点击取消了');
           return false;
@@ -98,24 +119,87 @@ Page({
 
   fLongpress2: function (e) {
     var that = this;
+    var is_master=false;
+    console.log(e);
     var id = e.currentTarget.dataset.id
     var list = that.data.list2;
-
-    wx.showModal({
-      title: '提示',
-      content: '确定要退出此通讯录吗？',
-      success: function (res) {
-        if (res.confirm) {
-          console.log('点击确定了');
-        } else if (res.cancel) {
-          console.log('点击取消了');
-          return false;
+    var listtmp = that.data.list2[0].groups;
+    console.log(listtmp);
+    for(var i=0,length=listtmp.length;i<length;i++)
+    {
+        if(listtmp[i].groupId==id)
+        {
+            is_master=true;
+            break;
         }
-        that.setData({
-          list2: list
-        });
-      }
-    })
+    }
+    if(is_master==true)
+    {
+        util.showModel('操作失败','您不能退出自己创建的群');
+    }
+    else
+    {
+        wx.showModal({
+            title: '提示',
+            content: '确定要退出此通讯录吗？',
+            success: function (res) {
+                if (res.confirm) {
+                    console.log('点击确定了');
+                    //删除群
+                    console.log("发出一个deleteGroup请求");
+                    wx.request({
+                        url: config.service.deleteGroupUrl,
+                        data: {
+                            userId: getApp().globalData.openId,
+                            groupId: id
+                        },
+                        method: 'DELETE',
+                        header: {
+                            'content-type': 'application/json' // 默认值
+                        },
+                        success: function (res) {
+                            console.log(res.data);
+                            util.showSuccess('操作成功');
+                        },
+                        fail: function (res) {
+                            util.showModel('操作失败');
+                        },
+                    })
+                    that.freshList();
+                } else if (res.cancel) {
+                    console.log('点击取消了');
+                    return false;
+                }
+            }
+        })
+    }
+  },
+
+  freshList: function(){
+      var that=this;
+      wx.request({
+          url: config.service.getAddressListUrl,
+          data: {
+              userId: getApp().globalData.openId,//'buaasoft1621' //这里修改为全局openId
+          },
+          method: 'GET',
+          header: {
+              'content-type': 'application/json' // 默认值
+          },
+          success: function (res) {
+              getApp().globalData.cardList = JSON.stringify(res.data.card);
+              getApp().globalData.specialList = JSON.stringify(res.data.special);
+              getApp().globalData.blackList = JSON.stringify(res.data.black);
+              getApp().globalData.addGroupList = JSON.stringify(res.data.add);
+              getApp().globalData.createGroupList = JSON.stringify(res.data.create)
+          },
+          fail: function (res) {
+              util.showModel('操作失败');
+          }
+      });
+      setTimeout(function () {
+          that.getAddressList();
+      }, 1000)
   },
 
   getAddressList: function () {

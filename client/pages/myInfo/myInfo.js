@@ -91,7 +91,7 @@ Page({
           wx.request({
             url: config.service.getAddressListUrl,
             data: {
-              userId: 'buaasoft1621' //这里修改为全局openId
+              userId: getApp().globalData.openId,//'buaasoft1621' //这里修改为全局openId
             },
             method: 'GET',
             header: {
