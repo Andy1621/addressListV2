@@ -1,0 +1,20 @@
+<!--pages/addGroupPlease/addGroupPlease.wxml-->
+<view class="page" xmlns:wx="http://www.w3.org/1999/xhtml">
+    <view class="page__bd" >
+        <view class="weui-toptips weui-toptips_warn" wx:if="{{showTopTips}}">错误提示</view>
+        <form bindsubmit='onClick'>
+        <view class="weui-cells__title">申请原因</view>
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__bd">
+                    <textarea class="weui-textarea" placeholder="请输入文本" style="height: 8em" name="reason" bindinput='inputTyping' maxlength='25'/>
+                    <view class="weui-textarea-counter">{{textLength}}/25</view>
+                </view>
+            </view>
+        </view>
+
+        <button class="addresslist-add" type="primary" form-type="submit">确认提交</button>
+
+        </form>
+    </view>
+</view>

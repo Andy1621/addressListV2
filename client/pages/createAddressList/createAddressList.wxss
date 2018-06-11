@@ -1,0 +1,14 @@
+/* pages/createAddressList/createAddressList.wxss */
+page{
+    background-color: #FFFFFF;
+}
+
+.justify-content-center{
+    flex-direction:row;
+    justify-content: center;
+}
+.flex-wrp{
+    height: 20px;
+    display:flex;
+    background-color: #ECF0F1;
+}
