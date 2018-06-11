@@ -1,0 +1,29 @@
+.asklog{
+    font-family: Times, TimesNR, '微软雅黑';
+    font-size: 20px;
+    margin-top: 200px;
+    text-align: center;
+}
+.weui-panel-news{
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+.widget__line {
+  content: " ";
+  position: absolute;
+  left: 0rpx;
+  top: 0;
+  right: 0;
+  height: 5rpx;
+  background-color: #f0f0f0;
+}
+
+.widget__line_first {
+  left: 0;
+  right: 0;
+  background-color: #d8d8d8;
+}
+
+.other-button-hover {
+  background-color: #1aac19;
+}
