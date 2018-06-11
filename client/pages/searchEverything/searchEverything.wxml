@@ -25,7 +25,7 @@
         <view class="weui-panel__bd">
           <view class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active" wx:for="{{listtxlresult}}" id="{{index}}" bindtap='jumpToAddresslist' wx:key="groupId">
             <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
-              <image class="weui-media-box__thumb" src="{{list}}" />
+              <image class="weui-media-box__thumb" src="{{item.imgUrl}}" />
             </view>
             <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
               <view class="weui-media-box__title">{{item.groupName}}</view>
@@ -42,7 +42,7 @@
         <view class="weui-panel__bd">
           <view wx:for="{{listpeople}}" id="{{index}}" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active" bindlongpress="deleteMember" bindtap='jumpToInfo' wx:key="{{listpeople.userId}}">
             <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
-              <image class="weui-media-box__thumb" src="{{'./user-unlogin.png'}}" />
+              <image class="weui-media-box__thumb" src="{{item.imgUrl}}" />
             </view>
             <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
               <view class="weui-media-box__title">
