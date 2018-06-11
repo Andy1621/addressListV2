@@ -191,15 +191,15 @@ Page({
               getApp().globalData.specialList = JSON.stringify(res.data.special);
               getApp().globalData.blackList = JSON.stringify(res.data.black);
               getApp().globalData.addGroupList = JSON.stringify(res.data.add);
-              getApp().globalData.createGroupList = JSON.stringify(res.data.create)
+              getApp().globalData.createGroupList = JSON.stringify(res.data.create);
+              setTimeout(function () {
+                that.getAddressList();
+              }, 1000)
           },
           fail: function (res) {
               util.showModel('操作失败');
           }
       });
-      setTimeout(function () {
-          that.getAddressList();
-      }, 1000)
   },
 
   getAddressList: function () {
@@ -305,7 +305,7 @@ Page({
       is_logged: getApp().globalData.logged,
     });
     if(this.data.is_logged)
-        this.getAddressList();
+        this.freshList();
   },
 
   /**
@@ -326,7 +326,16 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+    var that = this;
+    wx.showNavigationBarLoading() //在标题栏中显示加载
+    //模拟加载
+    setTimeout(function () {
+      if (that.data.is_logged)
+        that.freshList();
+      // complete
+      wx.hideNavigationBarLoading() //完成停止加载
+      wx.stopPullDownRefresh() //停止下拉刷新
+    }, 1500);
   },
 
   /**

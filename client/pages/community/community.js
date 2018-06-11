@@ -33,7 +33,8 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    if (getApp().globalData.logged == true)
+      this.freshList();
   },
 
   /**
@@ -54,7 +55,16 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+    var that = this;
+    wx.showNavigationBarLoading() //在标题栏中显示加载
+    //模拟加载
+    setTimeout(function () {
+      if (that.data.is_logged)
+        that.freshList();
+      // complete
+      wx.hideNavigationBarLoading() //完成停止加载
+      wx.stopPullDownRefresh() //停止下拉刷新
+    }, 1500);
   },
 
   /**
@@ -114,5 +124,29 @@ Page({
       //url: '/pages/detailPage/detailPage?jsonStr=' + str,
         url: '/pages/detailPage/detailPage?groupId=' + groupId,
     })
+  },
+
+  freshList: function () {
+    var that = this;
+    wx.request({
+      url: config.service.getAddressListUrl,
+      data: {
+        userId: getApp().globalData.openId,//'buaasoft1621' //这里修改为全局openId
+      },
+      method: 'GET',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        getApp().globalData.cardList = JSON.stringify(res.data.card);
+        getApp().globalData.specialList = JSON.stringify(res.data.special);
+        getApp().globalData.blackList = JSON.stringify(res.data.black);
+        getApp().globalData.addGroupList = JSON.stringify(res.data.add);
+        getApp().globalData.createGroupList = JSON.stringify(res.data.create);
+      },
+      fail: function (res) {
+        util.showModel('操作失败');
+      }
+    });
   },
 })
