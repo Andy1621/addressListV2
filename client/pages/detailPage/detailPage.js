@@ -253,38 +253,41 @@ Page({
     });
     var that = this;
     console.log(this.data.listmsg[this.data.index].leaveMessage[this.data.replyindex]);
+    var nowLeaveMessageId = this.data.listmsg[this.data.index].leaveMessage[this.data.replyindex].leaveMessageId;
+    console.log(nowLeaveMessageId);
     if (this.data.listmsg[this.data.index].leaveMessage[this.data.replyindex].userId == this.data.myuserId || this.data.groupMaster == this.data.myuserId) 
     {
         wx.showActionSheet({
         itemList: ["删除留言"],
         success: function (res) {
-            if (res.tapIndex == 0) {
-            //console.log(that.data.index);
-            var param = {};
-            var str = "listmsg[" + that.data.index + "].leaveMessage";
-            var obj = that.data.listmsg[that.data.index].leaveMessage;
-            obj.splice(that.data.replyindex, 1);
-            param[str] = obj;
-            that.setData(param);
-            //删除留言
-            console.log("发出一个deleteLeaveMessage请求");
-            wx.request({
-                url: config.service.leaveMessageUrl,
-                data: {
-                    leaveMessageId: 21
-                },
-                method: 'DELETE',
-                header: {
-                    'content-type': 'application/json' // 默认值
-                },
-                success: function (res) {
-                    console.log(res.data);
-                    util.showSuccess('操作成功');
-                },
-                fail: function (res) {
-                    util.showModel('操作失败');
-                },
-            })
+            if (res.tapIndex == 0) 
+            {
+                //console.log(that.data.index);
+                var param = {};
+                var str = "listmsg[" + that.data.index + "].leaveMessage";
+                var obj = that.data.listmsg[that.data.index].leaveMessage;
+                obj.splice(that.data.replyindex, 1);
+                param[str] = obj;
+                that.setData(param);
+                //删除留言
+                console.log("发出一个deleteLeaveMessage请求");
+                wx.request({
+                    url: config.service.leaveMessageUrl,
+                    data: {
+                        leaveMessageId: nowLeaveMessageId,
+                    },
+                    method: 'DELETE',
+                    header: {
+                        'content-type': 'application/json' // 默认值
+                    },
+                    success: function (res) {
+                        console.log(res.data);
+                        util.showSuccess('操作成功');
+                    },
+                    fail: function (res) {
+                        util.showModel('操作失败');
+                    },
+                })
             }
         },
         });
@@ -396,7 +399,6 @@ Page({
       })
     }
     else{
-
       var that = this;
       that.setData({
         currentNum: 0,
