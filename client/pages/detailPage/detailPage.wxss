@@ -486,6 +486,7 @@ page {
     height:60rpx;
     line-height:30px;
     text-align:left;
+    border-radius: 50%;
 }
 
 .replyName{
@@ -504,6 +505,7 @@ page {
     color: #9b9b9b;
     margin-left: 3rpx;
     max-width: 450rpx;
+    margin-top: 10rpx;
 }
 
 /*Button*/
@@ -557,4 +559,8 @@ page {
     font-size: 40rpx;
     margin-top: 300rpx;
     text-align: center;
+}
+
+.weui-media-box__thumb{
+    border-radius: 50%;
 }

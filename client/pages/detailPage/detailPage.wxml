@@ -49,7 +49,7 @@
               <view class="weui-panel__bd">
                 <view wx:for="{{listpeople}}" id="{{index}}" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active" bindlongpress="deleteMember" bindtap='jumpToInfo' wx:key="{{listpeople.userId}}">
                   <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
-                    <image class="weui-media-box__thumb" src="{{'./user-unlogin.png'}}" />
+                    <image class="weui-media-box__thumb" src="{{item.imgUrl}}" />
                   </view>
                   <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
                     <view class="weui-media-box__title">
@@ -101,7 +101,7 @@
               <view class="weui-media-box_appmsg_mes" style='width:100%' id="{{index}}" bindlongpress="deleteMessage">
                 <view class="mes_photo_name">
                   <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
-                    <image class="weui-media-box__thumb" src="{{'./user-unlogin.png'}}" />
+                    <image class="weui-media-box__thumb" src="{{item.imgUrl}}" />
                   </view>
                   <view class="weui-media-box__title">{{item.name}}</view>
                   <view class="mestime">{{item.time}}</view>
@@ -126,7 +126,7 @@
               </view>
               <!--评论内容-->
               <view class="msgReply" wx:for="{{item.leaveMessage}}" wx:for-item="items" wx:for-index="replyindex" id="{{index}}+{{replyindex}}" bindlongpress="deleteReply">
-                <image class="replyimage" src="{{'./user-unlogin.png'}}" background-size="cover"></image>
+                <image class="replyimage" src="{{items.imgUrl}}" background-size="cover"></image>
                 <view class="nameAndtime">
                   <view class="replyName">{{items.name}}</view>
                   <view class="mesreplytime"></view>
