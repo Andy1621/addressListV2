@@ -56,6 +56,7 @@ Page({
     plusNum: 5, //每次增加图片数
     isSearch: false, //如果是搜索框显示的不能执行触底刷新
     imgListTemp: [],//图片副本（搜索用）
+    isPreview: false, //是否预览图片
   },
 
   //Search Bar
@@ -389,58 +390,65 @@ Page({
 
   onShow: function () {
     console.log('onShow');
-    var that = this;
-    that.setData({
-      currentNum: 0,
-      listmsg: [],
-      imgList: []
-    });
-    //获取群信息
-    wx.request({
-      url: config.service.groupInfoUrl,
-      data: {
-        groupId: that.data.groupId,
-      },
-      method: 'GET',
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success: function (res) {
-        var temp = [];
-        temp[0] = '通讯录' + '(' + res.data.memberNum + ')';
-        temp[1] = '消息';
-        that.setData({
-          addressListName: res.data.groupName,
-          detail: res.data.groupIntro,
-          tabs: temp,
-          groupMaster: res.data.groupMaster,
-          //memberInfo: "人数：" + res.data.memberNum,
-          listpeople: res.data.member,
-          groupMessageId: res.data.groupMessage,
-          groupMessageNum: res.data.groupMessageNum,
-        });
-        //是否群主
-        if(that.data.groupMaster==that.data.myuserId)
-        {
-            this.setData({
-                is_member:true,
-                is_master:true,
-            })
-        }
-        //获取群消息
-        var cur = that.data.currentNum;
-        for (var i = cur; i < cur + that.data.plusNum && i < that.data.groupMessageNum; i++) {
-          that.getGroupMessage(that.data.groupMessageId[i]);
+    if(this.data.isPreview == true){
+      this.setData({
+        isPreview: false
+      })
+    }
+    else{
+
+      var that = this;
+      that.setData({
+        currentNum: 0,
+        listmsg: [],
+        imgList: []
+      });
+      //获取群信息
+      wx.request({
+        url: config.service.groupInfoUrl,
+        data: {
+          groupId: that.data.groupId,
+        },
+        method: 'GET',
+        header: {
+          'content-type': 'application/json' // 默认值
+        },
+        success: function (res) {
+          var temp = [];
+          temp[0] = '通讯录' + '(' + res.data.memberNum + ')';
+          temp[1] = '消息';
           that.setData({
-            currentNum: that.data.currentNum + 1
-          })
-        }
-        //util.showSuccess('操作成功');
-      },
-      fail: function (res) {
-       util.showModel('操作失败', '未知错误');
-      },
-    });
+            addressListName: res.data.groupName,
+            detail: res.data.groupIntro,
+            tabs: temp,
+            groupMaster: res.data.groupMaster,
+            //memberInfo: "人数：" + res.data.memberNum,
+            listpeople: res.data.member,
+            groupMessageId: res.data.groupMessage,
+            groupMessageNum: res.data.groupMessageNum,
+          });
+          //是否群主
+          if (that.data.groupMaster == that.data.myuserId) {
+            this.setData({
+              is_member: true,
+              is_master: true,
+            })
+          }
+          //获取群消息
+          var cur = that.data.currentNum;
+          for (var i = cur; i < cur + that.data.plusNum && i < that.data.groupMessageNum; i++) {
+            that.getGroupMessage(that.data.groupMessageId[i]);
+            that.setData({
+              currentNum: that.data.currentNum + 1
+            })
+          }
+          //util.showSuccess('操作成功');
+        },
+        fail: function (res) {
+          util.showModel('操作失败', '未知错误');
+        },
+      });
+    }
   },
 
   //触底刷新
@@ -608,6 +616,9 @@ Page({
 
   //预览图片
   previewImage: function (e) {
+    this.setData({
+      isPreview: true
+    })
     wx.previewImage({
       current: e.currentTarget.id, // 当前显示图片的http链接
       urls: this.data.imgList // 需要预览的图片http链接列表

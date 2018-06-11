@@ -26,27 +26,32 @@ Page({
     that.setData({
       content: e.detail.value["content"]
     })
-    //console.log(that.data.content);
+    console.log(that.data.content);
     //console.log(that.data.files)
     var len = that.data.files.length;
     var success = 0;
-    for(var i = 0; i < len; i++){
-      wx.uploadFile({
-        url: config.service.uploadUrl,
-        filePath: that.data.files[i],
-        name: 'file',
-        success: function (res) {
-          res = JSON.parse(res.data)
-          success++;
-          that.data.imgUrl.push(res.data.imgUrl)
-          if (success == len) {
-            that.sendGroupMessage();
+    if(len == 0){
+      that.sendGroupMessage();
+    }
+    else{
+      for (var i = 0; i < len; i++) {
+        wx.uploadFile({
+          url: config.service.uploadUrl,
+          filePath: that.data.files[i],
+          name: 'file',
+          success: function (res) {
+            res = JSON.parse(res.data)
+            success++;
+            that.data.imgUrl.push(res.data.imgUrl)
+            if (success == len) {
+              that.sendGroupMessage();
+            }
+          },
+          fail: function (e) {
+            util.showModel('上传图片失败')
           }
-        },
-        fail: function (e) {
-          util.showModel('上传图片失败')
-        }
-      })
+        })
+      }
     }
   },
 
@@ -57,7 +62,7 @@ Page({
       url: config.service.groupMessageUrl,
       data: {
         groupId: that.data.groupId,
-        userId: '0002',
+        userId: getApp().globalData.openId,
         content: that.data.content,
         imagePath: that.data.imgUrl.toString()
       },
