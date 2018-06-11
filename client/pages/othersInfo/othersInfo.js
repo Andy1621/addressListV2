@@ -131,9 +131,36 @@ Page({
           黑名单：-1  加入特别关注 移出黑名单
     */
     that.setData({
-      userId: options.userId
+      userId: options.userId,
+      category: 0
     })
-
+    var normal = JSON.parse(getApp().globalData.cardList);
+    var special = JSON.parse(getApp().globalData.specialList);
+    var black = JSON.parse(getApp().globalData.blackList);
+    var len1 = normal.length, len2 = special.length, len3 = black.length;
+    for(var i = 0; i < len1; i++)
+      if(normal[i].userId == that.data.userId){
+        that.setData({
+          category: 1
+        })
+        break;
+      }
+    if(that.data.category == 0)
+      for (var i = 0; i < len2; i++)
+        if (special[i].userId == that.data.userId) {
+          that.setData({
+            category: 2
+          })
+          break;
+        }
+    if (that.data.category == 0)
+      for (var i = 0; i < len3; i++)
+        if (black[i].userId == that.data.userId) {
+          that.setData({
+            category: -1
+          })
+          break;
+        }
     //获取用户数据
     wx.request({
       url: config.service.userInfoUrl,

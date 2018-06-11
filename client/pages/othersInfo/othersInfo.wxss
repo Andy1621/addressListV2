@@ -171,6 +171,6 @@
 .mybtn_ychmd{
     width: 100%;
     background-color: pink;
-    color: white;
+    color: black;
     margin: 0rpx 1rpx 0rpx;
 }
