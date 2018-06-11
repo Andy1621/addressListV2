@@ -4,10 +4,6 @@
   <view class="userinfo" bindtouchstart="clickView">
     <!--bindtap="login"-->
     <text class='userinfo-addressListName'>{{addressListName}}</text>
-    <view>
-      <text class='userinfo-memberInfo'>{{memberInfo}}</text>
-      <text class='userinfo-originator'>{{originator}}</text>
-    </view>
     <text class='userinfo-detail'>{{detail}}</text>
   </view>
 
@@ -62,6 +58,7 @@
                     </view>
                     <view class="weui-media-box__desc">{{item.phoneNum}}</view>
                   </view>
+                  <view wx:if="{{item.userId == groupMaster}}" class="weui-badge" style="margin-left: 5px;">群主</view>
                 </view>
               </view>
             </view>

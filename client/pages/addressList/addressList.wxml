@@ -37,22 +37,22 @@
                 </view>
                 <view class="widgets__list {{item.open ? 'widgets__list_show' : ''}}">
                   <!-- <view class="weui-panel weui-panel_access"> -->
-                  <block wx:for-items="{{item.subName}}" wx:for-item="name">
+                  <block wx:for-items="{{item.cards}}" wx:for-item="user">
                     <view class="weui-panel__bd">
-                      <view class="widget test" data-intro="{{item.intro[index]}}" bindlongpress='fLongpress1' bindtap="jumpToInfo" hover-class="weui-cell_active" data-index='{{index}}' data-id='{{item.id}}' hover-start-time="10" hover-stay-time="100">
+                      <view class="widget test" bindlongpress='fLongpress1' bindtap="jumpToInfo" hover-class="weui-cell_active" data-id='{{user.userId}}' hover-start-time="10" hover-stay-time="100">
                           <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
-                            <image class="weui-media-box__thumb" src="{{'/images/addressList/user-unlogin.png'}}" />
+                            <image class="weui-media-box__thumb" src="{{user.imgUrl}}" />
                           </view>
                           <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
                             <view class="weui-media-box__title">
-                              <view>{{name}}</view>
+                              <view>{{user.userName}}</view>
                             </view>
-                            <view class="weui-media-box__desc">{{item.intro[index]}}</view>
+                            <view class="weui-media-box__desc">{{user.intro}}</view>
                           </view>
-                        <view class="widget__line {{index == 0 ? 'widget__line_first' : ''}}"></view>
+                          <view class="widget__line {{index == 0 ? 'widget__line_first' : ''}}"></view>
                       </view>
-                  </view>
-                </block>
+                    </view>
+                  </block>
                 </view>
               </view>
             </block>
@@ -71,14 +71,14 @@
                   <image class="widgets__info-img" src="/images/addressList/arrowright.png" mode="aspectFill" />
                 </view>
                 <view class="widgets__list {{item.open ? 'widgets__list_show' : ''}}">
-                  <block wx:for-items="{{item.subName}}" wx:for-item="name">
-                    <view class="widget test" data-intro="{{item.intro[index]}}" bindlongpress='fLongpress2' hover-start-time="10" hover-stay-time="100" hover-class="weui-cell_active" data-index='{{index}}' data-id='{{item.id}}'  bindtap='jumpToDetail'>
+                  <block wx:for-items="{{item.groups}}" wx:for-item="group">
+                    <view class="widget test" bindlongpress='fLongpress2' hover-start-time="10" hover-stay-time="100" hover-class="weui-cell_active" data-id='{{group.groupId}}'  bindtap='jumpToDetail'>
                       <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
-                        <image class="weui-media-box__thumb" src="/images/tab/list.png" />
+                        <image class="weui-media-box__thumb" src="/images/tab/list.png" /><!--群头像emmm-->
                       </view>
                       <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
-                        <view class="weui-media-box__title">{{name}}</view>
-                        <view class="weui-media-box__desc">{{item.intro[index]}}</view>
+                        <view class="weui-media-box__title">{{group.groupName}}</view>
+                        <view class="weui-media-box__desc">{{group.groupIntro}}</view>
                       </view>
                       <view class="widget__line {{index == 0 ? 'widget__line_first' : ''}}"></view>
                     </view>

@@ -15,9 +15,7 @@ Page({
     nameindex: 0,
     replyindex: 0,
     addressListName: "通讯录名",
-    memberInfo: "人数",
     groupMaster: "",
-    originator: "群主",
     detail: "群信息",
     listpeople: [
       {
@@ -26,12 +24,10 @@ Page({
         phone_num: "phone_num1",
       },
     ],
-    listpeopletemp: [],
+    listpeopletemp: [],//（搜索用）
     listpeopleresult: [],
-    listmsgtemp: [],
-
-    listmsg: [
-    ],
+    listmsgtemp: [],//（搜索用）
+    listmsg: [],
     groupMessageId: [],
     groupMessageNum: 0,
     userInfo: {},
@@ -42,7 +38,7 @@ Page({
     inputShowed: false,
     inputVal: "",
     //navbar
-    tabs: ["通讯录", "消息"],
+    tabs: [],
     activeIndex: 0,
     sliderOffset: 0,
     sliderLeft: 0,
@@ -56,6 +52,8 @@ Page({
     imgList: [], //所有图片地址
     currentNum: 0,  //当前显示图片数
     plusNum: 5, //每次增加图片数
+    isSearch: false, //如果是搜索框显示的不能执行触底刷新
+    imgListTemp: [],//图片副本（搜索用）
   },
 
   //Search Bar
@@ -84,10 +82,12 @@ Page({
       inputVal: "",
       inputShowed: false,
       peopleShow: 1,
+      isSearch: false
     });
     if (this.data.isbindconfirmMessage == 1) {//按下回车键后
       this.setData({
         listmsg: this.data.listmsgtemp,
+        imgList: this.data.imgListTemp,
         isbindconfirmMessage: 0
       });
     }
@@ -266,46 +266,34 @@ Page({
     var that = this;
     that.setData({
       currentNum: 0,
+      listmsg: [],
+      imgList: []
     });
     //获取群信息
     wx.request({
       url: config.service.groupInfoUrl,
       data: {
         groupId: that.data.groupId,
+      
+
       },
       method: 'GET',
       header: {
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
+        var temp = [];
+        temp[0] = '通讯录' + '(' + res.data.memberNum + ')';
+        temp[1] = '消息';
         that.setData({
           addressListName: res.data.groupName,
           detail: res.data.groupIntro,
+          tabs: temp,
           groupMaster: res.data.groupMaster,
-          memberInfo: "人数：" + res.data.memberNum,
+          //memberInfo: "人数：" + res.data.memberNum,
           listpeople: res.data.member,
           groupMessageId: res.data.groupMessage,
           groupMessageNum: res.data.groupMessageNum,
-        });
-        //获取群主
-        wx.request({
-          url: config.service.userInfoUrl,
-          data: {
-            userId: that.data.groupMaster,
-          },
-          method: 'GET',
-          header: {
-            'content-type': 'application/json' // 默认值
-          },
-          success: function (res) {
-            that.setData({
-              originator: "群主：" + res.data.info.userName,
-            });
-            //util.showSuccess('操作成功');
-          },
-          fail: function (res) {
-            util.showModel('操作失败', '未知错误');
-          },
         });
         //获取群消息
         var cur = that.data.currentNum;
@@ -330,7 +318,7 @@ Page({
       if (that.data.currentNum == that.data.groupMessageNum) {
         util.showModel('操作失败', '消息已全部加载');
       }
-      else {
+      else if (that.data.isSearch == false){
         //获取群消息
         var cur = that.data.currentNum;
         for (var i = cur; i < cur + that.data.plusNum && i < that.data.groupMessageNum; i++) {
@@ -400,6 +388,7 @@ Page({
   //搜索群消息
   searchGroupMessage: function () {
     var that = this;
+    that.data.isSearch = true;
     that.data.isbindconfirmMessage = 1;
     wx.request({
       url: config.service.searchGroupMessageUrl,
@@ -414,10 +403,29 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
-        //console.log(res.data);
+        that.setData({
+          imgListTemp: that.data.imgList,
+          imgList: []
+        })
+
+        var temp = res.data;
+        for(var i in temp){
+          temp[i].time = util.formatTime(new Date(temp[i].time));
+          var str = temp[i].imagePath;
+          if (str == null) {
+            temp[i].imgList = [];
+          }
+          else {
+            temp[i].imgList = str.split(',');
+          }
+          that.setData({
+            imgList: that.data.imgList.concat(temp[i].imgList)
+          })
+        }
+      
         that.setData({
           listmsgtemp: that.data.listmsg,
-          listmsg: res.data,
+          listmsg: temp,
         })
         util.showSuccess('操作成功');
       },

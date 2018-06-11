@@ -12,30 +12,29 @@ Page({
     rest_height: 0,  //用于设置scroll-view高度
     //下面是用户的信息
     userId: "",
-    name: "temp",
-    intro: "快要被晒干了……gg",
+    name: "",
+    intro: "",
     imgUrl: "",
 
     self_detail_title: [
       "所在大学", "专业", "所在城市"
     ],
 
-    self_detail_ctt: [
-      "信息1", "信息2", "信息3"
-    ],
+    self_detail_ctt: [],
 
     cont_detail_title: [
       "手机号", "qq号", "微信号", "电子邮箱"
     ],
 
-    cont_detail_ctt: [
-      "方式1", "方式2", "方式3", "方式4"
-    ]
+    cont_detail_ctt: []
   },
 
+  //添加名片
   onClick_tjmp: function(){
       //对全局变量的好友关系进行更改
+
       //向后端发送request修改数据库值
+
       //跳转回之前页面
       util.showSuccess('成功添加名片');
       setTimeout(function () {
@@ -45,11 +44,14 @@ Page({
       }, 850);
   },
 
+  //加入特别关注
   onClick_jrtbgz: function () {
       //对全局变量的好友关系进行更改
+
       //向后端发送request修改数据库值
+
       //跳转回之前页面
-      util.showSuccess('成功加入特别关注');
+      util.showSuccess('成功加入关注');
       setTimeout(function () {
         wx.navigateBack({
 
@@ -57,9 +59,12 @@ Page({
       }, 850);
   },
 
+  //加入黑名单
   onClick_jrhmd: function () {
       //对全局变量的好友关系进行更改
+
       //向后端发送request修改数据库值
+
       //跳转回之前页面
       util.showSuccess('成功加入黑名单');
       setTimeout(function () {
@@ -67,6 +72,36 @@ Page({
 
         });
       }, 850);
+  },
+
+  //取消特别关注
+  onClick_qxtbgz: function () {
+    //对全局变量的好友关系进行更改
+
+    //向后端发送request修改数据库值
+
+    //跳转回之前页面
+    util.showSuccess('成功取消关注');
+    setTimeout(function () {
+      wx.navigateBack({
+
+      });
+    }, 850);
+  },
+
+  //移出黑名单
+  onClick_ychmd: function () {
+    //对全局变量的好友关系进行更改
+
+    //向后端发送request修改数据库值
+
+    //跳转回之前页面
+    util.showSuccess('成功移出黑名单');
+    setTimeout(function () {
+      wx.navigateBack({
+
+      });
+    }, 850);
   },
 
   /**
@@ -89,15 +124,16 @@ Page({
         })
       }
     });
-    /* 依据跳转来源界面设置页面种类，从而控制按钮种类
+    /* 依据userId判断用户间关系，设置页面种类，从而控制按钮种类
           未加好友：0 添加名片 加入黑名单
           普通好友：1 加入特别关注 加入黑名单
-          特别关注或黑名单：233 什么都没有
+          特别关注：2 取消特别关注 加入黑名单
+          黑名单：-1  加入特别关注 移出黑名单
     */
     that.setData({
-      category: options.category,
       userId: options.userId
     })
+
     //获取用户数据
     wx.request({
       url: config.service.userInfoUrl,

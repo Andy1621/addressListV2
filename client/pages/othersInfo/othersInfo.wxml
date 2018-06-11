@@ -45,7 +45,9 @@
 
     <view class='bottom'>
         <button wx:if="{{category==0}}" class='mybtn_tjmp' bindtap='onClick_tjmp'>添加名片</button>
-        <button wx:if="{{category==1}}" class='mybtn_jrtbgz' bindtap='onClick_jrtbgz'>加入特别关注</button>
-        <button wx:if="{{category!=233}}" class='mybtn_jrhmd' bindtap='onClick_jrhmd'>加入黑名单</button>
+        <button wx:if="{{category==1 || category==-1}}" class='mybtn_jrtbgz' bindtap='onClick_jrtbgz'>加入特别关注</button>
+        <button wx:if="{{category!=-1}}" class='mybtn_jrhmd' bindtap='onClick_jrhmd'>加入黑名单</button>
+        <button wx:if="{{category==2}}" class='mybtn_qxtbgz' bindtap='onClick_qxtbgz'>取消特别关注</button>
+        <button wx:if="{{category==-1}}" class='mybtn_ychmd' bindtap='onClick_ychmd'>移出黑名单</button>
     </view>
 </view>

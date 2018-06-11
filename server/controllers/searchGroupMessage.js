@@ -16,7 +16,7 @@ module.exports = async (ctx, next) => {
   let groupId = ctx.request.query.groupId;
   let str = ctx.request.query.str;
   var res;
-  await dbnnn(config.GroupMessage).where({ groupId: groupId }).where('content ', 'like', '%' + str + '%').select()
+  await dbnnn(config.GroupMessage).where({ groupId: groupId }).where('content ', 'like', '%' + str + '%').orderBy('time', 'desc').select()
     .catch(function (e) {
       console.error(e);
     })

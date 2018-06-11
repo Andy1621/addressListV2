@@ -9,32 +9,24 @@ Page({
    * 页面的初始数据
    */
   data: {
-      is_logged: getApp().globalData.logged,
-    cGroupArr: null,
-    aGroupArr: null,
-    cardArr:null,
-    specialArr: null,
-    blackArr: null,
+    is_logged: false,
 
     list1: [
       {
         id: 'card_holder',
         name: '名片夹',
         open: false,
-        subName: [],
-        intro: []
+        cards: []
       }, {
         id: 'special_attention',
         name: '特别关注',
         open: false,
-        subName: [],
-        intro: []
+        cards: []
       }, {
         id: 'blacklist',
         name: '黑名单',
         open: false,
-        subName: [],
-        intro: []
+        cards: []
       }
     ],
     list2: [
@@ -42,15 +34,13 @@ Page({
         id: 'addresslist_holder1',
         name: '我创建的通讯录',
         open: false,
-        subName: [],
-        intro: []
+        groups: []
       },
       {
         id: 'addresslist_holder2',
         name: '我加入的通讯录',
         open: false,
-        subName: [],
-        intro: []
+        groups: []
       },
     ],
     navbar: ['好友', '通讯录'], //选项卡 导航
@@ -70,6 +60,7 @@ Page({
       list1: list
     });
   },
+
   widgetsToggle2: function (e) {
     var id = e.currentTarget.id, list = this.data.list2;
     for (var i = 0, len = list.length; i < len; ++i) {
@@ -81,169 +72,81 @@ Page({
       list2: list
     });
   },
+
+  //长按删除
   fLongpress1: function (e) {
-    var that = this;
-    console.log(e.currentTarget.dataset);
+    var that = this;    
     var id = e.currentTarget.dataset.id
-    var index = e.currentTarget.dataset.index, list = this.data.list1;
-    for (var i = 0, len = list.length; i < len; ++i) {
-      if (list[i].id == id) {
-        wx.showModal({
-          title: '提示',
-          content: '确定要删除此名片吗？',
-          success: function (res) {
-            if (res.confirm) {
-              console.log('点击确定了');
-            } else if (res.cancel) {
-              console.log('点击取消了');
-              return false;
-            }
-            that.setData({
-              list1: list
-            });
-          }
-        })
+    var list = that.data.list1;
+
+    wx.showModal({
+      title: '提示',
+      content: '确定要删除此名片吗？',
+      success: function (res) {
+        if (res.confirm) {
+          console.log('点击确定了');
+        } else if (res.cancel) {
+          console.log('点击取消了');
+          return false;
+        }
+        that.setData({
+          list1: list
+        });
       }
-    }
+    })
   },
 
   fLongpress2: function (e) {
     var that = this;
     var id = e.currentTarget.dataset.id
-    var index = e.currentTarget.dataset.index, list = this.data.list2;
-    for (var i = 0, len = list.length; i < len; ++i) {
-      if (list[i].id == id) {
-        wx.showModal({
-          title: '提示',
-          content: '确定要退出此通讯录吗？',
-          success: function (res) {
-            if (res.confirm) {
-              console.log('点击确定了');
-            } else if (res.cancel) {
-              console.log('点击取消了');
-              return false;
-            }
-            that.setData({
-              list2: list
-            });
-          }
-        })
+    var list = that.data.list2;
+
+    wx.showModal({
+      title: '提示',
+      content: '确定要退出此通讯录吗？',
+      success: function (res) {
+        if (res.confirm) {
+          console.log('点击确定了');
+        } else if (res.cancel) {
+          console.log('点击取消了');
+          return false;
+        }
+        that.setData({
+          list2: list
+        });
       }
-    }
+    })
   },
 
   getAddressList: function () {
-    var that = this;
-    var list = this.data.list2;
-    var listC = this.data.list1;
-    console.log("发出一个getAddressList请求");
-    wx.request({
-      url: config.service.getAddressListUrl,
-      data: {
-        userId: 'buaasoft1621'
-      },
-      method: 'GET',
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success: function (res) {
-        console.log(res.data);
-        util.showSuccess('操作成功');
-        //好友数据
-        var listCN = [], listCI = [];
-        var len = res.data.card.length;
-        for (var i = 0; i < len; i++) {
-          listCN[i] = res.data.card[i].userName;
-          listCI[i] = res.data.card[i].intro;
-        }
-        var listSN = [], listSI = [];
-        var len = res.data.special.length;
-        for (var i = 0; i < len; i++) {
-          listSN[i] = res.data.special[i].userName;
-          listSI[i] = res.data.special[i].intro;
-        }
-        var listBN = [], listBI = [];
-        var len = res.data.special.length;
-        for (var i = 0; i < len; i++) {
-          listBN[i] = res.data.black[i].userName;
-          listBI[i] = res.data.black[i].intro;
-        }
-        listC[0].subName = listCN;
-        listC[0].intro = listCI;
-        listC[1].subName = listSN;
-        listC[1].intro = listSI;
-        listC[2].subName = listBN;
-        listC[2].intro = listBI;
+    var temp_cards = this.data.list1;
+    var temp_groups = this.data.list2;
 
-        //通讯录数据
-        var listNC = [], listIC = [];
-        var len = res.data.create.length;
-        for (var i = 0; i < len; i++) {
-          listNC[i] = res.data.create[i].groupName;
-          listIC[i] = res.data.create[i].groupIntro;
-        }
-        var listNA = [], listIA = [];
-        var len = res.data.add.length;
-        for (var i = 0; i < len; i++) {
-          listNA[i] = res.data.add[i].groupName;
-          listIA[i] = res.data.add[i].groupIntro;
-        }
-        list[0].subName = listNC;
-        list[0].intro = listIC;
-        list[1].subName = listNA;
-        list[1].intro = listIA;
-
-        that.setData({
-          list1: listC,
-          list2: list,
-          cGroupArr: res.data.create,
-          aGroupArr: res.data.add,
-          cardArr: res.data.card,
-          specialArr: res.data.special,
-          blackArr: res.data.black
-        })
-
-        getApp().globalData.cardList = JSON.stringify(that.data.cardArr);
-        getApp().globalData.specialList = JSON.stringify(that.data.specialArr);
-        getApp().globalData.blackList = JSON.stringify(that.data.blackArr);
-        getApp().globalData.addGroupList = JSON.stringify(that.data.aGroupArr);
-        getApp().globalData.createGroupList = JSON.stringify(that.data.cGroupArr)
-      },
-      fail: function (res) {
-        util.showModel('操作失败');
-      },
-
-    })
-  },
-
-  // 点击切换选项卡
-
-  navbarTap: function (e) {
+    temp_cards[0].cards = JSON.parse(getApp().globalData.cardList);
+    temp_cards[1].cards = JSON.parse(getApp().globalData.specialList);
+    temp_cards[2].cards = JSON.parse(getApp().globalData.blackList);
+    temp_groups[0].groups = JSON.parse(getApp().globalData.createGroupList);
+    temp_groups[1].groups = JSON.parse(getApp().globalData.addGroupList);
 
     this.setData({
-
-      currentTab: e.currentTarget.dataset.idx
-
+        list1: temp_cards,
+        list2: temp_groups
     })
-
-    console.log('最怕空气突然安静(点击)' + e.target.dataset.idx)
-
   },
 
   // 点击切换选项卡
+  navbarTap: function (e) {
+    this.setData({
+      currentTab: e.currentTarget.dataset.idx
+    })
+  },
 
+  // 点击切换选项卡
   trendsSwiperChange: function (e) {
-
     var that = this;
-
     that.setData({
-
       currentTab: e.detail.current
-
     });
-
-    console.log('最怕朋友突然的关心(滑动)' + e.detail.current)
-
   },
 
   /**
@@ -257,21 +160,18 @@ Page({
 
   jumpToDetail: function (e) {
       console.log(e);
-      var temp = e.currentTarget.dataset;
-      if (temp.id == "addresslist_holder1")
-          var str = this.data.cGroupArr[temp.index].groupId
-      else if (temp.id == "addresslist_holder2")
-          var str = this.data.aGroupArr[temp.index].groupId
+      var str = e.currentTarget.dataset.id;
       wx.navigateTo({
           url: '/pages/detailPage/detailPage?groupId=' + str,
       })
   },
 
   jumpToInfo:function(e){
-        //先判断该用户与这位名片用户的关系，来设置category
-        wx.navigateTo({
-            url: '/pages/othersInfo/othersInfo?category=0',
-        })
+      console.log(e);
+      var clickId = e.currentTarget.dataset.id;
+      wx.navigateTo({
+          url: '/pages/othersInfo/othersInfo?userId=' + clickId,
+      })
   },
 
   //切换至搜索界面
@@ -285,7 +185,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log('onLoad');
     var that = this;
     // 获取系统信息
     wx.getSystemInfo({
