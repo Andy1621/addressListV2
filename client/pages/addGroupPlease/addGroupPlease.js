@@ -38,11 +38,12 @@ Page({
         console.log(that.data.reason);
 
         console.log("发出一个addGroupRequest请求");
+        console.log(that.data.userId);
         wx.request({
             url: config.service.addGroupRequestUrl,
             data: {
                 groupId: that.data.groupId,
-                userId: that.data.reason,//'buaasoft1621',
+                userId: that.data.userId,//'buaasoft1621',
                 reason: that.data.reason
             },
             method: 'POST',
@@ -90,7 +91,8 @@ Page({
   onLoad: function (options) {
     console.log(options);
     this.setData({
-        groupId:options,
+        groupId:options.groupId,
+        userId: getApp().globalData.openId,
     })
   },
 
@@ -105,10 +107,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-      console.log(getApp().globalData.openId);
-      this.setData({
-          userId: getApp().globalData.openId,
-      })
+
   },
 
   /**
