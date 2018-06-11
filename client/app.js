@@ -10,6 +10,7 @@ App({
       //个人状态和信息
       logged: false,
       first_logged: true,
+      myImgUrl:"",
       openId: '',
       intro: "",
       name:"",

@@ -209,3 +209,11 @@ background: #e60012;
   -webkit-align-items: center;
   align-items: center;
 }
+
+.weui-media-box__thumb{
+    border-radius: 20%;
+}
+
+.weui-media-box__user{
+    border-radius: 50%;
+}

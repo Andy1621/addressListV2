@@ -59,3 +59,7 @@
     color: white;
     background-color: #1296db;
 }
+
+.weui-media-box__thumb{
+    border-radius: 20%;
+}

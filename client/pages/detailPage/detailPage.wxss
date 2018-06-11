@@ -53,7 +53,7 @@ page {
 }
 
 .userinfo-detail{
-    margin: 5px;
+    margin: 10rpx;
     font-size: 30rpx;
     color: #e6e6ea;
     align-content: center;
@@ -73,7 +73,7 @@ page {
 
 .uploader-text, .tunnel-text {
     width: 100%;
-    line-height: 52px;
+    line-height: 52rpx;
     font-size: 34rpx;
     color: #007AFF;
 }
@@ -86,7 +86,7 @@ page {
     align-content: center;
     justify-content: center;
     box-sizing: border-box;
-    border-top: 1px solid rgba(0, 0, 0, .1);
+    border-top: 2rpx solid rgba(0, 0, 0, .1);
 }
 
 .uploader-image {
@@ -161,7 +161,7 @@ page {
 
 .weui-search-bar{
     position:relative;
-    padding:8px 10px;
+    padding:16rpx 20rpx;
     display:-webkit-box;
     display:-webkit-flex;
     display:flex;
@@ -172,19 +172,19 @@ page {
 }
 
 .weui-icon-search{
-    margin-right:8px;
+    margin-right:16rpx;
     font-size:inherit
 }
 
 .weui-icon-search_in-box{
     position:absolute;
-    left:10px;
-    top:7px
+    left:20rpx;
+    top:14rpx
 }
 
 .weui-search-bar__text{
     display:inline-block;
-    font-size:14px;
+    font-size:28rpx;
     vertical-align:middle
 }
 
@@ -193,24 +193,24 @@ page {
     -webkit-box-flex:1;
     -webkit-flex:auto;
     flex:auto;
-    border-radius:5px;
+    border-radius:10rpx;
     background:#fff;
     border:1rpx solid #e6e6ea
 }
 
 .weui-search-bar__box{
     position:relative;
-    padding-left:30px;
-    padding-right:30px;
+    padding-left:60rpx;
+    padding-right:60rpx;
     width:100%;
     box-sizing:border-box;
     z-index:1
 }
 
 .weui-search-bar__input{
-    height:28px;
-    line-height:28px;
-    font-size:14px;
+    height:56rpx;
+    line-height:56rpx;
+    font-size:28rpx;
     text-align: left;
 }
 
@@ -218,7 +218,7 @@ page {
     position:absolute;
     top:0;
     right:0;
-    padding:7px 8px;
+    padding:14rpx 16rpx;
     font-size:0
 }
 
@@ -229,29 +229,29 @@ page {
     bottom:0;
     left:0;
     z-index:2;
-    border-radius:3px;
+    border-radius:6rpx;
     text-align:center;
     color:#9b9b9b;
     background:#fff;
-    line-height:28px
+    line-height:56rpx
 }
 
 .weui-search-bar__cancel-btn{
-    margin-left:10px;
-    line-height:28px;
+    margin-left:20rpx;
+    line-height:56rpx;
     color: #1296db;/*#09bb07;*/
     white-space:nowrap
 }
 
 /*navbar*/
 .weui-tab__content{
-    padding-top: 0px;
+    padding-top: 0rpx;
     text-align: center;
 }
 
 .weui-navbar__title{
     display:inline-block;
-    font-size:15px;
+    font-size:30rpx;
     max-width:8em;
     width:auto;
     overflow:hidden;
@@ -270,7 +270,7 @@ page {
     left:0;
     bottom:0;
     width:50%;
-    height:3px;
+    height:6rpx;
     background-color:#1296db;/*#1aad19;*/
     -webkit-transition:-webkit-transform .3s;
     transition:-webkit-transform .3s;
@@ -280,7 +280,7 @@ page {
 /*Panel*/
 .weui-panel{
     background-color:#fff;
-    margin-top:10px;
+    margin-top:20rpx;
     position:relative;
     overflow:hidden;
     text-align: left;
@@ -310,9 +310,9 @@ page {
 }
 
 .weui-panel__hd{
-    padding:14px 15px 10px;
+    padding:28rpx 30rpx 20rpx;
     color:#999;
-    font-size:13px;
+    font-size:26rpx;
     position:relative
 }
 
@@ -322,10 +322,10 @@ page {
     /* left:0; */
     bottom:0;
     right:0;
-    height:1px;
+    height:2rpx;
     border-bottom:1rpx solid #e5e5e5;
     color:#e5e5e5;
-    left:15px
+    left:30rpx
 }
 
 .weui-media-box__title{
@@ -336,8 +336,8 @@ page {
 .weui-media-box__desc{
     vertical-align: middle;
     display: flex;
-    margin-left: 5px;
-    margin-top: 5px;
+    margin-left: 10rpx;
+    margin-top: 10rpx;
 }
 
 .weui-media-box_appmsg{
@@ -354,7 +354,7 @@ page {
     display:flex;
     -webkit-box-align:center;
     flex-direction: column;
-    margin-top: 10px;
+    margin-top: 20rpx;
     align-items: left;
 }
 
@@ -369,7 +369,7 @@ page {
     left:0;
     top:0;
     right:0;
-    height:1px;
+    height:2rpx;
     color:#e5e5e5;
 }
 
@@ -380,15 +380,17 @@ page {
 }
 
 .weui-media-box__mes{
-    margin-top: 10px;
-    margin-bottom: 10px;
-    font-size: 16px;
+    margin-top: 20rpx;
+    margin-bottom: 20rpx;
+    font-size: 32rpx;
+    word-wrap: break-word;
+    word-break: break-all;
 }
 
 .mestime{
     color: #9b9b9b;
-    font-size: 12px;
-    margin-left: 40px;
+    font-size: 24rpx;
+    margin-left: 40rpx;
 }
 
 /* .weui-media-box__bd_in-appmsg{
@@ -436,8 +438,8 @@ page {
     line-height: 64rpx;
     text-align: center;
     color: #1296db;
-    font-size: 15px;
-    margin-right: 10px;
+    font-size: 30rpx;
+    margin-right: 20rpx;
 }
 
 .release .submit{
@@ -446,80 +448,85 @@ page {
     line-height: 64rpx;
     text-align: center;
     color: #1296db;
-    font-size: 15px;
-    margin-right: 10px;
-    margin-left: 10px;
-    margin-bottom:5px;
+    font-size: 30rpx;
+    margin-right: 20rpx;
+    margin-left: 20rpx;
+    margin-bottom:10rpx;
     border-left: 1rpx, solid, #222;
 }
 
 .release .divide{
     color: #1296db;
     background-color: #1296db; 
-    height: 30px;
-    width: 2px;
-    margin-bottom:5px;
+    height: 60rpx;
+    width: 4rpx;
+    margin-bottom:10rpx;
 }
 
 .msgReply{
-    width: 90%;
+    background-color: #f6f6f6;
+    border-bottom: solid 2rpx #ffffff;
+    width: 97%;
     display: flex;
     flex-direction: row;
     text-align: left;
-    padding-left: 5%;
+    padding-left: 2%;
     padding-bottom: 15rpx;
-    margin-top: 5px;
-    margin-bottom: 5px;
+    padding-top: 10rpx;
+    word-wrap: break-word;
+    word-break: break-all;
 }
 
 
 .mesreplytime{
     color: #9b9b9b;
-    font-size: 12px;
-    margin-left: 10px;
+    font-size: 24rpx;
+    margin-left: 20rpx;
     margin-bottom: 20rpx;
 }
 
 .replyimage{
-    margin-right:30rpx;
-    width:60rpx;
-    height:60rpx;
-    line-height:30px;
+    margin-top: 10rpx;
+    margin-right:15rpx;
+    min-width: 60rpx;
+    max-width:60rpx;
+    min-height:60rpx;
+    max-height: 60rpx;
+    line-height:60rpx;
     text-align:left;
     border-radius: 50%;
 }
 
 .replyName{
-    font-size: 15px;
+    /*border-right: solid 3rpx #4f4f4f;*/
+    font-size: 26rpx;
+    max-height: 40rpx;
     margin-left: 10rpx;
-    margin-top: 5rpx;
-}
-
-.nameAndtime{
-    margin-right: 10px;
-    text-align: center;
+    padding-right: 10rpx;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .replytext{
-    font-size: 13px;
-    color: #9b9b9b;
-    margin-left: 3rpx;
-    max-width: 450rpx;
+    font-size: 26rpx;
+    color: #1f1f1f;
+    margin-left: 10rpx;
     margin-top: 10rpx;
 }
 
 /*Button*/
 .button-sp-area{
     margin: 0 auto;
-    padding-top: 15px;
+    padding-top: 30rpx;
     width: 60%;
 }
 .mini-btn{
-    margin-right: 3px;
+    margin-right: 6rpx;
 }
 
 .weui-btn{
-    margin-top:15px;
+    margin-top:30rpx;
 }
 
 .bottom{

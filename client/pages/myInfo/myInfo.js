@@ -129,6 +129,7 @@ Page({
           util.showSuccess('登录成功');
           getApp().globalData.logged = true;
           getApp().globalData.openId = result.openId;
+          getApp().globalData.myImgUrl = result.avatarUrl;
           that.setData({
             userInfo: result,
             is_logged: true

@@ -156,6 +156,7 @@ Page({
     obj.name = this.data.myname;
     obj.time = util.formatTime(new Date);
     obj.content = this.data.messageVal;
+    obj.imgUrl=getApp().globalData.myImgUrl;
     this.data.listmsg[this.data.index].leaveMessage.push(obj);
     var all = this.data.listmsg[this.data.index].leaveMessage;
     var str = "listmsg[" + this.data.index + "].leaveMessage";
