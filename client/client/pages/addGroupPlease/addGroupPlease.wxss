@@ -1,0 +1,15 @@
+/* pages/addGroupPlease/addGroupPlease.wxss */
+page{
+    background-color: #F8F8F8;
+}
+
+.justify-content-center{
+    flex-direction:row;
+    justify-content: center;
+}
+
+.addresslist-add {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
