@@ -1,0 +1,47 @@
+<view class="page">
+  <view class="page__bd">
+    <view class="weui-cells__title">申请人</view>
+    <view class="weui-panel__main">
+      <view class="weui-media-box weui-media-box_appmsg" bindtap='onClick'>
+        <view class="weui-media-box__hd_in-appmsg">
+          <image class="weui-media-box__thumb" src="{{userInfo.imgUrl}}" />
+        </view>
+        <view class="weui-media-box__bd_in-appmsg">
+          <view class="weui-media-box__title">{{userInfo.userName}}</view>
+          <view class="weui-media-box__desc">{{userInfo.intro}}</view>
+        </view>
+      </view>
+    </view>
+    <view class="flex-wrp justify-content-center"></view>
+
+    <view wx:if="{{application_type==2}}">
+      <view class="weui-cells__title">通讯录名称</view>
+      <view class="about-addresslist">
+        <view class="about-addresslist-text">{{addresslist_name}}</view>
+      </view>
+      <view class="flex-wrp justify-content-center"></view>
+      <view class="weui-cells__title">通讯录信息</view>
+      <view class="about-addresslist">
+        <view class="about-addresslist-text">{{addresslist_info}}</view>
+      </view>
+      <view class="flex-wrp justify-content-center"></view>
+      <view class="weui-cells__title">通讯录类型</view>
+      <view class="about-addresslist">
+        <view class="about-addresslist-text">{{addresslist_type}}</view>
+      </view>
+    </view>
+
+    <view wx:if='{{application_type==1}}'>
+      <view class="weui-cells__title">申请原因</view>
+      <view class="apply-reason">
+        <view class="apply-reason-text">{{apply_reason}}</view>
+      </view>
+    </view>
+
+    <view class="btn-area">
+      <text></text>
+      <button class="weui-btn" type="primary" bindtap="agreeToast">同意申请</button>
+      <button class="weui-btn" type="warn" bindtap="refuseToast">拒绝申请</button>
+    </view>
+  </view>
+</view>

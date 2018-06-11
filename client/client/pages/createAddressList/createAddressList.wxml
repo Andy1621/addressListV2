@@ -1,0 +1,49 @@
+<!--pages/createAddressList/createAddressList.wxml-->
+<view class="page" xmlns:wx="http://www.w3.org/1999/xhtml">
+    <view class="page__bd">
+        <view class="weui-toptips weui-toptips_warn" wx:if="{{showTopTips}}">错误提示</view>
+
+        
+        <form bindsubmit='onClick'>
+        <view class="weui-cells__title">通讯录名</view>
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell weui-cell_input">
+                <view class="weui-cell__bd">
+                    <input class="weui-input" placeholder="请输入文本" value="{{groupName}}" bindinput='inputName' name="groupName" />
+                </view>
+            </view>
+        </view>
+
+        <view class="flex-wrp justify-content-center"></view>
+
+        <view class="weui-cells__title">通讯录类别</view>
+        <view class="weui-cells weui-cells_after-title">
+            <radio-group bindchange="radioChange">
+                <label class="weui-cell weui-check__label" wx:for="{{radioItems}}" wx:key="value">
+                    <radio class="weui-check" value="{{item.value}}" checked="{{item.checked}}"/>
+                    
+                    <view class="weui-cell__bd">{{item.value}}</view>
+                    <view class="weui-cell__ft weui-cell__ft_in-radio" wx:if="{{item.checked}}">
+                        <icon class="weui-icon-radio" type="success_no_circle" size="16"></icon>
+                    </view>
+                </label>
+            </radio-group>
+        </view>
+
+        <view class="flex-wrp justify-content-center"></view>
+
+        <view class="weui-cells__title">通讯录简介</view>
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell">
+                <view class="weui-cell__bd">
+                    <textarea class="weui-textarea" placeholder="请输入文本" style="height: 9em" value="{{groupIntro}}" name="groupIntro" maxlength='25' bindinput='inputTyping'/>
+                    <view class="weui-textarea-counter">{{textLength}}/25</view>
+                </view>
+            </view>
+        </view>
+        <view class="weui-btn-area">
+            <button class="weui-btn" type="primary" form-type="submit">确认提交</button>
+        </view>
+        </form>
+    </view>
+</view>
