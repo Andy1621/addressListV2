@@ -73,21 +73,46 @@ Page({
     wx.request({
       url: config.service.newsUrl,
       data: {
-        userId: 'buaasoft1621'
+        userId: '0001'
       },
       method: 'GET',
       header: {
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
-        console.log(res.data);
+        //console.log(res.data);
         var anew = res.data;
         anew.forEach(function (value, index, array) {
           var t1 = new Date(array[index].time).format("yyyy-MM-dd hh:mm:ss");
           array[index].time = t1;
           // cnew[index] = JSON.stringify(array[index].content);
           var str = array[index].content;
-          array[index].content = str.split('%@%')
+          array[index].content = str.split('%@%');
+          var newsType = array[index].type;
+          if (newsType == 'addRequest'){
+            array[index].name = '加群申请'
+          }
+          else if (newsType == 'addResult') {
+            array[index].name = '加群申请结果'
+          }
+          else if (newsType == 'addOver') {
+            array[index].name = '加群申请'
+          }
+          else if (newsType == 'special') {
+            array[index].name = '特殊关心'
+          }
+          else if (newsType == 'leaveMessage') {
+            array[index].name = '留言'
+          }
+          else if (newsType == 'createRequest') {
+            array[index].name = '建群申请'
+          }
+          else if (newsType == 'createResult') {
+            array[index].name = '建群申请结果'
+          }
+          else if (newsType == 'createOver') {
+            array[index].name = '建群申请'
+          }
         })
         that.setData({
           list: anew,
