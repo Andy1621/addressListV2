@@ -71,12 +71,12 @@ Page({
     console.log(card);
     //查找通讯录
     for (var i = 0; i < createGroup.length; i++) {
-      if (createGroup[i]['groupName'].indexOf(this.data.inputVal) != -1) {
+      if (createGroup[i]['groupName'].toLowerCase().indexOf(this.data.inputVal.toLowerCase()) != -1) {
         that.data.listtxlresult.push(createGroup[i]);
       }
     }
     for (var i = 0; i < addGroup.length; i++) {
-      if (addGroup[i]['groupName'].indexOf(this.data.inputVal) != -1) {
+      if (addGroup[i]['groupName'].toLowerCase().indexOf(this.data.inputVal.toLowerCase()) != -1) {
         that.data.listtxlresult.push(addGroup[i]);
       }
     }
@@ -84,17 +84,17 @@ Page({
 
     //查找人
     for (var i = 0; i < card.length; i++) {
-      if (card[i]['userName'].indexOf(this.data.inputVal) != -1) {
+      if (card[i]['userName'].toLowerCase().indexOf(this.data.inputVal.toLowerCase()) != -1) {
         that.data.listpeople.push(card[i]);
       }
     }
     for (var i = 0; i < special.length; i++) {
-      if (special[i]['userName'].indexOf(this.data.inputVal) != -1) {
+      if (special[i]['userName'].toLowerCase().indexOf(this.data.inputVal.toLowerCase()) != -1) {
         that.data.listpeople.push(special[i]);
       }
     }
     for (var i = 0; i < black.length; i++) {
-      if (black[i]['userName'].indexOf(this.data.inputVal) != -1) {
+      if (black[i]['userName'].toLowerCase().indexOf(this.data.inputVal.toLowerCase()) != -1) {
         that.data.listpeople.push(black[i]);
       }
     }
