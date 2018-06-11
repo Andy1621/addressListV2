@@ -31,6 +31,25 @@ Page({
     listmsgtemp:[],
 
     listmsg: [
+      /*{
+          userId:"Name1",
+          time:"2018/6/8 14:00",
+          content:"MessaggeTest1",
+          leaveMessage: [
+              {
+                  userId: "Reply1-1",
+                  content: "replytest1",
+              },
+              {
+                  userId: "Reply1-2",
+                  content: "replytest2",
+              },
+              {
+                  userId: "Reply1-3",
+                  content: "replytest3",
+              },
+          ],
+      },*/
     ],
     groupMessageId: [],
     groupMessageNum: 0,
@@ -54,8 +73,6 @@ Page({
     timetmp: "",
     groupId:"",
     //msgCount: 0,
-    //所有图片地址
-    imgList: []
   },
 
   //Search Bar
@@ -358,12 +375,9 @@ Page({
         var obj = res.data;
         console.log(obj.time);
         obj.time = util.formatTime(new Date(obj.time));
-        //将图片字符串转换为数组
-        obj.imgList = obj.imagePath.split(',');
         that.data.listmsg.push(obj);
         that.setData({
           listmsg: that.data.listmsg,
-          imgList: that.data.imgList.concat(obj.imgList)
         })
         //util.showSuccess('操作成功');
       },
@@ -453,11 +467,4 @@ Page({
       url: '/pages/sendMessage/sendMessage?groupId=' + groupId,
     })
   },
-
-  //预览图片
-  previewImage: function (e) {
-    wx.previewImage({
-      current: e.currentTarget.id, // 当前显示图片的http链接
-      urls: this.data.imgList // 需要预览的图片http链接列表
-    })
 })
