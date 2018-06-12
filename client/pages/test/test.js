@@ -69,7 +69,7 @@ Page({
     wx.request({
       url: config.service.addUserUrl,
       data: {
-        userId: 'buaasoft1221',
+        userId: 'buaasoft1331',
         intro: 'hello',
         userName: 'superMan',
         email: '1621@qq.com',
@@ -78,8 +78,7 @@ Page({
         major: 'design',
         city: 'beijing',
         wxNum: 'nowxin',
-        qqNum: '654654',
-        imgUrl: 'D:\\'
+        qqNum: '654654'
       },
       method: 'POST',
       header: {
@@ -455,7 +454,7 @@ Page({
       url: config.service.deleteGroupUrl,
       data: {
         userId: 'buaasoft1621',
-        groupId: 10
+        groupId: 15
       },
       method: 'DELETE',
       header: {
@@ -522,8 +521,8 @@ Page({
     wx.request({
       url: config.service.deleteMemberUrl,
       data: {
-        groupId: 10,
-        userId: 'buaasoft1621'
+        groupId: 1,
+        userId: '0003'
       },
       method: 'DELETE',
       header: {
@@ -582,12 +581,35 @@ Page({
     })
   },
 
+  //26.删除全部通知
   deleteAllNews: function () {
     console.log("发出一个deleteAllNews请求");
     wx.request({
       url: config.service.deleteAllNewsUrl,
       data: {
         userId: '0007'
+      },
+      method: 'GET',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        console.log(res.data);
+        util.showSuccess('操作成功');
+      },
+      fail: function (res) {
+        util.showModel('操作失败');
+      },
+    })
+  },
+
+  //27.群主删群
+  totallyDeleteGroup: function () {
+    console.log("发出一个totallyDeleteGroup请求");
+    wx.request({
+      url: config.service.totallyDeleteGroupUrl,
+      data: {
+        groupId: 70
       },
       method: 'GET',
       header: {

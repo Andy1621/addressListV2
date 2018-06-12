@@ -28,5 +28,6 @@
     <button class="weui-btn" type="primary" bindtap="f24">24.全局的getUserInfo测试</button>
     <button class="weui-btn" type="primary" bindtap="changeUUship">25.测试changeUUship</button>
     <button class="weui-btn" type="primary" bindtap="deleteAllNews">26.deleteAllNews</button>
+    <button class="weui-btn" type="primary" bindtap="totallyDeleteGroup">27.totallyDeleteGroup</button>
   </view>
 </view>

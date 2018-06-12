@@ -79,6 +79,10 @@ var config = {
 
         // 删除全部通知
         deleteAllNewsUrl: `${host}/weapp/deleteAllNews`,
+
+        // 群主删群
+        totallyDeleteGroupUrl: `${host}/weapp/totallyDeleteGroup`,
+        
     }
 };
 

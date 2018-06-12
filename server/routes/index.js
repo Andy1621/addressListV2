@@ -98,4 +98,7 @@ router.post('/changeUUship', controllers.changeUUship)
 //GET 删除全部通知
 router.get('/deleteAllNews', controllers.deleteAllNews)
 
+//GET 删除全部通知
+router.get('/totallyDeleteGroup', controllers.totallyDeleteGroup)
+
 module.exports = router

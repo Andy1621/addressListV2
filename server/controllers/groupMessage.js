@@ -192,6 +192,7 @@ async function deleteM(ctx, next) {
       data1 = data;
       console.log("删除群消息成功")
     });
+  return ctx.response.body = ctx.request.body;
 }
 
 module.exports = {

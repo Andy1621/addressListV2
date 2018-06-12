@@ -24,7 +24,13 @@ module.exports = async (ctx, next) => {
     city: ctx.request.body.city,
     wxNum: ctx.request.body.wxNum,
     qqNum: ctx.request.body.qqNum,
-    imgUrl: ctx.request.body.imgUrl
+  }
+  //console.log('imgUrl: ' + imgUrl )
+  if (ctx.request.body.imgUrl == null){
+    user.imgUrl =  '../../images/myInfo/user-unlogin.png';
+  }
+  else{
+    user.imgUrl = ctx.request.body.imgUrl;
   }
   console.log(user);
   await dbnnn(config.User).insert(user)

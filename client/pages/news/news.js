@@ -76,10 +76,12 @@ Page({
       wx.navigateTo({
         url: '/pages/dealApplication/dealApplication?application_type=1&content=' + JSON.stringify(content) + '&sysInfoId=' + JSON.stringify(sysId),
       });
-    else if (systype == 'createRequest')
+    else if (systype == 'createRequest'){
+      console.log('/pages/dealApplication/dealApplication?application_type=2&content=' + JSON.stringify(content) + '&sysInfoId=' + JSON.stringify(sysId))
       wx.navigateTo({
         url: '/pages/dealApplication/dealApplication?application_type=2&content=' + JSON.stringify(content) + '&sysInfoId=' + JSON.stringify(sysId),
       });
+    }
     else if (systype == 'special' || systype == 'leaveMessage') {
       wx.navigateTo({
         url: '/pages/detailPage/detailPage?groupId=' + content[1],
@@ -132,6 +134,15 @@ Page({
           }
           else if (newsType == 'createOver') {
             array[index].name = '建群申请'
+          } 
+          else if (newsType == 'dismiss') {
+            array[index].name = '散群公示'
+          }
+          else if (newsType == 'quit') {
+            array[index].name = '退群通知'
+          }
+          else if (newsType == 'kick') {
+            array[index].name = '踢群通知'
           }
         })
         that.setData({

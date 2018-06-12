@@ -25,8 +25,13 @@ module.exports = async (ctx, next) => {
     groupName: groupName,
     groupIntro: groupIntro,
     groupType: 'wait',
-    groupMaster: userId,
-    imgUrl: imgUrl
+    groupMaster: userId
+  }
+  if(imgUrl == ''){
+    group.imgUrl = '../../images/tab/list.png'
+  }
+  else{
+    group.imgUrl
   }
   await dbnnn(config.MyGroup).insert(group)
     .catch(function (e) {
