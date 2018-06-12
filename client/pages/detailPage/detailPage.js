@@ -518,18 +518,14 @@ Page({
   },
 
   onShareAppMessage: function () {
-    var passInfo = this.data.groupInfo;
-    let str = JSON.stringify(passInfo);
+    var passInfo = this.data.groupId;
+    //let str = JSON.stringify(passInfo);
+    console.log(passInfo);
     return {
-
-      title: "分享群" + this.data.addressListName,
-
-      desc: '邀请加入群通讯录',
-
-      path: '/pages/detailPage/detailPage?jsonStr=' + str,
-
+        title: "分享群" + this.data.addressListName,
+        desc: '邀请加入群通讯录',
+        path: '/pages/detailPage/detailPage?groupId=' + passInfo,
     }
-
   },
 
   getGroupMessage: function (callback, e) {

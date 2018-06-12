@@ -135,7 +135,40 @@ Page({
     }
     if(is_master==true)
     {
-        util.showModel('操作失败','您不能退出自己创建的群');
+        //util.showModel('操作失败','您不能退出自己创建的群');
+        wx.showModal({
+            title: '提示',
+            content: '您确定要解散该通讯录吗？\n此操作不可逆',
+            success: function (res) {
+                if (res.confirm) {
+                    console.log('点击确定了');
+                    //删除群
+                    console.log("发出一个totallyDeleteGroup请求");
+                    wx.request({
+                        url: config.service.totallyDeleteGroupUrl,
+                        data: {
+                            groupId: id
+                        },
+                        method: 'GET',
+                        header: {
+                            'content-type': 'application/json' // 默认值
+                        },
+                        success: function (res) {
+                            console.log(res.data);
+                            util.showSuccess('操作成功');
+                        },
+                        fail: function (res) {
+                            util.showModel('操作失败');
+                        },
+                    })
+                    that.freshList();
+                } else if (res.cancel) {
+                    console.log('点击取消了');
+                    return false;
+                }
+            }
+        })
+        
     }
     else
     {
