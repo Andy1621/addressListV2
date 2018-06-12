@@ -116,6 +116,12 @@ Page({
   },
   //navbar
   tabClick: function (e) {
+    if (this.data.activeIndex == 0) {
+      this.hideInputtxl();
+    }
+    else if (this.data.activeIndex == 1){
+      this.hideInput();
+    }
     this.setData({
       sliderOffset: e.currentTarget.offsetLeft,
       activeIndex: e.currentTarget.id,
