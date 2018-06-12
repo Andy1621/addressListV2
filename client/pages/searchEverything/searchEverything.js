@@ -127,12 +127,14 @@ Page({
   //跳转到其它用户资料
    jumpToInfo: function (e) {
      //先判断该用户与这位名片用户的关系，来设置category
+     var otherId = this.data.listpeople[e.currentTarget.id].userId;
      wx.navigateTo({
-       url: '/pages/othersInfo/othersInfo?category=1',
+       url: '/pages/othersInfo/othersInfo?userId=' + otherId,
        success: function (res) { },
        fail: function (res) { },
        complete: function (res) { },
      })
+
    },
 
 })
