@@ -61,7 +61,8 @@ Page({
   searchEverything: function () {
     var that = this;
     that.data.isbindconfirm= 1;
-    that.data.listtxlresult = [];
+    that.data.listtxlresult = []; 
+    that.data.listpeople = []; 
     var card = JSON.parse(getApp().globalData.cardList);//名片夹
     var special = JSON.parse(getApp().globalData.specialList);//特别关心
     var black = JSON.parse(getApp().globalData.blackList);//黑名单
