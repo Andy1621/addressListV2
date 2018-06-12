@@ -30,6 +30,7 @@ Page({
     listpeopleresult: [],
     listmsgtemp: [],//（搜索用）
     listmsg: [],
+    temp_listmsg: [],
     groupMessageId: [],
     groupMessageNum: 0,
     userInfo: {},
@@ -411,7 +412,8 @@ Page({
       that.setData({
         currentNum: 0,
         listmsg: [],
-        imgList: []
+        imgList: [],
+        temp_listmsg: []
       });
       //获取群信息
       wx.request({
@@ -456,8 +458,20 @@ Page({
           }
           //获取群消息
           var cur = that.data.currentNum;
+          var count = 0;
           for (var i = cur; i < cur + that.data.plusNum && i < that.data.groupMessageNum; i++) {
-            that.getGroupMessage(that.data.groupMessageId[i]);
+            that.getGroupMessage(function (data) {
+              count++;
+              console.log("count" + count + "  " + "cur" + cur + "   " + "sum" + that.data.groupMessageNum)
+              if (count == 5 || cur + count >= that.data.groupMessageNum) {
+                data.sort(function (a, b) {
+                  return b.groupMessageId - a.groupMessageId
+                })
+                that.setData({
+                  listmsg: data
+                })
+              }
+            }, that.data.groupMessageId[i]);
             that.setData({
               currentNum: that.data.currentNum + 1
             })
@@ -481,8 +495,20 @@ Page({
       else if (that.data.isSearch == false){
         //获取群消息
         var cur = that.data.currentNum;
+        var count = 0;
         for (var i = cur; i < cur + that.data.plusNum && i < that.data.groupMessageNum; i++) {
-          that.getGroupMessage(that.data.groupMessageId[i]);
+          that.getGroupMessage(function (data) {
+            count++;
+            console.log("count" + count + "  " + "cur" + cur + "   " + "sum" + that.data.groupMessageNum)
+            if (count == 5 || cur + count >= that.data.groupMessageNum) {
+              data.sort(function (a, b) {
+                return b.groupMessageId - a.groupMessageId
+              })
+              that.setData({
+                listmsg: data
+              })
+            }
+          }, that.data.groupMessageId[i]);
           that.setData({
             currentNum: that.data.currentNum + 1
           })
@@ -506,7 +532,7 @@ Page({
 
   },
 
-  getGroupMessage: function (e) {
+  getGroupMessage: function (callback, e) {
     //console.log(e);
     var that = this;
     wx.request({
@@ -531,16 +557,16 @@ Page({
         else {
           obj.imgList = str.split(',');
         }
-        obj.groupMessageId=e;
-        that.data.listmsg.push(obj);
+        obj.groupMessageId = e;
+        that.data.temp_listmsg.push(obj);
         that.setData({
-          listmsg: that.data.listmsg,
           imgList: that.data.imgList.concat(obj.imgList)
         })
+        callback(that.data.temp_listmsg)
         //util.showSuccess('操作成功');
       },
       fail: function (res) {
-       util.showModel('操作失败', '未知错误');
+        util.showModel('操作失败', '未知错误');
       },
     })
     //console.log(that.data.listmsg);
