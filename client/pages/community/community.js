@@ -101,6 +101,10 @@ Page({
         that.setData({
           groupArr: res.data,
         });
+        wx.pageScrollTo({
+          scrollTop: 0,
+          duration: 300
+        })
         //util.showSuccess('操作成功');
       },
       fail: function (res) {
