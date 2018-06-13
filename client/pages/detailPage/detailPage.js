@@ -6,6 +6,7 @@ const util = require('../../utils/util');
 Page({
   data: {
     groupInfo: [],
+    blackname:[],//黑名单
     isbindconfirmMessage: 0,//是否按下消息搜索框的回车
     isbindconfirmGroup: 0,//是否按下通讯录搜索框的回车
     myuserId: 0,
@@ -31,6 +32,7 @@ Page({
     listmsgtemp: [],//（搜索用）
     listmsg: [],
     temp_listmsg: [],
+    groupMessage:[],//存放GroupMessageID和UserID
     groupMessageId: [],
     groupMessageNum: 0,
     userInfo: {},
@@ -383,25 +385,15 @@ Page({
       groupId: options.groupId,
       myname:getApp().globalData.name,
     })
+    this.data.blackname = JSON.parse(getApp().globalData.blackList);//黑名单赋值
     var that=this;
     var AddedgroupInfo = JSON.parse(getApp().globalData.addGroupList);
     //console.log(AddedgroupInfo);
-    //是否群员
-    /*先别删
-    for(var i=0,length=AddedgroupInfo.length;i<length;i++)
-    {
-        //console.log(that.data.groupId + " " + AddedgroupInfo[i].groupId)
-        if(that.data.groupId==AddedgroupInfo[i].groupId)
-        {
-            that.setData({
-                is_member:true,
-            })
-        }
-    }*/
   },
 
   onShow: function () {
     console.log('onShow');
+    console.log(this.data.blackname);
     if(this.data.isPreview == true){
       this.setData({
         isPreview: false
@@ -426,6 +418,7 @@ Page({
           'content-type': 'application/json' // 默认值
         },
         success: function (res) {
+            console.log(res.data);
           var temp = [];
           temp[0] = '通讯录' + '(' + res.data.memberNum + ')';
           temp[1] = '消息';
@@ -436,7 +429,7 @@ Page({
             groupMaster: res.data.groupMaster,
             //memberInfo: "人数：" + res.data.memberNum,
             listpeople: res.data.member,
-            groupMessageId: res.data.groupMessage,
+            groupMessage: res.data.groupMessage,
             groupMessageNum: res.data.groupMessageNum,
           });
           console.log(that.data.listpeople);
@@ -457,21 +450,62 @@ Page({
             })
           }
           //获取群消息
+          //先删除黑名单
+          var tmpGroupMsg=that.data.groupMessage;
+          var Mlength=tmpGroupMsg.length;
+          var Blength=that.data.blackname.length;
+          console.log(tmpGroupMsg);
+          for(var j=0;j<Mlength;j++)
+          {
+              for(var k=0;k<Blength;k++)
+              {
+                  if(tmpGroupMsg[j][1]==that.data.blackname[k].userId)
+                  {
+                      tmpGroupMsg.splice(j,1);
+                      Mlength--;
+                      j--;
+                      break;
+                  }
+              }
+          }
+          console.log(tmpGroupMsg);
+          that.data.groupMessage=tmpGroupMsg;
+          that.data.groupMessageNum=that.data.groupMessage.length;
+          //以上是删除黑名单
           var cur = that.data.currentNum;
           var count = 0;
           for (var i = cur; i < cur + that.data.plusNum && i < that.data.groupMessageNum; i++) {
             that.getGroupMessage(function (data) {
               count++;
               console.log("count" + count + "  " + "cur" + cur + "   " + "sum" + that.data.groupMessageNum)
+              //删除留言中的黑名单
+              console.log(data[data.length-1]);
+              var tmpreply=data[data.length-1].leaveMessage;
+              var Llength=tmpreply.length;
+              for(var j=0;j<Llength;j++)
+              {
+                  for(var k=0;k<that.data.blackname.length;k++)
+                  {
+                      if (tmpreply[j].userId == that.data.blackname[k].userId)
+                      {
+                          tmpreply.splice(j,1);
+                          Llength--;
+                          j--;
+                          break;
+                      }
+                  }
+              }
+              data[data.length - 1].leaveMessage=tmpreply;
+              //以上是删除留言的黑名单
               if (count == 5 || cur + count >= that.data.groupMessageNum) {
                 data.sort(function (a, b) {
                   return b.groupMessageId - a.groupMessageId
                 })
                 that.setData({
-                  listmsg: data
+                  listmsg: data,
                 })
               }
-            }, that.data.groupMessageId[i]);
+            }, that.data.groupMessage[i][0]);
             that.setData({
               currentNum: that.data.currentNum + 1
             })
@@ -497,21 +531,37 @@ Page({
         var cur = that.data.currentNum;
         var count = 0;
         for (var i = cur; i < cur + that.data.plusNum && i < that.data.groupMessageNum; i++) {
-          that.getGroupMessage(function (data) {
-            count++;
-            console.log("count" + count + "  " + "cur" + cur + "   " + "sum" + that.data.groupMessageNum)
-            if (count == 5 || cur + count >= that.data.groupMessageNum) {
-              data.sort(function (a, b) {
-                return b.groupMessageId - a.groupMessageId
-              })
-              that.setData({
-                listmsg: data
-              })
-            }
-          }, that.data.groupMessageId[i]);
-          that.setData({
-            currentNum: that.data.currentNum + 1
-          })
+            that.getGroupMessage(function (data) {
+                count++;
+                console.log("count" + count + "  " + "cur" + cur + "   " + "sum" + that.data.groupMessageNum)
+                //删除留言中的黑名单
+                console.log(data[data.length - 1]);
+                var tmpreply = data[data.length - 1].leaveMessage;
+                var Llength = tmpreply.length;
+                for (var j = 0; j < Llength; j++) {
+                    for (var k = 0; k < that.data.blackname.length; k++) {
+                        if (tmpreply[j].userId == that.data.blackname[k].userId) {
+                            tmpreply.splice(j, 1);
+                            Llength--;
+                            j--;
+                            break;
+                        }
+                    }
+                }
+                data[data.length - 1].leaveMessage = tmpreply;
+              //以上是删除留言的黑名单
+                if (count == 5 || cur + count >= that.data.groupMessageNum) {
+                    data.sort(function (a, b) {
+                        return b.groupMessageId - a.groupMessageId
+                    })
+                    that.setData({
+                        listmsg: data,
+                    })
+                }
+            }, that.data.groupMessage[i][0]);
+            that.setData({
+                currentNum: that.data.currentNum + 1
+            })
         }
       }
     }
