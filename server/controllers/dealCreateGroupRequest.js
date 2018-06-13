@@ -123,7 +123,7 @@ var sameId;
         });
 
       var news = {
-        type: 'addResult',
+        type: 'createResult',
         content: '您申请创建群 ' + groupName + ' 的请求已被管理员拒绝',
         time: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
         userId: userId
