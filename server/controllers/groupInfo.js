@@ -46,7 +46,7 @@ module.exports = async (ctx, next) => {
   }
 
   var temp;
-  await dbnnn(config.GroupMessage).where({ groupId: groupId }).select('groupMessageId').orderBy('time', 'desc')
+  await dbnnn(config.GroupMessage).where({ groupId: groupId }).select('groupMessageId', 'userId').orderBy('time', 'desc')
     .catch(function (e) {
       console.error(e);
     })
@@ -58,7 +58,9 @@ module.exports = async (ctx, next) => {
     });
   var len2 = temp.length;
   for(var i = 0; i <len2; i++){
-    data3[i] = temp[i].groupMessageId;
+    data3[i] = [];
+    data3[i][0] = temp[i].groupMessageId;
+    data3[i][1] = temp[i].userId;
   }
 
   await dbnnn(config.MyGroup).where({ groupId: groupId }).select()
