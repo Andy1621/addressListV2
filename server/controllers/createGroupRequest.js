@@ -31,7 +31,7 @@ module.exports = async (ctx, next) => {
     group.imgUrl = '../../images/tab/list.png'
   }
   else{
-    group.imgUrl
+    group.imgUrl = imgUrl
   }
   await dbnnn(config.MyGroup).insert(group)
     .catch(function (e) {

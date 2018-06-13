@@ -1,1 +1,4 @@
-{}
+{
+  "navigationBarTitleText": "测试",
+  "enablePullDownRefresh": false
+}

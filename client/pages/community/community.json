@@ -1,3 +1,4 @@
 {
-    "enablePullDownRefresh": false
+  "navigationBarTitleText": "发现",
+  "enablePullDownRefresh": false
 }

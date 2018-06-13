@@ -42,10 +42,6 @@
         "pagePath": "pages/myInfo/myInfo",
         "iconPath": "images/tab/me.png",
         "selectedIconPath": "images/tab/me_selected.png"
-      },
-      {
-        "text": "测试",
-        "pagePath": "pages/test/test"
       }
     ]
   },
