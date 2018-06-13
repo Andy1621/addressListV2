@@ -33,8 +33,19 @@ module.exports = async (ctx, next) => {
       console.log("获取群成功")
     });
 
+var sameId;
+  await dbnnn(config.InfoSentBySys).where({ sysInfoId: sysInfoId }).select('sameId')
+    .catch(function (e) {
+      console.error(e);
+    })
+    .then(
+    function (data) {
+      sameId = data[0].sameId
+      console.log("获取通知sameId")
+    });
 
-  await dbnnn(config.InfoSentBySys).where({ sysInfoId: sysInfoId }).update({ type: 'createOver' })
+
+  await dbnnn(config.InfoSentBySys).where({ sameId: sameId }).update({ type: 'createOver' })
     .catch(function (e) {
       console.error(e);
     })

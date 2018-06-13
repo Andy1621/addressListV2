@@ -58,7 +58,8 @@ module.exports = async (ctx, next) => {
   var news = {
     type: 'createRequest',
     content: userName + ' 申请创建群 ' + groupName + ' ，点击进行处理%@%' + groupName + '%@%' + groupIntro + '%@%' + groupType + '%@%' + groupId + '%@%' + userId,
-    time: moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+    time: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+    sameId: 0
   }
   
   var temp;
@@ -77,8 +78,30 @@ module.exports = async (ctx, next) => {
     administartor[i] = temp[i].userId;
   }
 
-  for (var i = 0; i < len; i++) {
-    news.userId = administartor[i]
+  var id = 0;
+  news.userId = administartor[0]
+  await dbnnn(config.InfoSentBySys).insert(news)
+    .catch(function (e) {
+      console.error(e);
+    })
+    .then(
+    function (data) {
+      console.log("消息Id: " + data[0])
+      id = data[0]
+      console.log("获取第一条系统消息Id")
+    });
+
+  await dbnnn(config.InfoSentBySys).where({ sysInfoId: id}).update({sameId: id})
+    .catch(function (e) {
+      console.error(e);
+    })
+    .then(
+    function (data) {
+      console.log("改变第一条消息的sameId");
+    });
+  for (var i = 1; i < len; i++) {
+    news.userId = administartor[i];
+    news.sameId = id;
     await dbnnn(config.InfoSentBySys).insert(news)
       .catch(function (e) {
         console.error(e);
