@@ -7,7 +7,6 @@ Page({
    * 页面的初始数据
    */
   data: {
-    is_logged: false,
     list: []
   },
   newsLongpress: function (e) {
@@ -91,7 +90,6 @@ Page({
 
   getNews: function () {
     var that = this;
-    console.log("发出一个getNews请求");
     wx.request({
       url: config.service.newsUrl,
       data: {
