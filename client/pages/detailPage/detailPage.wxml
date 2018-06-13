@@ -151,12 +151,12 @@
             <text>您只能在登录后申请入群或查看信息</text>
           </view>
         </view>
-        <!--申请加群按钮-->
-        <view class="btn-area" wx:if="{{is_member==false&&is_logged==true}}">
-          <text></text>
-          <button class="add-btn" bindtap='jumpToAdd'>申请入群</button>
-        </view>
       </view>
     </view>
   </view>
+  <!--申请加群按钮-->
+    <view class="btn-area" wx:if="{{is_member==false&&is_logged==true}}">
+        <text></text>
+        <button class="add-btn" bindtap='jumpToAdd'>申请入群</button>
+    </view>
 </view>

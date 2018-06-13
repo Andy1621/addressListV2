@@ -9,7 +9,7 @@
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell weui-cell_input">
           <view class="weui-cell__bd">
-            <input class="weui-input" placeholder="请输入文本" value="{{groupName}}" bindinput='inputName' name="groupName" />
+            <input class="weui-input" placeholder="请输入文本" value="{{groupName}}" bindinput='inputName' name="groupName" maxlength='15' />
           </view>
         </view>
       </view>
@@ -36,8 +36,8 @@
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell">
           <view class="weui-cell__bd">
-            <textarea class="weui-textarea" placeholder="请输入文本" style="height: 9em" value="{{groupIntro}}" name="groupIntro" maxlength='25' bindinput='inputTyping' />
-            <view class="weui-textarea-counter">{{textLength}}/25</view>
+            <textarea class="weui-textarea" placeholder="请输入文本" style="height: 9em" value="{{groupIntro}}" name="groupIntro" maxlength='24' bindinput='inputTyping' />
+            <view class="weui-textarea-counter">{{textLength}}/24</view>
           </view>
         </view>
       </view>

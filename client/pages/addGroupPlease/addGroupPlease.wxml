@@ -12,9 +12,10 @@
                 </view>
             </view>
         </view>
-
-        <button class="addresslist-add" type="primary" form-type="submit">确认提交</button>
-
+        <view class="btn-area">
+            <text></text>
+            <button class="add-btn"  form-type="submit">确认提交</button>
+        </view>
         </form>
     </view>
 </view>

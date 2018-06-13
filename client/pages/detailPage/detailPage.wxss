@@ -8,6 +8,7 @@ page {
 
 .userinfo{
     margin-top: 0rpx;
+    padding-top: 30rpx;
     height: 200rpx;
     width: 100%;
     background: #1296db;
@@ -17,7 +18,6 @@ page {
     transition: all 300ms ease;
     align-items: center;
     text-align: center;
-    justify-content: center;
 }
 
 .uploader, .tunnel {
@@ -44,6 +44,7 @@ page {
 
 .userinfo-addressListName{
     font-size: 40rpx;
+    margin-bottom: 10rpx;
     color: #F6F6F6;
     align-content: center;
     text-align: center;
@@ -548,7 +549,7 @@ page {
     padding-bottom: 15rpx;
     display: flex;
     position: fixed;
-    bottom: 0rpx;
+    bottom: 10rpx;
     width: 100%;
     background-color: #f8f8f8;
 }
