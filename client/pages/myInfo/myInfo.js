@@ -114,6 +114,7 @@ Page({
       success(result) {
         if (result) {
           util.showSuccess('登录成功');
+          result.avatarUrl = result.avatarUrl.replace('https', 'http');
           that.setData({
             userInfo: result,
             is_logged: true

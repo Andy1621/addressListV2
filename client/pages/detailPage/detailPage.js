@@ -723,24 +723,8 @@ Page({
   goTop: function (e) {
     wx.pageScrollTo({
       scrollTop: 0,
-      duration: 300
+      duration: 800
     })
-    this.setData({
-      floorstatus: false
-    })
+    this.onShow();
   },
-
-  scroll: function (e, res) {
-    // 容器滚动时将此时的滚动距离赋值给 this.data.scrollTop
-    console.log("scrollTop: " + e.detail.scrollTop)
-    if (e.detail.scrollTop > 500) {
-      this.setData({
-        floorstatus: true
-      });
-    } else {
-      this.setData({
-        floorstatus: false
-      });
-    }
-  }
 })

@@ -90,7 +90,6 @@
                         </view>-->
           </view>
           <!--Reply-->
-          <button class="com-widget-goTop" bindtap="goTop" wx:if="{{floorstatus}}">顶部</button>
           <view class="release" hidden="{{!releaseFocus}}">
             <textarea class="text" placeholder-class="input_null" fixed="true" maxlength="-1" show-confirm-bar="false" cursor-spacing="15" auto-height="true" value="{{messageVal}}" focus="{{releaseFocus}}" bindinput="inputReplying" placeholder="留言给 {{msgName}}"></textarea>
             <view class="submit" bindtap="bindSend">发送</view>
@@ -155,16 +154,10 @@
     <text></text>
     <button class="add-btn" bindtap='jumpToAdd'>申请入群</button>
   </view>
+  <!-- 回到顶部 -->
+   <button class="com-widget-goTop" bindtap="goTop" wx:if="{{activeIndex == 1 && floorstatus}}">顶部</button>
   <!--发布消息按钮-->
   <view class='bottom' hidden="{{activeIndex != 1||is_member==false||is_logged==false}}">
     <button class='mybtn' form-type='submit' bindtap='sendMessage'>发布</button>
   </view>
-    <view class="btn-area" wx:if="{{is_member==false&&is_logged==true}}">
-        <text></text>
-        <button class="add-btn" bindtap='jumpToAdd'>申请入群</button>
-    </view>
-    <!--发布消息按钮-->
-    <view class='bottom' hidden="{{activeIndex != 1||is_member==false||is_logged==false}}">
-        <button class='mybtn' form-type='submit' bindtap='sendMessage'>发布</button>
-    </view>
 </view>
