@@ -93,7 +93,7 @@ Page({
     wx.request({
       url: config.service.newsUrl,
       data: {
-        userId: getApp().globalData.openId
+        userId: '0001'
       },
       method: 'GET',
       header: {

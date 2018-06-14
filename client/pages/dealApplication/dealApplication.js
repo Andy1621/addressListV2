@@ -33,7 +33,12 @@ Page({
         },
         success: function (res) {
           //console.log(res.data);
-          util.showSuccess('操作成功');
+          if (res.data == 'success') {
+            util.showSuccess('操作成功');
+          }
+          else {
+            util.showModel('操作失败', '用户已在群里');
+          }
         },
         fail: function (res) {
           util.showModel('操作失败');
@@ -67,11 +72,6 @@ Page({
         },
       })
     }
-    wx.showToast({
-      title: '已同意申请',
-      icon: 'success',
-      duration: 2000
-    });
     setTimeout(function () {
       wx.navigateBack({
         delta: 1,
@@ -95,8 +95,12 @@ Page({
           'content-type': 'application/json' // 默认值
         },
         success: function (res) {
-          console.log(res.data);
-          util.showSuccess('操作成功');
+          if (res.data == 'success') {
+            util.showSuccess('操作成功');
+          }
+          else {
+            util.showModel('操作失败', '用户已在群里');
+          }
         },
         fail: function (res) {
           util.showModel('操作失败');
@@ -130,11 +134,6 @@ Page({
         },
       })
     }
-    wx.showToast({
-      title: '已拒绝申请',
-      icon: 'success',
-      duration: 2000
-    });
     setTimeout(function () {
       wx.navigateBack({
         delta: 1,
