@@ -130,6 +130,7 @@ Page({
             login: true,
             success(result) {
               util.showSuccess('登录成功')
+              result.avatarUrl = result.avatarUrl.replace('https', 'http');
               that.setData({
                 userInfo: result.data.data,
                 is_logged: true

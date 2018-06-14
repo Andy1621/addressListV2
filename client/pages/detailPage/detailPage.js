@@ -375,25 +375,25 @@ Page({
 
   //参数接受
   onLoad: function (options) {
-    wx.showToast({
-      title: "正在加载",
-      icon: 'loading',
-      duration: 10000
-    })
-    this.setData({
-      is_logged: getApp().globalData.logged,
-      myuserId: getApp().globalData.openId,
-      groupId: options.groupId,
-      myname: getApp().globalData.name,
-    })
-    this.data.blackname = JSON.parse(getApp().globalData.blackList);//黑名单赋值
-    var that = this;
-    var AddedgroupInfo = JSON.parse(getApp().globalData.addGroupList);
-    //console.log(AddedgroupInfo);
+      getApp().globalData.noShow = false
+      this.setData({
+        is_logged: getApp().globalData.logged,
+        myuserId: getApp().globalData.openId,
+        groupId: options.groupId,
+        myname: getApp().globalData.name,
+      })
+      this.data.blackname = JSON.parse(getApp().globalData.blackList);//黑名单赋值
+      var AddedgroupInfo = JSON.parse(getApp().globalData.addGroupList);
+      //console.log(AddedgroupInfo);
   },
 
-  onShow: function () {
-    console.log('onShow');
+  onShow: function(){
+    if (getApp().globalData.noShow == false)
+      this.onShowEX()
+  },
+
+  onShowEX: function () {
+    console.log('onShowEX');
     console.log(this.data.blackname);
     this.setData({
       floorstatus: false
@@ -404,6 +404,11 @@ Page({
       })
     }
     else {
+      wx.showToast({
+        title: "正在加载",
+        icon: 'loading',
+        duration: 3000
+      })
       var that = this;
       that.setData({
         currentNum: 0,
@@ -500,20 +505,19 @@ Page({
                 that.setData({
                   listmsg: data,
                 })
+                util.showSuccess('加载成功');
               }
             }, that.data.groupMessage[i][0]);
             that.setData({
               currentNum: that.data.currentNum + 1
             })
           }
-          //util.showSuccess('操作成功');
         },
         fail: function (res) {
           util.showModel('操作失败', '未知错误');
         },
       });
     }
-    util.showSuccess('加载成功');
     this.setData({
       isLoad: false
     })
@@ -694,7 +698,7 @@ Page({
     wx.showNavigationBarLoading() //在标题栏中显示加载
     //模拟加载
 
-    this.onShow();
+    this.onShowEX();
 
     wx.hideNavigationBarLoading() //完成停止加载
     wx.stopPullDownRefresh() //停止下拉刷新
@@ -725,6 +729,6 @@ Page({
       scrollTop: 0,
       duration: 800
     })
-    this.onShow();
+    this.onShowEX();
   },
 })

@@ -357,7 +357,7 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+    getApp().globalData.noShow = true;
   },
 
   /**

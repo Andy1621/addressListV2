@@ -20,7 +20,9 @@ App({
       specialList: "", //特别关注
       blackList: "", //黑名单
       addGroupList: "", //我加入的群
-      createGroupList: "" //我创建的群
+      createGroupList: "", //我创建的群
+      //发消息页面没按按钮直接返回群页面不刷新
+      noShow: false
   }
 })
 

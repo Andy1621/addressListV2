@@ -59,6 +59,8 @@ Page({
 
   sendGroupMessage: function () {
     var that = this;
+    that.data.isClicked = true;
+    getApp().globalData.noShow = false;
     console.log("发出一个sendGroupMessage请求");
     wx.request({
       url: config.service.groupMessageUrl,
@@ -122,7 +124,8 @@ Page({
    */
   onLoad: function (options) {
     this.setData({
-      groupId: options.groupId
+      groupId: options.groupId,
+      isClicked: false
     })
   },
 
@@ -151,7 +154,9 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-  
+      if(!this.data.isClicked){
+        getApp().globalData.noShow = true
+      }
   },
 
   /**
