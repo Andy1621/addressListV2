@@ -7,7 +7,6 @@ Page({
    * 页面的初始数据
    */
   data: {
-    is_logged: false,
     list: []
   },
   newsLongpress: function (e) {
@@ -40,25 +39,25 @@ Page({
               },
             })
           }
-          else if (res.tapIndex == 1){
-              wx.request({
-                url: config.service.deleteAllNewsUrl,
-                data: {
-                  userId: getApp().globalData.openId
-                },
-                method: 'GET',
-                header: {
-                  'content-type': 'application/json' // 默认值
-                },
-                success: function (res) {
-                  console.log(res.data);
-                  that.getNews();
-                  util.showSuccess('操作成功');
-                },
-                fail: function (res) {
-                  util.showModel('操作失败');
-                },
-              })
+          else if (res.tapIndex == 1) {
+            wx.request({
+              url: config.service.deleteAllNewsUrl,
+              data: {
+                userId: getApp().globalData.openId
+              },
+              method: 'GET',
+              header: {
+                'content-type': 'application/json' // 默认值
+              },
+              success: function (res) {
+                console.log(res.data);
+                that.getNews();
+                util.showSuccess('操作成功');
+              },
+              fail: function (res) {
+                util.showModel('操作失败');
+              },
+            })
           }
         }
       }
@@ -76,7 +75,7 @@ Page({
       wx.navigateTo({
         url: '/pages/dealApplication/dealApplication?application_type=1&content=' + JSON.stringify(content) + '&sysInfoId=' + JSON.stringify(sysId),
       });
-    else if (systype == 'createRequest'){
+    else if (systype == 'createRequest') {
       console.log('/pages/dealApplication/dealApplication?application_type=2&content=' + JSON.stringify(content) + '&sysInfoId=' + JSON.stringify(sysId))
       wx.navigateTo({
         url: '/pages/dealApplication/dealApplication?application_type=2&content=' + JSON.stringify(content) + '&sysInfoId=' + JSON.stringify(sysId),
@@ -91,7 +90,6 @@ Page({
 
   getNews: function () {
     var that = this;
-    console.log("发出一个getNews请求");
     wx.request({
       url: config.service.newsUrl,
       data: {
@@ -111,7 +109,7 @@ Page({
           var str = array[index].content;
           array[index].content = str.split('%@%');
           var newsType = array[index].type;
-          if (newsType == 'addRequest'){
+          if (newsType == 'addRequest') {
             array[index].name = '加群申请'
           }
           else if (newsType == 'addResult') {
@@ -134,7 +132,7 @@ Page({
           }
           else if (newsType == 'createOver') {
             array[index].name = '建群申请'
-          } 
+          }
           else if (newsType == 'dismiss') {
             array[index].name = '散群公示'
           }
@@ -186,16 +184,14 @@ Page({
     var that = this;
     wx.showNavigationBarLoading() //在标题栏中显示加载
     //模拟加载
-    setTimeout(function () {
-      if (that.data.is_logged) {
-        that.getNews();
-        that.freshList();
-      }
-      // complete
-      util.showSuccess('刷新成功');
-      wx.hideNavigationBarLoading() //完成停止加载
-      wx.stopPullDownRefresh() //停止下拉刷新
-    }, 1500);
+    if (that.data.is_logged) {
+      that.getNews();
+      that.freshList();
+    }
+    // complete
+    util.showSuccess('刷新成功');
+    wx.hideNavigationBarLoading() //完成停止加载
+    wx.stopPullDownRefresh() //停止下拉刷新
   },
 
   freshList: function () {

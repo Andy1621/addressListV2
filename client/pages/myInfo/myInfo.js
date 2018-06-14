@@ -9,25 +9,12 @@ Page({
    * 页面的初始数据
    */
   data: {
-    rest_height: 0,
-    userInfo: {},
-    name:"temp",
-    intro: "快要被晒干了……gg",
-    first_logged: true,
-
     self_detail_title: [
       "所在大学", "专业", "所在城市"
     ],
-
-    self_detail_ctt: [],
-
     cont_detail_title: [
       "手机号", "qq号", "微信号", "电子邮箱"
-    ],
-
-    cont_detail_ctt: [],
-
-    is_logged: false
+    ]
   },
 
   //数据处理完毕后跳到setting
@@ -70,7 +57,6 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
-        //console.log(res.data);
         if(!res.data.existed){
           var temp = JSON.stringify(that.data.userInfo)
           wx.navigateTo({
@@ -78,15 +64,6 @@ Page({
           })
         }
         else{
-          getApp().globalData.first_logged = false;
-          that.setData({
-            first_logged: false,
-            name: res.data.info.userName,
-            intro: res.data.info.intro,
-            self_detail_ctt: [res.data.info.department, res.data.info.major, res.data.info.city],
-            cont_detail_ctt: [res.data.info.phoneNum, res.data.info.qqNum, res.data.info.wxNum, res.data.info.email]
-          })
-          that.boxingData()
           //获取五个列表
           wx.request({
             url: config.service.getAddressListUrl,
@@ -108,6 +85,17 @@ Page({
               util.showModel('操作失败');
             }
           })
+          //设置初值
+          var sim = res.data.info;
+          that.setData({
+            first_logged: false,
+            name: sim.userName,
+            intro: sim.intro,
+            self_detail_ctt: [sim.department, sim.major, sim.city],
+            cont_detail_ctt: [sim.phoneNum, sim.qqNum, sim.wxNum, sim.email]
+          })
+          getApp().globalData.first_logged = false;
+          that.boxingData()
         }          
         util.showSuccess('操作成功');
       },
@@ -121,19 +109,18 @@ Page({
     var that = this
     
     util.showBusy('正在登录')
-
     // 调用登录接口
     qcloud.login({
       success(result) {
         if (result) {
           util.showSuccess('登录成功');
-          getApp().globalData.logged = true;
-          getApp().globalData.openId = result.openId;
-          getApp().globalData.myImgUrl = result.avatarUrl;
           that.setData({
             userInfo: result,
             is_logged: true
           });
+          getApp().globalData.logged = true;
+          getApp().globalData.openId = result.openId;
+          getApp().globalData.myImgUrl = result.avatarUrl;
           that.dealWithFirstLogged()
         } else {
           // 如果不是首次登录，不会返回用户信息，请求用户信息接口获取
@@ -142,12 +129,13 @@ Page({
             login: true,
             success(result) {
               util.showSuccess('登录成功')
-              getApp().globalData.logged = true;
-              getApp().globalData.openId = result.openId;
               that.setData({
                 userInfo: result.data.data,
                 is_logged: true
               })
+              getApp().globalData.logged = true;
+              getApp().globalData.openId = result.openId;
+              getApp().globalData.myImgUrl = result.avatarUrl;
               that.dealWithFirstLogged()
             },
 
@@ -170,15 +158,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    //console.log('onLoad');
     var that = this;
     // 获取系统信息
     wx.getSystemInfo({
       success: function (res) {
-        //console.log(res);
-        // 可使用窗口宽度、高度
-        //console.log('height=' + res.windowHeight);
-        //console.log('width=' + res.windowWidth);
         // 计算主体部分高度,单位为px
         that.setData({
           // rest部分高度 = 利用窗口可使用高度 - first部分高度（这里的高度单位为px，所有利用比例将260rpx转换为px）
@@ -204,7 +187,6 @@ Page({
       is_logged: getApp().globalData.logged,
       first_logged: getApp().globalData.first_logged
     });
-    //console.log(that.data.is_logged + " " + that.data.first_logged)
     if(that.data.is_logged){
       var str1 = getApp().globalData.self_ctt;
       var str2 = getApp().globalData.cont_ctt;

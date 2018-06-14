@@ -16,8 +16,9 @@ const dbnnn = require('knex')({
 async function send(ctx, next) {
   var userId = ctx.request.body.userId;
   var groupId = ctx.request.body.groupId;
+  var groupMessageId = ctx.request.body.groupMessageId;
   await dbnnn(config.LeaveMessage).insert({
-    groupMessageId: ctx.request.body.groupMessageId,
+    groupMessageId: groupMessageId,
     userId: userId,
     content: ctx.request.body.content
   })
@@ -41,11 +42,24 @@ async function send(ctx, next) {
       userName = data[0].userName;
       console.log("获取用户名字成功");
     });
+
+  var Id;
+  await dbnnn(config.GroupMessage).where({ groupMessageId: groupMessageId }).select('userId')
+    .catch(function (e) {
+      console.error(e);
+    })
+    .then(
+    function (data) {
+      console.log(data);
+      Id = data[0].userId;
+      console.log("获取消息发布者Id成功");
+    });
+
   var news = {
     type: 'leaveMessage',
     content: userName + ' 在您发布的消息下留言了，点击去看看吧%@%' + groupId,
     time: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-    userId: userId
+    userId: Id
   }
 
   await dbnnn(config.InfoSentBySys).insert(news)

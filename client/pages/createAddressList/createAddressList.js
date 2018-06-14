@@ -70,8 +70,10 @@ Page({
           name: 'file',
           success: function (res) {
             res = JSON.parse(res.data)
+            var url = res.data.imgUrl;
+            var url1 = url.replace('https', 'http')
             that.setData({
-              imgUrl: res.data.imgUrl
+              imgUrl: url1
             })
           },
           fail: function (e) {

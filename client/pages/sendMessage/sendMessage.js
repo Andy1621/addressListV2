@@ -42,7 +42,9 @@ Page({
           success: function (res) {
             res = JSON.parse(res.data)
             success++;
-            that.data.imgUrl.push(res.data.imgUrl)
+            var url = res.data.imgUrl;
+            var url1 = url.replace('https', 'http')
+            that.data.imgUrl.push(url1)
             if (success == len) {
               that.sendGroupMessage();
             }

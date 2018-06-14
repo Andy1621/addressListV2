@@ -6,14 +6,14 @@ const util = require('../../utils/util');
 Page({
   data: {
     groupInfo: [],
-    blackname:[],//黑名单
+    blackname: [],//黑名单
     isbindconfirmMessage: 0,//是否按下消息搜索框的回车
     isbindconfirmGroup: 0,//是否按下通讯录搜索框的回车
     myuserId: 0,
-    myname:"",
+    myname: "",
     is_logged: true,
     is_member: false,//false为未加群，true为已加群
-    is_master:false,
+    is_master: false,
     index: 0,
     nameindex: 0,
     replyindex: 0,
@@ -32,7 +32,7 @@ Page({
     listmsgtemp: [],//（搜索用）
     listmsg: [],
     temp_listmsg: [],
-    groupMessage:[],//存放GroupMessageID和UserID
+    groupMessage: [],//存放GroupMessageID和UserID
     groupMessageId: [],
     groupMessageNum: 0,
     userInfo: {},
@@ -60,6 +60,8 @@ Page({
     isSearch: false, //如果是搜索框显示的不能执行触底刷新
     imgListTemp: [],//图片副本（搜索用）
     isPreview: false, //是否预览图片
+    scrollTop: 0, //消息页scroll-view
+    floorstatus: false, //回到顶部按钮
   },
 
   //Search Bar
@@ -122,7 +124,7 @@ Page({
     if (this.data.activeIndex == 0) {
       this.hideInputtxl();
     }
-    else if (this.data.activeIndex == 1){
+    else if (this.data.activeIndex == 1) {
       this.hideInput();
     }
     this.setData({
@@ -146,7 +148,7 @@ Page({
     console.log(e)
     console.log(this.data.listmsg[e.currentTarget.id])
     this.setData({
-      msgName:this.data.listmsg[e.currentTarget.id].name,
+      msgName: this.data.listmsg[e.currentTarget.id].name,
       index: e.currentTarget.id,
       releaseFocus: true,
       messageVal: "",
@@ -165,7 +167,7 @@ Page({
     obj.name = this.data.myname;
     obj.time = util.formatTime(new Date);
     obj.content = this.data.messageVal;
-    obj.imgUrl=getApp().globalData.myImgUrl;
+    obj.imgUrl = getApp().globalData.myImgUrl;
     this.data.listmsg[this.data.index].leaveMessage.push(obj);
     var all = this.data.listmsg[this.data.index].leaveMessage;
     var str = "listmsg[" + this.data.index + "].leaveMessage";
@@ -176,29 +178,29 @@ Page({
         messageVal: "",
         msgCount: this.data.listmsg[0].leaveMessage.length,
       })
-      //增加留言
-      var that=this;
+    //增加留言
+    var that = this;
     console.log("发出一个sendLeaveMessage请求");
     console.log(this.data.listmsg[this.data.index]);
     wx.request({
-        url: config.service.leaveMessageUrl,
-        data: {
-            groupId: that.data.groupId,
-            groupMessageId: that.data.listmsg[this.data.index].groupMessageId,
-            userId: that.data.myuserId,
-            content: obj.content
-        },
-        method: 'POST',
-        header: {
-            'content-type': 'application/json' // 默认值
-        },
-        success: function (res) {
-            console.log(res.data);
-            //util.showSuccess('操作成功');
-        },
-        fail: function (res) {
-            util.showModel('操作失败');
-        },
+      url: config.service.leaveMessageUrl,
+      data: {
+        groupId: that.data.groupId,
+        groupMessageId: that.data.listmsg[this.data.index].groupMessageId,
+        userId: that.data.myuserId,
+        content: obj.content
+      },
+      method: 'POST',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        console.log(res.data);
+        //util.showSuccess('操作成功');
+      },
+      fail: function (res) {
+        util.showModel('操作失败');
+      },
     })
   },
 
@@ -210,46 +212,45 @@ Page({
   },
 
   deleteMessage: function (e) {
-      console.log(e);
+    console.log(e);
     this.setData({
       index: e.currentTarget.id,
     });
     var that = this;
     console.log(this.data.listmsg[e.currentTarget.id]);
-    if (this.data.listmsg[e.currentTarget.id].userId==this.data.myuserId||this.data.is_master==true)
-    {
-        wx.showActionSheet({
-            itemList: ["删除消息"],
-            success: function (res) {
-                if (res.tapIndex == 0) {                    
-                    //删除消息
-                    console.log("发出一个deleteGroupMessage请求");
-                    wx.request({
-                        url: config.service.groupMessageUrl,
-                        data: {
-                            groupMessageId: that.data.listmsg[e.currentTarget.id].groupMessageId,
-                        },
-                        method: 'DELETE',
-                        header: {
-                            'content-type': 'application/json' // 默认值
-                        },
-                        success: function (res) {
-                            console.log(res.data);
-                            //console.log(that.data.index);
-                            var obj = that.data.listmsg;
-                            obj.splice(that.data.index, 1);
-                            that.setData({
-                              listmsg: obj,
-                            });
-                            //util.showSuccess('操作成功');
-                        },
-                        fail: function (res) {
-                            util.showModel('操作失败');
-                        },
-                    })
-                }
-            },
-        });
+    if (this.data.listmsg[e.currentTarget.id].userId == this.data.myuserId || this.data.is_master == true) {
+      wx.showActionSheet({
+        itemList: ["删除消息"],
+        success: function (res) {
+          if (res.tapIndex == 0) {
+            //删除消息
+            console.log("发出一个deleteGroupMessage请求");
+            wx.request({
+              url: config.service.groupMessageUrl,
+              data: {
+                groupMessageId: that.data.listmsg[e.currentTarget.id].groupMessageId,
+              },
+              method: 'DELETE',
+              header: {
+                'content-type': 'application/json' // 默认值
+              },
+              success: function (res) {
+                console.log(res.data);
+                //console.log(that.data.index);
+                var obj = that.data.listmsg;
+                obj.splice(that.data.index, 1);
+                that.setData({
+                  listmsg: obj,
+                });
+                //util.showSuccess('操作成功');
+              },
+              fail: function (res) {
+                util.showModel('操作失败');
+              },
+            })
+          }
+        },
+      });
     }
     else console.log("Not Master or Messager");
   },
@@ -265,42 +266,40 @@ Page({
     console.log(this.data.listmsg[this.data.index].leaveMessage[this.data.replyindex]);
     var nowLeaveMessageId = this.data.listmsg[this.data.index].leaveMessage[this.data.replyindex].leaveMessageId;
     console.log(nowLeaveMessageId);
-    if (this.data.listmsg[this.data.index].leaveMessage[this.data.replyindex].userId == this.data.myuserId || this.data.groupMaster == this.data.myuserId) 
-    {
-        wx.showActionSheet({
+    if (this.data.listmsg[this.data.index].leaveMessage[this.data.replyindex].userId == this.data.myuserId || this.data.groupMaster == this.data.myuserId) {
+      wx.showActionSheet({
         itemList: ["删除留言"],
         success: function (res) {
-            if (res.tapIndex == 0) 
-            {
-                //console.log(that.data.index);
-                //删除留言
-                console.log("发出一个deleteLeaveMessage请求");
-                wx.request({
-                    url: config.service.leaveMessageUrl,
-                    data: {
-                        leaveMessageId: nowLeaveMessageId,
-                    },
-                    method: 'DELETE',
-                    header: {
-                        'content-type': 'application/json' // 默认值
-                    },
-                    success: function (res) {
-                        console.log(res.data);
-                        var param = {};
-                        var str = "listmsg[" + that.data.index + "].leaveMessage";
-                        var obj = that.data.listmsg[that.data.index].leaveMessage;
-                        obj.splice(that.data.replyindex, 1);
-                        param[str] = obj;
-                        that.setData(param);
-                        util.showSuccess('操作成功');
-                    },
-                    fail: function (res) {
-                        util.showModel('操作失败');
-                    },
-                })
-            }
+          if (res.tapIndex == 0) {
+            //console.log(that.data.index);
+            //删除留言
+            console.log("发出一个deleteLeaveMessage请求");
+            wx.request({
+              url: config.service.leaveMessageUrl,
+              data: {
+                leaveMessageId: nowLeaveMessageId,
+              },
+              method: 'DELETE',
+              header: {
+                'content-type': 'application/json' // 默认值
+              },
+              success: function (res) {
+                console.log(res.data);
+                var param = {};
+                var str = "listmsg[" + that.data.index + "].leaveMessage";
+                var obj = that.data.listmsg[that.data.index].leaveMessage;
+                obj.splice(that.data.replyindex, 1);
+                param[str] = obj;
+                that.setData(param);
+                util.showSuccess('操作成功');
+              },
+              fail: function (res) {
+                util.showModel('操作失败');
+              },
+            })
+          }
         },
-        });
+      });
     }
     else console.log("No Master or Message Replyer")
   },
@@ -311,57 +310,54 @@ Page({
     });
     var that = this;
     console.log(that.data.listpeople[that.data.nameindex]);
-    if(this.data.is_master==true)
-    {
-        if (that.data.groupMaster == that.data.listpeople[that.data.nameindex].userId)
-        {
-            util.showModel('操作失败', '您不能删除自己');
-        }
-        else
-        {
-            wx.showActionSheet({
-                itemList: ["删除成员"],
-                success: function (res) {
-                    if (res.tapIndex == 0) {
-                        //删除群员
-                        console.log("发出一个deleteMember请求");
-                        wx.request({
-                            url: config.service.deleteMemberUrl,
-                            data: {
-                                groupId: that.data.groupId,
-                                userId: that.data.listpeople[that.data.nameindex].userId
-                            },
-                            method: 'DELETE',
-                            header: {
-                                'content-type': 'application/json' // 默认值
-                            },
-                            success: function (res) {
-                                console.log(res.data);
-                                var obj = that.data.listpeople;
-                                obj.splice(that.data.nameindex, 1);
-                                that.setData({
-                                  listpeople: obj,
-                                });
-                                util.showSuccess('操作成功');
-                            },
-                            fail: function (res) {
-                                util.showModel('操作失败');
-                            },
-                        })
-                    }
+    if (this.data.is_master == true) {
+      if (that.data.groupMaster == that.data.listpeople[that.data.nameindex].userId) {
+        util.showModel('操作失败', '您不能删除自己');
+      }
+      else {
+        wx.showActionSheet({
+          itemList: ["删除成员"],
+          success: function (res) {
+            if (res.tapIndex == 0) {
+              //删除群员
+              console.log("发出一个deleteMember请求");
+              wx.request({
+                url: config.service.deleteMemberUrl,
+                data: {
+                  groupId: that.data.groupId,
+                  userId: that.data.listpeople[that.data.nameindex].userId
                 },
-            });
-        }
+                method: 'DELETE',
+                header: {
+                  'content-type': 'application/json' // 默认值
+                },
+                success: function (res) {
+                  console.log(res.data);
+                  var obj = that.data.listpeople;
+                  obj.splice(that.data.nameindex, 1);
+                  that.setData({
+                    listpeople: obj,
+                  });
+                  util.showSuccess('操作成功');
+                },
+                fail: function (res) {
+                  util.showModel('操作失败');
+                },
+              })
+            }
+          },
+        });
+      }
     }
     else console.log("Not GroupMaster");
   },
 
   jumpToInfo: function (e) {
     //先判断该用户与这位名片用户的关系，来设置category
-      console.log(this.data.listpeople[e.currentTarget.id]);
-    var otherId=this.data.listpeople[e.currentTarget.id].userId;
+    console.log(this.data.listpeople[e.currentTarget.id]);
+    var otherId = this.data.listpeople[e.currentTarget.id].userId;
     wx.navigateTo({
-      url: '/pages/othersInfo/othersInfo?userId='+otherId,
+      url: '/pages/othersInfo/othersInfo?userId=' + otherId,
       success: function (res) { },
       fail: function (res) { },
       complete: function (res) { },
@@ -379,14 +375,19 @@ Page({
 
   //参数接受
   onLoad: function (options) {
+    wx.showToast({
+      title: "正在加载",
+      icon: 'loading',
+      duration: 10000
+    })
     this.setData({
       is_logged: getApp().globalData.logged,
       myuserId: getApp().globalData.openId,
       groupId: options.groupId,
-      myname:getApp().globalData.name,
+      myname: getApp().globalData.name,
     })
     this.data.blackname = JSON.parse(getApp().globalData.blackList);//黑名单赋值
-    var that=this;
+    var that = this;
     var AddedgroupInfo = JSON.parse(getApp().globalData.addGroupList);
     //console.log(AddedgroupInfo);
   },
@@ -394,12 +395,15 @@ Page({
   onShow: function () {
     console.log('onShow');
     console.log(this.data.blackname);
-    if(this.data.isPreview == true){
+    this.setData({
+      floorstatus: false
+    })
+    if (this.data.isPreview == true) {
       this.setData({
         isPreview: false
       })
     }
-    else{
+    else {
       var that = this;
       that.setData({
         currentNum: 0,
@@ -418,7 +422,7 @@ Page({
           'content-type': 'application/json' // 默认值
         },
         success: function (res) {
-            console.log(res.data);
+          console.log(res.data);
           var temp = [];
           temp[0] = '通讯录' + '(' + res.data.memberNum + ')';
           temp[1] = '消息';
@@ -433,14 +437,12 @@ Page({
             groupMessageNum: res.data.groupMessageNum,
           });
           console.log(that.data.listpeople);
-          for (var i = 0, length = that.data.listpeople.length;i<length;i++)
-          {
-              if (that.data.listpeople[i].userId==that.data.myuserId)
-              {
-                  that.setData({
-                      is_member:true,
-                  })
-              }
+          for (var i = 0, length = that.data.listpeople.length; i < length; i++) {
+            if (that.data.listpeople[i].userId == that.data.myuserId) {
+              that.setData({
+                is_member: true,
+              })
+            }
           }
           //是否群主
           if (that.data.groupMaster == that.data.myuserId) {
@@ -451,51 +453,45 @@ Page({
           }
           //获取群消息
           //先删除黑名单
-          var tmpGroupMsg=that.data.groupMessage;
-          var Mlength=tmpGroupMsg.length;
-          var Blength=that.data.blackname.length;
+          var tmpGroupMsg = that.data.groupMessage;
+          var Mlength = tmpGroupMsg.length;
+          var Blength = that.data.blackname.length;
           console.log(tmpGroupMsg);
-          for(var j=0;j<Mlength;j++)
-          {
-              for(var k=0;k<Blength;k++)
-              {
-                  if(tmpGroupMsg[j][1]==that.data.blackname[k].userId)
-                  {
-                      tmpGroupMsg.splice(j,1);
-                      Mlength--;
-                      j--;
-                      break;
-                  }
+          for (var j = 0; j < Mlength; j++) {
+            for (var k = 0; k < Blength; k++) {
+              if (tmpGroupMsg[j][1] == that.data.blackname[k].userId) {
+                tmpGroupMsg.splice(j, 1);
+                Mlength--;
+                j--;
+                break;
               }
+            }
           }
           console.log(tmpGroupMsg);
-          that.data.groupMessage=tmpGroupMsg;
-          that.data.groupMessageNum=that.data.groupMessage.length;
+          that.data.groupMessage = tmpGroupMsg;
+          that.data.groupMessageNum = that.data.groupMessage.length;
           //以上是删除黑名单
           var cur = that.data.currentNum;
           var count = 0;
           for (var i = cur; i < cur + that.data.plusNum && i < that.data.groupMessageNum; i++) {
             that.getGroupMessage(function (data) {
               count++;
-              console.log("count" + count + "  " + "cur" + cur + "   " + "sum" + that.data.groupMessageNum)
+              //console.log("count" + count + "  " + "cur" + cur + "   " + "sum" + that.data.groupMessageNum)
               //删除留言中的黑名单
-              console.log(data[data.length-1]);
-              var tmpreply=data[data.length-1].leaveMessage;
-              var Llength=tmpreply.length;
-              for(var j=0;j<Llength;j++)
-              {
-                  for(var k=0;k<that.data.blackname.length;k++)
-                  {
-                      if (tmpreply[j].userId == that.data.blackname[k].userId)
-                      {
-                          tmpreply.splice(j,1);
-                          Llength--;
-                          j--;
-                          break;
-                      }
+              //console.log(data[data.length-1]);
+              var tmpreply = data[data.length - 1].leaveMessage;
+              var Llength = tmpreply.length;
+              for (var j = 0; j < Llength; j++) {
+                for (var k = 0; k < that.data.blackname.length; k++) {
+                  if (tmpreply[j].userId == that.data.blackname[k].userId) {
+                    tmpreply.splice(j, 1);
+                    Llength--;
+                    j--;
+                    break;
                   }
+                }
               }
-              data[data.length - 1].leaveMessage=tmpreply;
+              data[data.length - 1].leaveMessage = tmpreply;
               //以上是删除留言的黑名单
               if (count == 5 || cur + count >= that.data.groupMessageNum) {
                 data.sort(function (a, b) {
@@ -517,51 +513,58 @@ Page({
         },
       });
     }
+    util.showSuccess('加载成功');
+    this.setData({
+      isLoad: false
+    })
   },
 
   //触底刷新
   onReachBottom: function () {
     var that = this;
-    if (that.data.activeIndex == 1){
+    that.setData({
+      floorstatus: true
+    })
+    if (that.data.activeIndex == 1) {
       if (that.data.currentNum == that.data.groupMessageNum) {
         util.showModel('操作失败', '消息已全部加载');
       }
-      else if (that.data.isSearch == false){
+      else if (that.data.isSearch == false) {
         //获取群消息
         var cur = that.data.currentNum;
         var count = 0;
         for (var i = cur; i < cur + that.data.plusNum && i < that.data.groupMessageNum; i++) {
-            that.getGroupMessage(function (data) {
-                count++;
-                console.log("count" + count + "  " + "cur" + cur + "   " + "sum" + that.data.groupMessageNum)
-                //删除留言中的黑名单
-                console.log(data[data.length - 1]);
-                var tmpreply = data[data.length - 1].leaveMessage;
-                var Llength = tmpreply.length;
-                for (var j = 0; j < Llength; j++) {
-                    for (var k = 0; k < that.data.blackname.length; k++) {
-                        if (tmpreply[j].userId == that.data.blackname[k].userId) {
-                            tmpreply.splice(j, 1);
-                            Llength--;
-                            j--;
-                            break;
-                        }
-                    }
+          that.getGroupMessage(function (data) {
+            count++;
+            //console.log("count" + count + "  " + "cur" + cur + "   " + "sum" + that.data.groupMessageNum)
+            //删除留言中的黑名单
+            //console.log(data[data.length - 1]);
+            var tmpreply = data[data.length - 1].leaveMessage;
+            var Llength = tmpreply.length;
+            for (var j = 0; j < Llength; j++) {
+              for (var k = 0; k < that.data.blackname.length; k++) {
+                if (tmpreply[j].userId == that.data.blackname[k].userId) {
+                  tmpreply.splice(j, 1);
+                  Llength--;
+                  j--;
+                  break;
                 }
-                data[data.length - 1].leaveMessage = tmpreply;
-              //以上是删除留言的黑名单
-                if (count == 5 || cur + count >= that.data.groupMessageNum) {
-                    data.sort(function (a, b) {
-                        return b.groupMessageId - a.groupMessageId
-                    })
-                    that.setData({
-                        listmsg: data,
-                    })
-                }
-            }, that.data.groupMessage[i][0]);
-            that.setData({
-                currentNum: that.data.currentNum + 1
-            })
+              }
+            }
+            data[data.length - 1].leaveMessage = tmpreply;
+            //以上是删除留言的黑名单
+            if (count == 5 || cur + count >= that.data.groupMessageNum) {
+              data.sort(function (a, b) {
+                return b.groupMessageId - a.groupMessageId
+              })
+              that.setData({
+                listmsg: data,
+              })
+            }
+          }, that.data.groupMessage[i][0]);
+          that.setData({
+            currentNum: that.data.currentNum + 1
+          })
         }
       }
     }
@@ -572,9 +575,9 @@ Page({
     //let str = JSON.stringify(passInfo);
     console.log(passInfo);
     return {
-        title: "分享群" + this.data.addressListName,
-        desc: '邀请加入群通讯录',
-        path: '/pages/detailPage/detailPage?groupId=' + passInfo,
+      title: "分享群" + this.data.addressListName,
+      desc: '邀请加入群通讯录',
+      path: '/pages/detailPage/detailPage?groupId=' + passInfo,
     }
   },
 
@@ -642,7 +645,7 @@ Page({
         })
 
         var temp = res.data;
-        for(var i in temp){
+        for (var i in temp) {
           temp[i].time = util.formatTime(new Date(temp[i].time));
           var str = temp[i].imagePath;
           if (str == null) {
@@ -655,7 +658,7 @@ Page({
             imgList: that.data.imgList.concat(temp[i].imgList)
           })
         }
-      
+
         that.setData({
           listmsgtemp: that.data.listmsg,
           listmsg: temp,
@@ -663,7 +666,7 @@ Page({
         util.showSuccess('操作成功');
       },
       fail: function (res) {
-       util.showModel('操作失败', '未知错误');
+        util.showModel('操作失败', '未知错误');
       },
     })
   },
@@ -674,7 +677,7 @@ Page({
     that.data.isbindconfirmGroup = 1;
     that.data.listpeopleresult = [];
     for (var i = 0; i < that.data.listpeople.length; i++) {
-        if (that.data.listpeople[i]['userName'].toLowerCase().indexOf(this.data.inputVal.toLowerCase()) != -1) {
+      if (that.data.listpeople[i]['userName'].toLowerCase().indexOf(this.data.inputVal.toLowerCase()) != -1) {
         that.data.listpeopleresult.push(that.data.listpeople[i]);
       }
     }
@@ -690,11 +693,11 @@ Page({
   onPullDownRefresh: function () {
     wx.showNavigationBarLoading() //在标题栏中显示加载
     //模拟加载
-    setTimeout(function () {
-      // complete
-      wx.hideNavigationBarLoading() //完成停止加载
-      wx.stopPullDownRefresh() //停止下拉刷新
-    }, 1500);
+
+    this.onShow();
+
+    wx.hideNavigationBarLoading() //完成停止加载
+    wx.stopPullDownRefresh() //停止下拉刷新
   },
 
   //sendMessage
@@ -716,4 +719,28 @@ Page({
       urls: this.data.imgList // 需要预览的图片http链接列表
     })
   },
+
+  goTop: function (e) {
+    wx.pageScrollTo({
+      scrollTop: 0,
+      duration: 300
+    })
+    this.setData({
+      floorstatus: false
+    })
+  },
+
+  scroll: function (e, res) {
+    // 容器滚动时将此时的滚动距离赋值给 this.data.scrollTop
+    console.log("scrollTop: " + e.detail.scrollTop)
+    if (e.detail.scrollTop > 500) {
+      this.setData({
+        floorstatus: true
+      });
+    } else {
+      this.setData({
+        floorstatus: false
+      });
+    }
+  }
 })
