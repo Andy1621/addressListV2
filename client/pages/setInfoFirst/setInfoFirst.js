@@ -8,6 +8,7 @@ Page({
   intro: "",
   self_detail_ctt: [],
   cont_detail_ctt: [],
+  clickedBtn: false,
 
   /**
    * 页面的初始数据
@@ -23,6 +24,9 @@ Page({
  
   onClick: function () {
     var that = this;
+    that.clickedBtn = true;
+    if (that.name == "")
+      that.name = that.userInfo.nickName
     //添加新用户
     wx.request({
       url: config.service.addUserUrl,
@@ -61,8 +65,7 @@ Page({
     for (var i = 0; i < len2 - 1; i++)
       str2 += that.cont_detail_ctt[i] + "#%#";
     str2 += that.cont_detail_ctt[len2 - 1];
-    if (that.name == "")
-      that.name = that.userInfo.nickName
+
     getApp().globalData.name = that.name;
     getApp().globalData.intro = that.intro;
     getApp().globalData.self_ctt = str1;
@@ -77,8 +80,8 @@ Page({
     var that = this;
     that.intro = e.detail.value["intro"];
     that.name = e.detail.value["name"];
-    var len1 = that.self_detail_title.length;
-    var len2 = that.cont_detail_title.length;
+    var len1 = that.data.self_detail_title.length;
+    var len2 = that.data.cont_detail_title.length;
     for (var i = 0; i < len1; i++)
       that.self_detail_ctt[i] = e.detail.value["info" + i];
     for (var i = 0; i < len2; i++)
@@ -130,33 +133,36 @@ Page({
    */
   onUnload: function () {
     var that=this;
-    wx.request({
-      url: config.service.addUserUrl,
-      data: {
-        userId: that.userInfo.openId,
-        intro: "",
-        userName: that.userInfo.nickName,
-        email: "",
-        phoneNum: "",
-        department: "",
-        major: "",
-        city: "",
-        wxNum: "",
-        qqNum: "",
-        imgUrl: that.userInfo.avatarUrl
-      },
-      method: 'POST',
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success: function (res) {
-        console.log(res.data);
-        util.showSuccess('操作成功');
-      },
-      fail: function (res) {
-        util.showModel('操作失败');
-      },
-    })
+    if(!that.clickedBtn){
+      getApp().globalData.name = that.userInfo.nickName;
+      wx.request({
+        url: config.service.addUserUrl,
+        data: {
+          userId: that.userInfo.openId,
+          intro: "",
+          userName: that.userInfo.nickName,
+          email: "",
+          phoneNum: "",
+          department: "",
+          major: "",
+          city: "",
+          wxNum: "",
+          qqNum: "",
+          imgUrl: that.userInfo.avatarUrl
+        },
+        method: 'POST',
+        header: {
+          'content-type': 'application/json' // 默认值
+        },
+        success: function (res) {
+          console.log(res.data);
+          util.showSuccess('操作成功');
+        },
+        fail: function (res) {
+          util.showModel('操作失败');
+        },
+      })
+    }
   },
 
   /**
