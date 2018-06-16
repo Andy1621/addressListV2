@@ -31,7 +31,7 @@ module.exports = async (ctx, next) => {
     });
 
   if(temp.length == 0){
-    res = 'success';
+    ctx.response.body = 'success';
 
     await dbnnn(config.MyGroup).where({ groupId: groupId }).select('groupName')
       .catch(function (e) {
@@ -99,7 +99,7 @@ module.exports = async (ctx, next) => {
   }
 
   else{
-    res = 'fail';
+    ctx.response.body = 'fail';
   }
   
   await dbnnn(config.InfoSentBySys).where({ sysInfoId: sysInfoId }).update({ type: 'addOver' })
@@ -112,5 +112,5 @@ module.exports = async (ctx, next) => {
       console.log("处理加群申请结束")
     });
 
-  return res;
+  return ctx.response.body;
 }
