@@ -73,6 +73,7 @@ background: #e60012;
   background-color: #fff;
   overflow: hidden;
   border-radius: 4rpx;
+  border-bottom: solid 3rpx #F8F8F8;
   /* cursor: pointer; */
 }
 
@@ -111,6 +112,7 @@ background: #e60012;
 .widget {
   position: relative;
   text-align: left;
+  border-bottom: solid 3rpx #F8F8F8;
 }
 
 .widget__arrow {

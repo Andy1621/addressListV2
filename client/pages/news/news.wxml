@@ -10,7 +10,7 @@
 </view>
 <view wx:if="{{is_logged}}" class="weui-panel">
   <block wx:for-items="{{list}}" wx:key="{{list.sysInfoId}}">
-    <view class="weui-panel-news" hover-class='other-button-hover' hover-start-time='10' hover-stay-time='100' bindtap='onClick' data-content='{{item.content}}' data-type='{{item.type}}' data-sysId='{{item.sysInfoId}}' bindlongpress='newsLongpress'>
+    <view class="weui-panel-news" hover-class='weui-cell_active' hover-start-time='10' hover-stay-time='100' bindtap='onClick' data-content='{{item.content}}' data-type='{{item.type}}' data-sysId='{{item.sysInfoId}}' bindlongpress='newsLongpress'>
       <view class="weui-panel__bd">
         <view class="weui-media-box weui-media-box_text">
           <view class="weui-media-box__title weui-media-box__title_in-text">{{item.name}}

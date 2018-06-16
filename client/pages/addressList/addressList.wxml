@@ -74,7 +74,7 @@
                   <block wx:for-items="{{item.groups}}" wx:for-item="group" wx:key="{{item.groups.groupId}}">
                     <view class="widget test" bindlongpress='fLongpress2' hover-start-time="10" hover-stay-time="100" hover-class="weui-cell_active" data-id='{{group.groupId}}'  bindtap='jumpToDetail'>
                       <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
-                        <image class="weui-media-box__thumb" src="{{group.imgUrl}}" /><!--群头像emmm-->
+                        <image class="weui-media-box__thumb" src="{{group.imgUrl}}" />
                       </view>
                       <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
                         <view class="weui-media-box__title">{{group.groupName}}</view>

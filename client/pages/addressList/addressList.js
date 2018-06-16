@@ -98,14 +98,14 @@ Page({
                   'content-type': 'application/json' // 默认值
               },
               success: function (res) {
-                  console.log(res.data);
-                  util.showSuccess('操作成功');
+                console.log(res.data);
+                that.freshList();
+                util.showSuccess('操作成功');
               },
               fail: function (res) {
                   util.showModel('操作失败');
               },
           })
-          that.freshList();
         } else if (res.cancel) {
           console.log('点击取消了');
           return false;
@@ -154,14 +154,14 @@ Page({
                             'content-type': 'application/json' // 默认值
                         },
                         success: function (res) {
-                            console.log(res.data);
-                            util.showSuccess('操作成功');
+                          console.log(res.data);
+                          that.freshList();
+                          util.showSuccess('操作成功');
                         },
                         fail: function (res) {
                             util.showModel('操作失败');
                         },
                     })
-                    that.freshList();
                 } else if (res.cancel) {
                     console.log('点击取消了');
                     return false;
@@ -191,14 +191,14 @@ Page({
                             'content-type': 'application/json' // 默认值
                         },
                         success: function (res) {
-                            console.log(res.data);
-                            util.showSuccess('操作成功');
+                          console.log(res.data);
+                          that.freshList();
+                          util.showSuccess('操作成功');
                         },
                         fail: function (res) {
                             util.showModel('操作失败');
                         },
                     })
-                    that.freshList();
                 } else if (res.cancel) {
                     console.log('点击取消了');
                     return false;
