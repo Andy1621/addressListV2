@@ -478,6 +478,8 @@ Page({
           //以上是删除黑名单
           var cur = that.data.currentNum;
           var count = 0;
+          if (that.data.groupMessageNum == 0)
+            util.showSuccess('加载成功');
           for (var i = cur; i < cur + that.data.plusNum && i < that.data.groupMessageNum; i++) {
             that.getGroupMessage(function (data) {
               count++;
