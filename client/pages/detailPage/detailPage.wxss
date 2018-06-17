@@ -538,7 +538,7 @@ page {
 
 .bottom {
   position: fixed;
-  bottom: 100rpx;
+  bottom: 140rpx;
   right: 30rpx;
   border-radius: 50%;
 }

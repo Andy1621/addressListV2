@@ -90,12 +90,12 @@
                         </view>-->
           </view>
           <!--Reply-->
-          <view class="release" hidden="{{!releaseFocus}}">
+          <!-- <view class="release" hidden="{{!releaseFocus}}">
             <textarea class="text" placeholder-class="input_null" fixed="true" maxlength="-1" show-confirm-bar="false" cursor-spacing="15" auto-height="true" value="{{messageVal}}" focus="{{releaseFocus}}" bindinput="inputReplying" placeholder="留言给 {{msgName}}"></textarea>
             <view class="submit" bindtap="bindSend">发送</view>
             <view class="divide"></view>
             <view class="submit" bindtap="bindCancel">取消</view>
-          </view>
+          </view> -->
           <view class="weui-panel__bd" bindtouchstart="clickView">
             <view wx:for="{{listmsg}}" url="" class="weui-media-box weui-media-box_appmsg_mes" hover-class="weui-cell_active" wx:key="{{listmsg.groupMessageId}}">
               <view class="weui-media-box_appmsg_mes" style='width:100%' id="{{index}}" bindlongpress="deleteMessage">
@@ -160,4 +160,10 @@
   <view class='bottom' hidden="{{activeIndex != 1||is_member==false||is_logged==false}}">
     <button class='mybtn' form-type='submit' bindtap='sendMessage'>发布</button>
   </view>
+   <view class="release" hidden="{{!releaseFocus}}">
+            <textarea class="text" placeholder-class="input_null" fixed="true" maxlength="-1" show-confirm-bar="false" cursor-spacing="15" auto-height="true" value="{{messageVal}}" focus="{{releaseFocus}}" bindinput="inputReplying" placeholder="留言给 {{msgName}}"></textarea>
+            <view class="submit" bindtap="bindSend">发送</view>
+            <view class="divide"></view>
+            <view class="submit" bindtap="bindCancel">取消</view>
+          </view>
 </view>
